@@ -2,22 +2,16 @@
 
 namespace JosKolenberg\Jory;
 
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use JosKolenberg\Jory\Contracts\JoryInterface;
+use JosKolenberg\Jory\Support\Filter;
 
-class QueryBuilder
+abstract class QueryBuilder
 {
 
-    protected $builder;
     protected $jory;
 
-    public function __construct(Builder $builder, JoryInterface $jory)
-    {
-        $this->builder = $builder;
-        $this->jory = $jory;
-    }
-
-    public function setJory(JoryInterface $jory)
+    public function __construct(JoryInterface $jory)
     {
         $this->jory = $jory;
     }
@@ -29,12 +23,9 @@ class QueryBuilder
 
     protected function buildQuery()
     {
-        $query = clone $this->builder;
+        $query = clone $this->getBaseQuery();
 
         $this->applyFilters($query);
-//        $this->applySorts($query);
-//        $this->applyFields($query);
-//        $this->applyRelations($query);
 
         return $query;
     }
@@ -46,27 +37,17 @@ class QueryBuilder
         }
     }
 
-//    protected function applySorts(Builder $query)
-//    {
-//    }
-//
-//    protected function applyFields(Builder $query)
-//    {
-//    }
-//
-//    protected function applyRelations(Builder $query)
-//    {
-//    }
-//
-    protected function applySingleFilter(Builder $query, $filter)
+    protected function applySingleFilter(Builder $query, Filter $filter)
     {
-        $customMethod = 'apply' . studly_case($filter->field) . 'Filter';
+        $customMethod = 'apply' . studly_case($filter->getField()) . 'Filter';
         $method = method_exists($this, $customMethod) ? $customMethod : 'doApplyDefaultFilter';
         $this->$method($query, $filter);
     }
 
-    protected function doApplyDefaultFilter(Builder $query, $filter)
+    protected function doApplyDefaultFilter(Builder $query, Filter $filter)
     {
-        $query->where($filter->field, $filter->operator, $filter->value);
+        $query->where($filter->getField(), $filter->getOperator(), $filter->getValue());
     }
+
+    abstract protected function getBaseQuery();
 }

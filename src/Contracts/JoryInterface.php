@@ -2,14 +2,12 @@
 
 namespace JosKolenberg\Jory\Contracts;
 
-use JosKolenberg\Jory\FilterCollection;
+use JosKolenberg\Jory\Support\FilterCollection;
 
 interface JoryInterface
 {
 
-    public function getFilters(): FilterCollection;
-//    public function getSorts();
-//    public function getFields();
-//    public function getRelations();
-//
+    public function toJson(): string ;
+    public function getFilters(): FilterCollection ;
+
 }

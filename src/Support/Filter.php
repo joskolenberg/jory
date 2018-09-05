@@ -6,7 +6,7 @@
  * Time: 20:59
  */
 
-namespace JosKolenberg\Jory;
+namespace JosKolenberg\Jory\Support;
 
 
 class Filter

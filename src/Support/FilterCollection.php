@@ -6,10 +6,11 @@
  * Time: 21:04
  */
 
-namespace JosKolenberg\Jory;
+namespace JosKolenberg\Jory\Support;
 
 
 use Illuminate\Support\Collection;
+use JosKolenberg\Jory\Support\Filter;
 
 class FilterCollection implements \IteratorAggregate
 {
