@@ -10,9 +10,10 @@ namespace JosKolenberg\Jory\Support;
 
 
 use Illuminate\Support\Collection;
+use JosKolenberg\Jory\Contracts\FilterInterface;
 use JosKolenberg\Jory\Support\Filter;
 
-class FilterCollection implements \IteratorAggregate
+abstract class FilterGroup implements \IteratorAggregate, FilterInterface
 {
 
     protected $filters;
@@ -22,7 +23,7 @@ class FilterCollection implements \IteratorAggregate
         $this->filters = new Collection();
     }
 
-    public function push(Filter $filter)
+    public function push(FilterInterface $filter)
     {
         $this->filters->push($filter);
     }

@@ -9,7 +9,9 @@
 namespace JosKolenberg\Jory\Support;
 
 
-class Filter
+use JosKolenberg\Jory\Contracts\FilterInterface;
+
+class Filter implements FilterInterface
 {
 
     /**

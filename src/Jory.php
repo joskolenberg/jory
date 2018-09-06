@@ -9,45 +9,31 @@
 namespace JosKolenberg\Jory;
 
 
+use JosKolenberg\Jory\Contracts\FilterInterface;
 use JosKolenberg\Jory\Contracts\JoryInterface;
 use JosKolenberg\Jory\Support\Filter;
-use JosKolenberg\Jory\Support\FilterCollection;
+use JosKolenberg\Jory\Support\FilterGroup;
 
-class Jory implements JoryInterface
+class Jory
 {
 
     protected $json;
-    protected $filters;
+    protected $filter;
 
-    public function __construct(string $json)
+    public function setFilter(FilterInterface $filter): Jory
     {
-        $this->json = $json;
-        $data = json_decode($json);
-        $this->setFilters($data);
+        $this->filter = $filter;
+        return $this;
     }
 
-    public function getFilters(): FilterCollection
+    public function getFilter(): FilterInterface
     {
-        return $this->filters;
+        return $this->filter;
     }
 
     public function toJson(): string
     {
         return json_encode($this->data);
-    }
-
-    protected function setFilters($data)
-    {
-        $this->filters = new FilterCollection();
-
-        if(!property_exists($data, 'filters')) return;
-
-        foreach ($data->filters as $filter) {
-            $this->filters->push(new Filter($filter->field,
-                $filter->operator,
-                $filter->value,
-                property_exists($filter,'additional') ? $filter->additional : null));
-        }
     }
 
 }

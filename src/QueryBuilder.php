@@ -3,17 +3,38 @@
 namespace JosKolenberg\Jory;
 
 use Illuminate\Database\Eloquent\Builder;
-use JosKolenberg\Jory\Contracts\JoryInterface;
+use Illuminate\Http\Request;
+use JosKolenberg\Jory\Contracts\FilterInterface;
+use JosKolenberg\Jory\Parsers\ArrayParser;
+use JosKolenberg\Jory\Parsers\JsonParser;
+use JosKolenberg\Jory\Parsers\RequestParser;
+use JosKolenberg\Jory\Support\AndFilterGroup;
 use JosKolenberg\Jory\Support\Filter;
+use JosKolenberg\Jory\Support\OrFilterGroup;
 
 abstract class QueryBuilder
 {
 
     protected $jory;
 
-    public function __construct(JoryInterface $jory)
+    public function __construct(Jory $jory)
     {
         $this->jory = $jory;
+    }
+
+    public static function array(array $array)
+    {
+        return new static((new ArrayParser($array))->getJory());
+    }
+
+    public static function json(string $json)
+    {
+        return new static((new JsonParser($json))->getJory());
+    }
+
+    public static function request(Request $request)
+    {
+        return new static((new RequestParser($request))->getJory());
     }
 
     public function query()
@@ -21,27 +42,43 @@ abstract class QueryBuilder
         return $this->buildQuery();
     }
 
+    public function get()
+    {
+        return $this->query()->get();
+    }
+
     protected function buildQuery()
     {
         $query = clone $this->getBaseQuery();
 
-        $this->applyFilters($query);
+        $this->applyFilter($query, $this->jory->getFilter());
 
         return $query;
     }
 
-    protected function applyFilters(Builder $query)
+    protected function applyFilter(Builder $query, FilterInterface $filter)
     {
-        foreach ($this->jory->getFilters() as $filter){
-            $this->applySingleFilter($query, $filter);
+        if ($filter instanceof Filter) {
+            $customMethod = 'apply' . studly_case($filter->getField()) . 'Filter';
+            $method = method_exists($this, $customMethod) ? $customMethod : 'doApplyDefaultFilter';
+            $this->$method($query, $filter);
         }
-    }
-
-    protected function applySingleFilter(Builder $query, Filter $filter)
-    {
-        $customMethod = 'apply' . studly_case($filter->getField()) . 'Filter';
-        $method = method_exists($this, $customMethod) ? $customMethod : 'doApplyDefaultFilter';
-        $this->$method($query, $filter);
+        if($filter instanceof AndFilterGroup){
+            $query->where(function ($query) use ($filter){
+                foreach ($filter as $subFilter){
+                    $this->applyFilter($query, $subFilter);
+                }
+            });
+        }
+        if($filter instanceof OrFilterGroup){
+            $query->where(function ($query) use ($filter){
+                foreach ($filter as $subFilter){
+                    $query->orWhere(function ($query) use($subFilter){
+                        $this->applyFilter($query, $subFilter);
+                    });
+                }
+            });
+        }
     }
 
     protected function doApplyDefaultFilter(Builder $query, Filter $filter)
