@@ -39,7 +39,7 @@ class QueryBuilderFilterTest extends TestCase
     {
         $actual = PersonBuilder::array([
             "filter" => [
-                "or" => [
+                "group_or" => [
                     [
                         "field" => "first_name",
                         "operator" => "like",
@@ -66,7 +66,7 @@ class QueryBuilderFilterTest extends TestCase
     {
         $actual = PersonBuilder::array([
             "filter" => [
-                "and" => [
+                "group_and" => [
                     [
                         "field" => "first_name",
                         "operator" => "like",

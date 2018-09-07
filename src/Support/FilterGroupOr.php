@@ -3,13 +3,13 @@
  * Created by PhpStorm.
  * User: joskolenberg
  * Date: 06-09-18
- * Time: 21:52
+ * Time: 21:53
  */
 
 namespace JosKolenberg\Jory\Support;
 
 
-class AndFilterGroup extends FilterGroup
+class FilterGroupOr extends FilterGroup
 {
 
 }

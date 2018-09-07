@@ -8,9 +8,9 @@ use JosKolenberg\Jory\Contracts\FilterInterface;
 use JosKolenberg\Jory\Parsers\ArrayParser;
 use JosKolenberg\Jory\Parsers\JsonParser;
 use JosKolenberg\Jory\Parsers\RequestParser;
-use JosKolenberg\Jory\Support\AndFilterGroup;
+use JosKolenberg\Jory\Support\FilterGroupAnd;
 use JosKolenberg\Jory\Support\Filter;
-use JosKolenberg\Jory\Support\OrFilterGroup;
+use JosKolenberg\Jory\Support\FilterGroupOr;
 
 abstract class QueryBuilder
 {
@@ -63,14 +63,14 @@ abstract class QueryBuilder
             $method = method_exists($this, $customMethod) ? $customMethod : 'doApplyDefaultFilter';
             $this->$method($query, $filter);
         }
-        if($filter instanceof AndFilterGroup){
+        if($filter instanceof FilterGroupAnd){
             $query->where(function ($query) use ($filter){
                 foreach ($filter as $subFilter){
                     $this->applyFilter($query, $subFilter);
                 }
             });
         }
-        if($filter instanceof OrFilterGroup){
+        if($filter instanceof FilterGroupOr){
             $query->where(function ($query) use ($filter){
                 foreach ($filter as $subFilter){
                     $query->orWhere(function ($query) use($subFilter){
