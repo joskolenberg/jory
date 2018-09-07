@@ -22,14 +22,14 @@ class QueryBuilderFilterTest extends TestCase
     {
         $actual = PersonBuilder::array([
             "filter" => [
-                "field" => "name",
+                "field" => "first_name",
                 "operator" => "like",
                 "value" => "%john%",
                 "meta" => [],
             ]
-        ])->get()->pluck('id')->toArray();
+        ])->get()->pluck('last_name')->toArray();
 
-        $this->assertEquals([7, 8, 10], $actual);
+        $this->assertEquals(['Jones', 'Bonham', 'Lennon'], $actual);
     }
 
     /**
@@ -41,22 +41,22 @@ class QueryBuilderFilterTest extends TestCase
             "filter" => [
                 "or" => [
                     [
-                        "field" => "name",
+                        "field" => "first_name",
                         "operator" => "like",
                         "value" => "%paul%",
                         "meta" => []
                     ],
                     [
-                        "field" => "name",
+                        "field" => "last_name",
                         "operator" => "like",
-                        "value" => "%lennon%",
+                        "value" => "%le%",
                         "meta" => []
                     ]
                 ]
             ]
-        ])->get()->pluck('id')->toArray();
+        ])->get()->pluck('last_name')->toArray();
 
-        $this->assertEquals([7, 9, 10], $actual);
+        $this->assertEquals(['Jones', 'Lennon', 'McCartney'], $actual);
     }
 
     /**
@@ -68,22 +68,22 @@ class QueryBuilderFilterTest extends TestCase
             "filter" => [
                 "and" => [
                     [
-                        "field" => "name",
+                        "field" => "first_name",
                         "operator" => "like",
                         "value" => "%john%",
                         "meta" => []
                     ],
                     [
-                        "field" => "name",
+                        "field" => "last_name",
                         "operator" => "like",
-                        "value" => "%lennon%",
+                        "value" => "%le%",
                         "meta" => []
                     ]
                 ]
             ]
-        ])->get()->pluck('id')->toArray();
+        ])->get()->pluck('last_name')->toArray();
 
-        $this->assertEquals([10], $actual);
+        $this->assertEquals(['Lennon'], $actual);
     }
 
     /**
@@ -98,9 +98,9 @@ class QueryBuilderFilterTest extends TestCase
                 "value" => true,
                 "meta" => []
             ]
-        ])->get()->pluck('id')->toArray();
+        ])->get()->pluck('first_name')->toArray();
 
-        $this->assertEquals([9, 10, 11, 12], $actual);
+        $this->assertEquals(['John', 'Paul', 'George', 'Ringo'], $actual);
 
 //        $actual = PersonBuilder::array([
 //            "filter" => [
