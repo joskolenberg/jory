@@ -1,31 +1,46 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: joskolenberg
- * Date: 06-09-18
- * Time: 20:52
- */
 
 namespace JosKolenberg\Jory\Parsers;
 
 
+use JosKolenberg\Jory\Contracts\FilterInterface;
 use JosKolenberg\Jory\Contracts\JoryParserInterface;
 use JosKolenberg\Jory\Jory;
-use JosKolenberg\Jory\Support\FilterGroupAnd;
+use JosKolenberg\Jory\Support\GroupAndFilter;
 use JosKolenberg\Jory\Support\Filter;
-use JosKolenberg\Jory\Support\FilterGroup;
-use JosKolenberg\Jory\Support\FilterGroupOr;
+use JosKolenberg\Jory\Support\GroupFilter;
+use JosKolenberg\Jory\Support\GroupOrFilter;
 
+/**
+ * Class to parse an array with associative jory data to an Jory object
+ *
+ * Class ArrayParser
+ * @package JosKolenberg\Jory\Parsers
+ */
 class ArrayParser implements JoryParserInterface
 {
 
-    protected $data;
+    /**
+     * @var array
+     */
+    protected $joryArray;
 
-    public function __construct(array $data)
+    /**
+     * ArrayParser constructor.
+     * @param array $joryArray
+     */
+    public function __construct(array $joryArray)
     {
-        $this->data = $data;
+        (new ArrayValidator($joryArray))->validate();
+
+        $this->joryArray = $joryArray;
     }
 
+    /**
+     * Get the Jory object based on the given data
+     *
+     * @return Jory
+     */
     public function getJory(): Jory
     {
         $jory = new Jory();
@@ -33,32 +48,58 @@ class ArrayParser implements JoryParserInterface
         return $jory;
     }
 
-    protected function setFilters(Jory $jory)
+    /**
+     * Set the filters on the jory object based on the given data in constructor
+     *
+     * @param Jory $jory
+     */
+    protected function setFilters(Jory $jory): void
     {
-        $data = $this->data['filter'];
-
-        $jory->setFilter($this->getFilterFromData($data));
-
+        $data = $this->getArrayValue($this->joryArray, ['flt', 'filter']);
+        if($data) $jory->setFilter($this->getFilterFromData($data));
     }
 
-    private function getFilterFromData($data)
+    /**
+     * Get a single filter based on $data parameter
+     *
+     * @param $data
+     * @return FilterInterface
+     */
+    protected function getFilterFromData($data): FilterInterface
     {
-        if(array_key_exists('field', $data)){
-            return new Filter($data['field'], $data['operator'], $data['value'], $data['meta']);
+        if (($field = $this->getArrayValue($data, ['f', 'field'])) !== null) {
+            return new Filter($field,
+                $this->getArrayValue($data, ['o', 'operator']),
+                $this->getArrayValue($data, ['v', 'value']));
         }
-        if(array_key_exists('group_and', $data)){
-            $group = new FilterGroupAnd();
-            foreach ($data['group_and'] as $filter){
+        if (($groupAndData = $this->getArrayValue($data, ['and', 'group_and'])) !== null) {
+            $group = new GroupAndFilter();
+            foreach ($groupAndData as $filter) {
                 $group->push($this->getFilterFromData($filter));
             }
             return $group;
         }
-        if(array_key_exists('group_or', $data)){
-            $group = new FilterGroupOr();
-            foreach ($data['group_or'] as $filter){
+        if (($groupOrData = $this->getArrayValue($data, ['or', 'group_or'])) !== null) {
+            $group = new GroupOrFilter();
+            foreach ($groupOrData as $filter) {
                 $group->push($this->getFilterFromData($filter));
             }
             return $group;
         }
+    }
+
+    /**
+     * Get value from array based on multiple keys
+     *
+     * @param array $array
+     * @param array $keys
+     * @return mixed|null
+     */
+    protected function getArrayValue(array $array, array $keys)
+    {
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $array)) return $array[$key];
+        }
+        return null;
     }
 }

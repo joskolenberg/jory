@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: joskolenberg
- * Date: 06-09-18
- * Time: 20:54
- */
 
 namespace JosKolenberg\Jory\Parsers;
 
@@ -12,21 +6,36 @@ namespace JosKolenberg\Jory\Parsers;
 use JosKolenberg\Jory\Contracts\JoryParserInterface;
 use JosKolenberg\Jory\Jory;
 
+/**
+ * Class to parse a json string with jory data to an Jory object
+ *
+ * Class ArrayParser
+ * @package JosKolenberg\Jory\Parsers
+ */
 class JsonParser implements JoryParserInterface
 {
 
     /**
      * @var string
      */
-    private $json;
+    private $arrayParser;
 
+    /**
+     * JsonParser constructor.
+     * @param string $json
+     */
     public function __construct(string $json)
     {
-        $this->json = $json;
+        $this->arrayParser = new ArrayParser(json_decode($json, true));
     }
 
+    /**
+     * Get the Jory object based on the given data
+     *
+     * @return Jory
+     */
     public function getJory(): Jory
     {
-        return (new ArrayParser(json_decode($this->json, true)))->getJory();
+        return $this->arrayParser->getJory();
     }
 }

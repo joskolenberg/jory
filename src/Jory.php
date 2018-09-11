@@ -1,39 +1,71 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: joskolenberg
- * Date: 04-09-18
- * Time: 21:53
- */
 
 namespace JosKolenberg\Jory;
 
 
 use JosKolenberg\Jory\Contracts\FilterInterface;
 use JosKolenberg\Jory\Contracts\JoryInterface;
+use JosKolenberg\Jory\Converters\ToArrayConverter;
+use JosKolenberg\Jory\Converters\ToJsonConverter;
 use JosKolenberg\Jory\Support\Filter;
-use JosKolenberg\Jory\Support\FilterGroup;
+use JosKolenberg\Jory\Support\GroupFilter;
 
+/**
+ * Class to hold Jory data which can be used to modify database queries
+ *
+ * Class Jory
+ * @package JosKolenberg\Jory
+ */
 class Jory
 {
 
-    protected $json;
+    /**
+     * @var
+     */
     protected $filter;
 
+    /**
+     * Set the filter
+     *
+     * @param FilterInterface $filter
+     * @return Jory
+     */
     public function setFilter(FilterInterface $filter): Jory
     {
         $this->filter = $filter;
         return $this;
     }
 
-    public function getFilter(): FilterInterface
+    /**
+     * Get the filter
+     *
+     * @return FilterInterface|null
+     */
+    public function getFilter():? FilterInterface
     {
         return $this->filter;
     }
 
-    public function toJson(): string
+    /**
+     * Get array export for the Jory object
+     *
+     * @param bool $minified
+     * @return array
+     */
+    public function toArray($minified = true): array
     {
-        return json_encode($this->data);
+        return (new ToArrayConverter($this, $minified))->get();
+    }
+
+    /**
+     * Get Json export for the jory object
+     *
+     * @param bool $minified
+     * @return string
+     */
+    public function toJson($minified = true): string
+    {
+        return (new ToJsonConverter($this, $minified))->get();
     }
 
 }

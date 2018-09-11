@@ -1,16 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: joskolenberg
- * Date: 04-09-18
- * Time: 20:59
- */
 
 namespace JosKolenberg\Jory\Support;
 
 
 use JosKolenberg\Jory\Contracts\FilterInterface;
 
+/**
+ * Class to hold data for a single Jory filter
+ *
+ * Class Filter
+ * @package JosKolenberg\Jory\Support
+ */
 class Filter implements FilterInterface
 {
 
@@ -26,23 +26,18 @@ class Filter implements FilterInterface
      * @var string
      */
     private $value;
-    /**
-     * @var null
-     */
-    private $additional;
 
-    public function __construct(string $field, string $operator, string $value, $additional=null)
+    public function __construct(string $field, string $operator = null, $value = null)
     {
         $this->field = $field;
         $this->operator = $operator;
         $this->value = $value;
-        $this->additional = $additional;
     }
 
     /**
      * @return string
      */
-    public function getField()
+    public function getField(): string
     {
         return $this->field;
     }
@@ -50,13 +45,13 @@ class Filter implements FilterInterface
     /**
      * @return string
      */
-    public function getOperator()
+    public function getOperator():? string
     {
         return $this->operator;
     }
 
     /**
-     * @return string
+     * @return mixed|null
      */
     public function getValue()
     {
@@ -64,10 +59,18 @@ class Filter implements FilterInterface
     }
 
     /**
-     * @return null
+     * Magic method for accessing attributes
+     *
+     * @param $attribute
+     * @return mixed|null|string
      */
-    public function getAdditional()
+    public function __get($attribute)
     {
-        return $this->additional;
+        switch ($attribute){
+            case 'field': return $this->getField();
+            case 'operator': return $this->getOperator();
+            case 'value': return $this->getValue();
+        }
+        return null;
     }
 }
