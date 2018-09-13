@@ -3,14 +3,12 @@
  * Created by PhpStorm.
  * User: joskolenberg
  * Date: 11-09-18
- * Time: 09:16
+ * Time: 09:16.
  */
 
 namespace JosKolenberg\Jory\Tests\Parsers;
 
-
 use JosKolenberg\Jory\Exceptions\JoryException;
-use JosKolenberg\Jory\Parsers\ArrayParser;
 use JosKolenberg\Jory\Parsers\JsonParser;
 use JosKolenberg\Jory\Support\Filter;
 use JosKolenberg\Jory\Support\GroupAndFilter;
@@ -19,10 +17,8 @@ use PHPUnit\Framework\TestCase;
 
 class MinifiedJsonParserFilterTest extends TestCase
 {
-
-
     /** @test */
-    function it_can_parse_an_empty_filter_which_results_in_the_filter_being_null_in_jory()
+    public function it_can_parse_an_empty_filter_which_results_in_the_filter_being_null_in_jory()
     {
         $parser = new JsonParser('{"flt":[]}');
         $jory = $parser->getJory();
@@ -30,7 +26,7 @@ class MinifiedJsonParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_no_filter_which_results_in_the_filter_being_null_in_jory()
+    public function it_can_parse_no_filter_which_results_in_the_filter_being_null_in_jory()
     {
         $parser = new JsonParser('[]');
         $jory = $parser->getJory();
@@ -41,7 +37,7 @@ class MinifiedJsonParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_a_single_filter_with_only_a_name()
+    public function it_can_parse_a_single_filter_with_only_a_name()
     {
         $parser = new JsonParser('{"flt":{"f":"name"}}');
         $jory = $parser->getJory();
@@ -52,7 +48,7 @@ class MinifiedJsonParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_a_single_filter_with_only_a_name_and_operator()
+    public function it_can_parse_a_single_filter_with_only_a_name_and_operator()
     {
         $parser = new JsonParser('{"flt":{"f":"name","o":"="}}');
         $jory = $parser->getJory();
@@ -63,7 +59,7 @@ class MinifiedJsonParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_a_single_filter_with_a_name_operator_and_value()
+    public function it_can_parse_a_single_filter_with_a_name_operator_and_value()
     {
         $parser = new JsonParser('{"flt":{"f":"name","o":"=","v":"John"}}');
         $jory = $parser->getJory();
@@ -74,7 +70,7 @@ class MinifiedJsonParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_a_single_filter_with_only_a_name_and_value()
+    public function it_can_parse_a_single_filter_with_only_a_name_and_value()
     {
         $parser = new JsonParser('{"flt":{"f":"name","v":"John"}}');
         $jory = $parser->getJory();
@@ -85,7 +81,7 @@ class MinifiedJsonParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_a_groupAnd_filter()
+    public function it_can_parse_a_groupAnd_filter()
     {
         $parser = new JsonParser('{"flt":{"and":[{"f":"first_name","v":"John"},{"f":"last_name","v":"Lennon"}]}}');
         $jory = $parser->getJory();
@@ -98,7 +94,7 @@ class MinifiedJsonParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_a_groupOr_filter()
+    public function it_can_parse_a_groupOr_filter()
     {
         $parser = new JsonParser('{"flt":{"or":[{"f":"first_name","v":"John"},{"f":"last_name","v":"Lennon"}]}}');
         $jory = $parser->getJory();
@@ -111,7 +107,7 @@ class MinifiedJsonParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_handle_grouped_filters()
+    public function it_can_handle_grouped_filters()
     {
         $parser = new JsonParser('{"flt":{"and":[{"f":"first_name","v":"Eric"},{"f":"last_name","v":"Clapton"},{"or":[{"f":"band","o":"in","v":["beatles","stones"]},{"and":[{"f":"project","o":"like","v":"Cream"},{"f":"drummer","v":"Ginger Baker"}]}]}]}}');
 
@@ -145,7 +141,7 @@ class MinifiedJsonParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_throws_an_exception_when_the_validator_fails()
+    public function it_throws_an_exception_when_the_validator_fails()
     {
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('The "or" parameter should hold an array with filters. (Location: filter');

@@ -2,18 +2,15 @@
 
 namespace JosKolenberg\Jory\Support;
 
-
 use JosKolenberg\Jory\Contracts\FilterInterface;
 
 /**
- * Class to hold data for a single Jory filter
+ * Class to hold data for a single Jory filter.
  *
  * Class Filter
- * @package JosKolenberg\Jory\Support
  */
 class Filter implements FilterInterface
 {
-
     /**
      * @var string
      */
@@ -59,18 +56,18 @@ class Filter implements FilterInterface
     }
 
     /**
-     * Magic method for accessing attributes
+     * Magic method for accessing attributes.
      *
      * @param $attribute
+     *
      * @return mixed|null|string
      */
     public function __get($attribute)
     {
-        switch ($attribute){
+        switch ($attribute) {
             case 'field': return $this->getField();
             case 'operator': return $this->getOperator();
             case 'value': return $this->getValue();
         }
-        return null;
     }
 }

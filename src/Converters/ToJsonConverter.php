@@ -2,18 +2,15 @@
 
 namespace JosKolenberg\Jory\Converters;
 
-
 use JosKolenberg\Jory\Jory;
 
 /**
- * Class to convert a Jory object to a Json string
+ * Class to convert a Jory object to a Json string.
  *
  * Class ToArrayConverter
- * @package JosKolenberg\Jory\Converters
  */
 class ToJsonConverter
 {
-
     /**
      * @var Jory
      */
@@ -25,6 +22,7 @@ class ToJsonConverter
 
     /**
      * ToJsonConverter constructor.
+     *
      * @param Jory $jory
      * @param bool $minified
      */
@@ -35,7 +33,7 @@ class ToJsonConverter
     }
 
     /**
-     * Get the Json string based on given Jory object
+     * Get the Json string based on given Jory object.
      *
      * @return array
      */
@@ -43,5 +41,4 @@ class ToJsonConverter
     {
         return json_encode((new ToArrayConverter($this->jory, $this->minified))->get());
     }
-
 }
