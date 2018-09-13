@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: joskolenberg
  * Date: 11-09-18
- * Time: 08:14
+ * Time: 08:14.
  */
 
 namespace JosKolenberg\Jory\Tests;
-
 
 use JosKolenberg\Jory\Contracts\FilterInterface;
 use JosKolenberg\Jory\Jory;
@@ -18,7 +17,6 @@ use PHPUnit\Framework\TestCase;
 
 class JoryTest extends TestCase
 {
-
     /**
      * @test
      */
@@ -71,25 +69,25 @@ class JoryTest extends TestCase
     }
 
     /** @test */
-    function it_can_convert_itself_to_a_minified_array()
+    public function it_can_convert_itself_to_a_minified_array()
     {
         $jory = new Jory();
         $jory->setFilter(new Filter('name', '=', 'John'));
         $filter = $jory->getFilter();
-        $this->assertEquals(["flt" => ["f" => "name", "o" => "=", "v" => "John"]], $jory->toArray());
+        $this->assertEquals(['flt' => ['f' => 'name', 'o' => '=', 'v' => 'John']], $jory->toArray());
     }
 
     /** @test */
-    function it_can_convert_itself_to_an_array()
+    public function it_can_convert_itself_to_an_array()
     {
         $jory = new Jory();
         $jory->setFilter(new Filter('name', '=', 'John'));
         $filter = $jory->getFilter();
-        $this->assertEquals(["filter" => ["field" => "name", "operator" => "=", "value" => "John"]], $jory->toArray(false));
+        $this->assertEquals(['filter' => ['field' => 'name', 'operator' => '=', 'value' => 'John']], $jory->toArray(false));
     }
 
     /** @test */
-    function it_can_convert_itself_to_minified_json()
+    public function it_can_convert_itself_to_minified_json()
     {
         $jory = new Jory();
         $jory->setFilter(new Filter('name', '=', 'John'));
@@ -98,12 +96,11 @@ class JoryTest extends TestCase
     }
 
     /** @test */
-    function it_can_convert_itself_to_json()
+    public function it_can_convert_itself_to_json()
     {
         $jory = new Jory();
         $jory->setFilter(new Filter('name', '=', 'John'));
         $filter = $jory->getFilter();
         $this->assertEquals('{"filter":{"field":"name","operator":"=","value":"John"}}', $jory->toJson(false));
     }
-
 }

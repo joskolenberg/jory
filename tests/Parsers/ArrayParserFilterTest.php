@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: joskolenberg
  * Date: 11-09-18
- * Time: 09:16
+ * Time: 09:16.
  */
 
 namespace JosKolenberg\Jory\Tests\Parsers;
-
 
 use JosKolenberg\Jory\Exceptions\JoryException;
 use JosKolenberg\Jory\Parsers\ArrayParser;
@@ -18,19 +17,18 @@ use PHPUnit\Framework\TestCase;
 
 class ArrayParserFilterTest extends TestCase
 {
-
     /** @test */
-    function it_can_parse_an_empty_filter_which_results_in_the_filter_being_null_in_jory()
+    public function it_can_parse_an_empty_filter_which_results_in_the_filter_being_null_in_jory()
     {
         $parser = new ArrayParser([
-            'filter' => []
+            'filter' => [],
         ]);
         $jory = $parser->getJory();
         $this->assertNull($jory->getFilter());
     }
 
     /** @test */
-    function it_can_parse_no_filter_which_results_in_the_filter_being_null_in_jory()
+    public function it_can_parse_no_filter_which_results_in_the_filter_being_null_in_jory()
     {
         $parser = new ArrayParser([]);
         $jory = $parser->getJory();
@@ -38,12 +36,12 @@ class ArrayParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_a_single_filter_with_only_a_name()
+    public function it_can_parse_a_single_filter_with_only_a_name()
     {
         $parser = new ArrayParser([
             'filter' => [
                 'field' => 'name',
-            ]
+            ],
         ]);
         $jory = $parser->getJory();
         $this->assertInstanceOf(Filter::class, $jory->getFilter());
@@ -53,13 +51,13 @@ class ArrayParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_a_single_filter_with_only_a_name_and_operator()
+    public function it_can_parse_a_single_filter_with_only_a_name_and_operator()
     {
         $parser = new ArrayParser([
             'filter' => [
-                'field' => 'name',
+                'field'    => 'name',
                 'operator' => '=',
-            ]
+            ],
         ]);
         $jory = $parser->getJory();
         $this->assertInstanceOf(Filter::class, $jory->getFilter());
@@ -69,14 +67,14 @@ class ArrayParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_a_single_filter_with_a_name_operator_and_value()
+    public function it_can_parse_a_single_filter_with_a_name_operator_and_value()
     {
         $parser = new ArrayParser([
             'filter' => [
-                'field' => 'name',
+                'field'    => 'name',
                 'operator' => '=',
-                'value' => 'John',
-            ]
+                'value'    => 'John',
+            ],
         ]);
         $jory = $parser->getJory();
         $this->assertInstanceOf(Filter::class, $jory->getFilter());
@@ -86,13 +84,13 @@ class ArrayParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_a_single_filter_with_only_a_name_and_value()
+    public function it_can_parse_a_single_filter_with_only_a_name_and_value()
     {
         $parser = new ArrayParser([
             'filter' => [
                 'field' => 'name',
                 'value' => 'John',
-            ]
+            ],
         ]);
         $jory = $parser->getJory();
         $this->assertInstanceOf(Filter::class, $jory->getFilter());
@@ -102,7 +100,7 @@ class ArrayParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_a_groupAnd_filter()
+    public function it_can_parse_a_groupAnd_filter()
     {
         $parser = new ArrayParser([
             'filter' => [
@@ -114,9 +112,9 @@ class ArrayParserFilterTest extends TestCase
                     [
                         'field' => 'last_name',
                         'value' => 'Lennon',
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ]);
         $jory = $parser->getJory();
         $filter = $jory->getFilter();
@@ -128,7 +126,7 @@ class ArrayParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_a_groupOr_filter()
+    public function it_can_parse_a_groupOr_filter()
     {
         $parser = new ArrayParser([
             'filter' => [
@@ -140,9 +138,9 @@ class ArrayParserFilterTest extends TestCase
                     [
                         'field' => 'last_name',
                         'value' => 'Lennon',
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ]);
         $jory = $parser->getJory();
         $filter = $jory->getFilter();
@@ -154,7 +152,7 @@ class ArrayParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_handle_grouped_filters()
+    public function it_can_handle_grouped_filters()
     {
         $parser = new ArrayParser([
             'filter' => [
@@ -170,27 +168,27 @@ class ArrayParserFilterTest extends TestCase
                     [
                         'group_or' => [
                             [
-                                'field' => 'band',
+                                'field'    => 'band',
                                 'operator' => 'in',
-                                'value' => ['beatles', 'stones'],
+                                'value'    => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
-                                        'field' => 'project',
+                                        'field'    => 'project',
                                         'operator' => 'like',
-                                        'value' => 'Cream',
+                                        'value'    => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
                                         'value' => 'Ginger Baker',
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
-            ]
+            ],
         ]);
 
         $jory = $parser->getJory();
@@ -223,23 +221,23 @@ class ArrayParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_will_only_parse_the_allowed_data()
+    public function it_will_only_parse_the_allowed_data()
     {
         $parser = new ArrayParser([
             'filter' => [
                 'group_or' => [
                     [
-                        'field' => 'first_name',
-                        'value' => 'John',
+                        'field'     => 'first_name',
+                        'value'     => 'John',
                         'not_valid' => 'Testing',
                     ],
                     [
                         'field' => 'last_name',
                         'value' => 'Lennon',
-                    ]
+                    ],
                 ],
                 'also_not_valid' => 'not parsed',
-            ]
+            ],
         ]);
         $jory = $parser->getJory();
         $this->assertEquals([
@@ -252,14 +250,14 @@ class ArrayParserFilterTest extends TestCase
                     [
                         'field' => 'last_name',
                         'value' => 'Lennon',
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ], $jory->toArray(false));
     }
 
     /** @test */
-    function it_throws_an_exception_when_the_validator_fails()
+    public function it_throws_an_exception_when_the_validator_fails()
     {
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('A filter should contain one of the these fields: "f", "field", "and", "group_and", "or" or "group_or". (Location: filter)');
@@ -267,17 +265,17 @@ class ArrayParserFilterTest extends TestCase
             'filter' => [
                 'group_ord' => [
                     [
-                        'field' => 'first_name',
-                        'value' => 'John',
+                        'field'     => 'first_name',
+                        'value'     => 'John',
                         'not_valid' => 'Testing',
                     ],
                     [
                         'field' => 'last_name',
                         'value' => 'Lennon',
-                    ]
+                    ],
                 ],
                 'also_not_valid' => 'not parsed',
-            ]
+            ],
         ]);
     }
 }

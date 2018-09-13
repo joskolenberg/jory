@@ -2,24 +2,20 @@
 
 namespace JosKolenberg\Jory\Parsers;
 
-
 use JosKolenberg\Jory\Contracts\FilterInterface;
 use JosKolenberg\Jory\Contracts\JoryParserInterface;
 use JosKolenberg\Jory\Jory;
-use JosKolenberg\Jory\Support\GroupAndFilter;
 use JosKolenberg\Jory\Support\Filter;
-use JosKolenberg\Jory\Support\GroupFilter;
+use JosKolenberg\Jory\Support\GroupAndFilter;
 use JosKolenberg\Jory\Support\GroupOrFilter;
 
 /**
- * Class to parse an array with associative jory data to an Jory object
+ * Class to parse an array with associative jory data to an Jory object.
  *
  * Class ArrayParser
- * @package JosKolenberg\Jory\Parsers
  */
 class ArrayParser implements JoryParserInterface
 {
-
     /**
      * @var array
      */
@@ -27,6 +23,7 @@ class ArrayParser implements JoryParserInterface
 
     /**
      * ArrayParser constructor.
+     *
      * @param array $joryArray
      */
     public function __construct(array $joryArray)
@@ -37,7 +34,7 @@ class ArrayParser implements JoryParserInterface
     }
 
     /**
-     * Get the Jory object based on the given data
+     * Get the Jory object based on the given data.
      *
      * @return Jory
      */
@@ -45,24 +42,28 @@ class ArrayParser implements JoryParserInterface
     {
         $jory = new Jory();
         $this->setFilters($jory);
+
         return $jory;
     }
 
     /**
-     * Set the filters on the jory object based on the given data in constructor
+     * Set the filters on the jory object based on the given data in constructor.
      *
      * @param Jory $jory
      */
     protected function setFilters(Jory $jory): void
     {
         $data = $this->getArrayValue($this->joryArray, ['flt', 'filter']);
-        if($data) $jory->setFilter($this->getFilterFromData($data));
+        if ($data) {
+            $jory->setFilter($this->getFilterFromData($data));
+        }
     }
 
     /**
-     * Get a single filter based on $data parameter
+     * Get a single filter based on $data parameter.
      *
      * @param $data
+     *
      * @return FilterInterface
      */
     protected function getFilterFromData($data): FilterInterface
@@ -77,6 +78,7 @@ class ArrayParser implements JoryParserInterface
             foreach ($groupAndData as $filter) {
                 $group->push($this->getFilterFromData($filter));
             }
+
             return $group;
         }
         if (($groupOrData = $this->getArrayValue($data, ['or', 'group_or'])) !== null) {
@@ -84,22 +86,25 @@ class ArrayParser implements JoryParserInterface
             foreach ($groupOrData as $filter) {
                 $group->push($this->getFilterFromData($filter));
             }
+
             return $group;
         }
     }
 
     /**
-     * Get value from array based on multiple keys
+     * Get value from array based on multiple keys.
      *
      * @param array $array
      * @param array $keys
+     *
      * @return mixed|null
      */
     protected function getArrayValue(array $array, array $keys)
     {
         foreach ($keys as $key) {
-            if (array_key_exists($key, $array)) return $array[$key];
+            if (array_key_exists($key, $array)) {
+                return $array[$key];
+            }
         }
-        return null;
     }
 }

@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: joskolenberg
  * Date: 11-09-18
- * Time: 10:56
+ * Time: 10:56.
  */
 
 namespace JosKolenberg\Jory\Tests\Parsers;
-
 
 use JosKolenberg\Jory\Parsers\ArrayParser;
 use JosKolenberg\Jory\Support\Filter;
@@ -17,45 +16,44 @@ use PHPUnit\Framework\TestCase;
 
 class MixedArrayParserFilterTest extends TestCase
 {
-
     /** @test */
-    function it_can_handle_mixed_imput_of_normal_and_minified_keys()
+    public function it_can_handle_mixed_imput_of_normal_and_minified_keys()
     {
         $parser = new ArrayParser([
             'filter' => [
                 'and' => [
                     [
-                        'f' => 'first_name',
+                        'f'     => 'first_name',
                         'value' => 'Eric',
                     ],
                     [
                         'field' => 'last_name',
-                        'v' => 'Clapton',
+                        'v'     => 'Clapton',
                     ],
                     [
                         'or' => [
                             [
-                                'f' => 'band',
-                                'o' => 'in',
+                                'f'     => 'band',
+                                'o'     => 'in',
                                 'value' => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
-                                        'f' => 'project',
+                                        'f'        => 'project',
                                         'operator' => 'like',
-                                        'v' => 'Cream',
+                                        'v'        => 'Cream',
                                     ],
                                     [
                                         'f' => 'drummer',
                                         'v' => 'Ginger Baker',
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
-            ]
+            ],
         ]);
 
         $jory = $parser->getJory();

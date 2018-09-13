@@ -3,24 +3,20 @@
  * Created by PhpStorm.
  * User: joskolenberg
  * Date: 11-09-18
- * Time: 11:48
+ * Time: 11:48.
  */
 
 namespace JosKolenberg\Jory\Tests\Converters;
 
-
 use JosKolenberg\Jory\Converters\ToArrayConverter;
 use JosKolenberg\Jory\Parsers\ArrayParser;
 use JosKolenberg\Jory\Support\Filter;
-use JosKolenberg\Jory\Support\GroupAndFilter;
-use JosKolenberg\Jory\Support\GroupOrFilter;
 use PHPUnit\Framework\TestCase;
 
 class ToArrayConverterTest extends TestCase
 {
-
     /** @test */
-    function it_can_convert_a_jory_object_to_a_minified_array()
+    public function it_can_convert_a_jory_object_to_a_minified_array()
     {
         $parser = new ArrayParser([
             'filter' => [
@@ -36,27 +32,27 @@ class ToArrayConverterTest extends TestCase
                     [
                         'group_or' => [
                             [
-                                'field' => 'band',
+                                'field'    => 'band',
                                 'operator' => 'in',
-                                'value' => ['beatles', 'stones'],
+                                'value'    => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
-                                        'field' => 'project',
+                                        'field'    => 'project',
                                         'operator' => 'like',
-                                        'value' => 'Cream',
+                                        'value'    => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
                                         'value' => 'Ginger Baker',
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
-            ]
+            ],
         ]);
 
         $jory = $parser->getJory();
@@ -91,18 +87,18 @@ class ToArrayConverterTest extends TestCase
                                     [
                                         'f' => 'drummer',
                                         'v' => 'Ginger Baker',
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
-            ]
+            ],
         ], $converter->get());
     }
 
     /** @test */
-    function it_can_convert_a_jory_object_to_an_array()
+    public function it_can_convert_a_jory_object_to_an_array()
     {
         $parser = new ArrayParser([
             'filter' => [
@@ -118,27 +114,27 @@ class ToArrayConverterTest extends TestCase
                     [
                         'group_or' => [
                             [
-                                'field' => 'band',
+                                'field'    => 'band',
                                 'operator' => 'in',
-                                'value' => ['beatles', 'stones'],
+                                'value'    => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
-                                        'field' => 'project',
+                                        'field'    => 'project',
                                         'operator' => 'like',
-                                        'value' => 'Cream',
+                                        'value'    => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
                                         'value' => 'Ginger Baker',
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
-            ]
+            ],
         ]);
 
         $jory = $parser->getJory();
@@ -159,28 +155,27 @@ class ToArrayConverterTest extends TestCase
                     [
                         'group_or' => [
                             [
-                                'field' => 'band',
+                                'field'    => 'band',
                                 'operator' => 'in',
-                                'value' => ['beatles', 'stones'],
+                                'value'    => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
-                                        'field' => 'project',
+                                        'field'    => 'project',
                                         'operator' => 'like',
-                                        'value' => 'Cream',
+                                        'value'    => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
                                         'value' => 'Ginger Baker',
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
-            ]
+            ],
         ], $converter->get());
     }
-
 }

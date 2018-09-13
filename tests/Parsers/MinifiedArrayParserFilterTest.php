@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: joskolenberg
  * Date: 11-09-18
- * Time: 09:16
+ * Time: 09:16.
  */
 
 namespace JosKolenberg\Jory\Tests\Parsers;
-
 
 use JosKolenberg\Jory\Exceptions\JoryException;
 use JosKolenberg\Jory\Parsers\ArrayParser;
@@ -18,19 +17,18 @@ use PHPUnit\Framework\TestCase;
 
 class MinifiedArrayParserFilterTest extends TestCase
 {
-
     /** @test */
-    function it_can_parse_an_empty_filter_which_results_in_the_filter_being_null_in_jory()
+    public function it_can_parse_an_empty_filter_which_results_in_the_filter_being_null_in_jory()
     {
         $parser = new ArrayParser([
-            'flt' => []
+            'flt' => [],
         ]);
         $jory = $parser->getJory();
         $this->assertNull($jory->getFilter());
     }
 
     /** @test */
-    function it_can_parse_no_filter_which_results_in_the_filter_being_null_in_jory()
+    public function it_can_parse_no_filter_which_results_in_the_filter_being_null_in_jory()
     {
         $parser = new ArrayParser([]);
         $jory = $parser->getJory();
@@ -38,12 +36,12 @@ class MinifiedArrayParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_a_single_filter_with_only_a_name()
+    public function it_can_parse_a_single_filter_with_only_a_name()
     {
         $parser = new ArrayParser([
             'flt' => [
                 'f' => 'name',
-            ]
+            ],
         ]);
         $jory = $parser->getJory();
         $this->assertInstanceOf(Filter::class, $jory->getFilter());
@@ -53,13 +51,13 @@ class MinifiedArrayParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_a_single_filter_with_only_a_name_and_operator()
+    public function it_can_parse_a_single_filter_with_only_a_name_and_operator()
     {
         $parser = new ArrayParser([
             'flt' => [
                 'f' => 'name',
                 'o' => '=',
-            ]
+            ],
         ]);
         $jory = $parser->getJory();
         $this->assertInstanceOf(Filter::class, $jory->getFilter());
@@ -69,14 +67,14 @@ class MinifiedArrayParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_a_single_filter_with_a_name_operator_and_value()
+    public function it_can_parse_a_single_filter_with_a_name_operator_and_value()
     {
         $parser = new ArrayParser([
             'flt' => [
                 'f' => 'name',
                 'o' => '=',
                 'v' => 'John',
-            ]
+            ],
         ]);
         $jory = $parser->getJory();
         $this->assertInstanceOf(Filter::class, $jory->getFilter());
@@ -86,13 +84,13 @@ class MinifiedArrayParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_a_single_filter_with_only_a_name_and_value()
+    public function it_can_parse_a_single_filter_with_only_a_name_and_value()
     {
         $parser = new ArrayParser([
             'flt' => [
                 'f' => 'name',
                 'v' => 'John',
-            ]
+            ],
         ]);
         $jory = $parser->getJory();
         $this->assertInstanceOf(Filter::class, $jory->getFilter());
@@ -102,7 +100,7 @@ class MinifiedArrayParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_a_groupAnd_filter()
+    public function it_can_parse_a_groupAnd_filter()
     {
         $parser = new ArrayParser([
             'flt' => [
@@ -114,9 +112,9 @@ class MinifiedArrayParserFilterTest extends TestCase
                     [
                         'f' => 'last_name',
                         'v' => 'Lennon',
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ]);
         $jory = $parser->getJory();
         $filter = $jory->getFilter();
@@ -128,7 +126,7 @@ class MinifiedArrayParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_a_groupOr_filter()
+    public function it_can_parse_a_groupOr_filter()
     {
         $parser = new ArrayParser([
             'flt' => [
@@ -140,9 +138,9 @@ class MinifiedArrayParserFilterTest extends TestCase
                     [
                         'f' => 'last_name',
                         'v' => 'Lennon',
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ]);
         $jory = $parser->getJory();
         $filter = $jory->getFilter();
@@ -154,7 +152,7 @@ class MinifiedArrayParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_can_handle_grouped_filters()
+    public function it_can_handle_grouped_filters()
     {
         $parser = new ArrayParser([
             'flt' => [
@@ -184,13 +182,13 @@ class MinifiedArrayParserFilterTest extends TestCase
                                     [
                                         'f' => 'drummer',
                                         'v' => 'Ginger Baker',
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
-            ]
+            ],
         ]);
 
         $jory = $parser->getJory();
@@ -223,7 +221,7 @@ class MinifiedArrayParserFilterTest extends TestCase
     }
 
     /** @test */
-    function it_throws_an_exception_when_the_validator_fails()
+    public function it_throws_an_exception_when_the_validator_fails()
     {
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('A filter cannot contain more than one of the these fields: "f", "field", "and", "group_and", "or" or "group_or". (Location: filter(or).0)');
@@ -231,16 +229,16 @@ class MinifiedArrayParserFilterTest extends TestCase
             'flt' => [
                 'or' => [
                     [
-                        'f' => 'first_name',
-                        'v' => 'John',
+                        'f'   => 'first_name',
+                        'v'   => 'John',
                         'and' => [],
                     ],
                     [
                         'f' => 'last_name',
                         'v' => 'Lennon',
-                    ]
+                    ],
                 ],
-            ]
+            ],
         ]);
     }
 }
