@@ -2,42 +2,39 @@
 
 namespace JosKolenberg\Jory;
 
-
 use JosKolenberg\Jory\Contracts\FilterInterface;
-use JosKolenberg\Jory\Contracts\JoryInterface;
 use JosKolenberg\Jory\Converters\ToArrayConverter;
 use JosKolenberg\Jory\Converters\ToJsonConverter;
 use JosKolenberg\Jory\Support\Filter;
-use JosKolenberg\Jory\Support\GroupFilter;
 
 /**
- * Class to hold Jory data which can be used to modify database queries
+ * Class to hold Jory data which can be used to modify database queries.
  *
  * Class Jory
- * @package JosKolenberg\Jory
  */
 class Jory
 {
-
     /**
      * @var
      */
     protected $filter;
 
     /**
-     * Set the filter
+     * Set the filter.
      *
      * @param FilterInterface $filter
+     *
      * @return Jory
      */
-    public function setFilter(FilterInterface $filter): Jory
+    public function setFilter(FilterInterface $filter): self
     {
         $this->filter = $filter;
+
         return $this;
     }
 
     /**
-     * Get the filter
+     * Get the filter.
      *
      * @return FilterInterface|null
      */
@@ -47,9 +44,10 @@ class Jory
     }
 
     /**
-     * Get array export for the Jory object
+     * Get array export for the Jory object.
      *
      * @param bool $minified
+     *
      * @return array
      */
     public function toArray($minified = true): array
@@ -58,14 +56,14 @@ class Jory
     }
 
     /**
-     * Get Json export for the jory object
+     * Get Json export for the jory object.
      *
      * @param bool $minified
+     *
      * @return string
      */
     public function toJson($minified = true): string
     {
         return (new ToJsonConverter($this, $minified))->get();
     }
-
 }

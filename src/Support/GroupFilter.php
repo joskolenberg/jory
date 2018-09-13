@@ -2,21 +2,16 @@
 
 namespace JosKolenberg\Jory\Support;
 
-
 use Illuminate\Support\Collection;
 use JosKolenberg\Jory\Contracts\FilterInterface;
-use JosKolenberg\Jory\Exceptions\JoryException;
-use JosKolenberg\Jory\Support\Filter;
 
 /**
- * Class for holding a collection of Filters
+ * Class for holding a collection of Filters.
  *
  * Class GroupFilter
- * @package JosKolenberg\Jory\Support
  */
 abstract class GroupFilter implements \Iterator, \Countable, FilterInterface
 {
-
     protected $position = 0;
     protected $filters = [];
 
@@ -37,7 +32,7 @@ abstract class GroupFilter implements \Iterator, \Countable, FilterInterface
 
     public function next()
     {
-        ++$this->position;
+        $this->position++;
     }
 
     public function key()
@@ -64,5 +59,4 @@ abstract class GroupFilter implements \Iterator, \Countable, FilterInterface
     {
         return $this->filters[$index];
     }
-
 }

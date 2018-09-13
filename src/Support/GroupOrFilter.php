@@ -3,19 +3,16 @@
  * Created by PhpStorm.
  * User: joskolenberg
  * Date: 06-09-18
- * Time: 21:53
+ * Time: 21:53.
  */
 
 namespace JosKolenberg\Jory\Support;
 
-
 /**
- * Class for holding Filters which should be applied with 'OR' clause
+ * Class for holding Filters which should be applied with 'OR' clause.
  *
  * Class GroupAndFilter
- * @package JosKolenberg\Jory\Support
  */
 class GroupOrFilter extends GroupFilter
 {
-
 }

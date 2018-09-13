@@ -3,13 +3,11 @@
  * Created by PhpStorm.
  * User: joskolenberg
  * Date: 11-09-18
- * Time: 10:56
+ * Time: 10:56.
  */
 
 namespace JosKolenberg\Jory\Tests\Parsers;
 
-
-use JosKolenberg\Jory\Parsers\ArrayParser;
 use JosKolenberg\Jory\Parsers\JsonParser;
 use JosKolenberg\Jory\Support\Filter;
 use JosKolenberg\Jory\Support\GroupAndFilter;
@@ -18,9 +16,8 @@ use PHPUnit\Framework\TestCase;
 
 class MixedJsonParserFilterTest extends TestCase
 {
-
     /** @test */
-    function it_can_handle_mixed_imput_of_normal_and_minified_keys()
+    public function it_can_handle_mixed_imput_of_normal_and_minified_keys()
     {
         $parser = new JsonParser('{"filter":{"and":[{"f":"first_name","value":"Eric"},{"field":"last_name","v":"Clapton"},{"or":[{"f":"band","o":"in","value":["beatles","stones"]},{"group_and":[{"f":"project","operator":"like","v":"Cream"},{"f":"drummer","v":"Ginger Baker"}]}]}]}}');
 

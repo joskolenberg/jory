@@ -2,19 +2,16 @@
 
 namespace JosKolenberg\Jory\Parsers;
 
-
 use JosKolenberg\Jory\Contracts\JoryParserInterface;
 use JosKolenberg\Jory\Jory;
 
 /**
- * Class to parse a json string with jory data to an Jory object
+ * Class to parse a json string with jory data to an Jory object.
  *
  * Class ArrayParser
- * @package JosKolenberg\Jory\Parsers
  */
 class JsonParser implements JoryParserInterface
 {
-
     /**
      * @var string
      */
@@ -22,6 +19,7 @@ class JsonParser implements JoryParserInterface
 
     /**
      * JsonParser constructor.
+     *
      * @param string $json
      */
     public function __construct(string $json)
@@ -30,7 +28,7 @@ class JsonParser implements JoryParserInterface
     }
 
     /**
-     * Get the Jory object based on the given data
+     * Get the Jory object based on the given data.
      *
      * @return Jory
      */

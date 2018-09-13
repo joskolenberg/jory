@@ -3,25 +3,20 @@
  * Created by PhpStorm.
  * User: joskolenberg
  * Date: 11-09-18
- * Time: 11:48
+ * Time: 11:48.
  */
 
 namespace JosKolenberg\Jory\Tests\Converters;
 
-
-use JosKolenberg\Jory\Converters\ToArrayConverter;
 use JosKolenberg\Jory\Converters\ToJsonConverter;
 use JosKolenberg\Jory\Parsers\ArrayParser;
 use JosKolenberg\Jory\Support\Filter;
-use JosKolenberg\Jory\Support\GroupAndFilter;
-use JosKolenberg\Jory\Support\GroupOrFilter;
 use PHPUnit\Framework\TestCase;
 
 class ToJsonConverterTest extends TestCase
 {
-
     /** @test */
-    function it_can_convert_a_jory_object_to_a_minified_array()
+    public function it_can_convert_a_jory_object_to_a_minified_array()
     {
         $parser = new ArrayParser([
             'filter' => [
@@ -37,27 +32,27 @@ class ToJsonConverterTest extends TestCase
                     [
                         'group_or' => [
                             [
-                                'field' => 'band',
+                                'field'    => 'band',
                                 'operator' => 'in',
-                                'value' => ['beatles', 'stones'],
+                                'value'    => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
-                                        'field' => 'project',
+                                        'field'    => 'project',
                                         'operator' => 'like',
-                                        'value' => 'Cream',
+                                        'value'    => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
                                         'value' => 'Ginger Baker',
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
-            ]
+            ],
         ]);
 
         $jory = $parser->getJory();
@@ -68,7 +63,7 @@ class ToJsonConverterTest extends TestCase
     }
 
     /** @test */
-    function it_can_convert_a_jory_object_to_an_array()
+    public function it_can_convert_a_jory_object_to_an_array()
     {
         $parser = new ArrayParser([
             'filter' => [
@@ -84,27 +79,27 @@ class ToJsonConverterTest extends TestCase
                     [
                         'group_or' => [
                             [
-                                'field' => 'band',
+                                'field'    => 'band',
                                 'operator' => 'in',
-                                'value' => ['beatles', 'stones'],
+                                'value'    => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
-                                        'field' => 'project',
+                                        'field'    => 'project',
                                         'operator' => 'like',
-                                        'value' => 'Cream',
+                                        'value'    => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
                                         'value' => 'Ginger Baker',
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
-            ]
+            ],
         ]);
 
         $jory = $parser->getJory();
@@ -113,5 +108,4 @@ class ToJsonConverterTest extends TestCase
 
         $this->assertEquals('{"filter":{"group_and":[{"field":"first_name","value":"Eric"},{"field":"last_name","value":"Clapton"},{"group_or":[{"field":"band","operator":"in","value":["beatles","stones"]},{"group_and":[{"field":"project","operator":"like","value":"Cream"},{"field":"drummer","value":"Ginger Baker"}]}]}]}}', $converter->get());
     }
-
 }
