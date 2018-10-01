@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 class ToJsonConverterTest extends TestCase
 {
     /** @test */
-    public function it_can_convert_a_jory_object_to_a_minified_array()
+    public function it_can_convert_a_jory_object_to_minified_json()
     {
         $parser = new ArrayParser([
             'filter' => [
@@ -73,7 +73,7 @@ class ToJsonConverterTest extends TestCase
     }
 
     /** @test */
-    public function it_can_convert_a_jory_object_to_an_array()
+    public function it_can_convert_a_jory_object_to_json()
     {
         $parser = new ArrayParser([
             'filter' => [
@@ -127,5 +127,17 @@ class ToJsonConverterTest extends TestCase
         $converter = new ToJsonConverter($jory, false);
 
         $this->assertEquals('{"filter":{"group_and":[{"field":"first_name","value":"Eric"},{"field":"last_name","value":"Clapton"},{"group_or":[{"field":"band","operator":"in","value":["beatles","stones"]},{"group_and":[{"field":"project","operator":"like","value":"Cream"},{"field":"drummer","value":"Ginger Baker"}]}]}]},"relations":{"users":{},"users as active_users":{"filter":{"field":"active","operator":"=","value":true}}}}', $converter->get());
+    }
+
+    /** @test */
+    public function it_can_convert_an_empty_jory_object_to_json()
+    {
+        $parser = new ArrayParser([]);
+
+        $jory = $parser->getJory();
+
+        $converter = new ToJsonConverter($jory, false);
+
+        $this->assertEquals('{}', $converter->get());
     }
 }
