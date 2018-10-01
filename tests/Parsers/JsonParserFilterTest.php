@@ -147,4 +147,12 @@ class JsonParserFilterTest extends TestCase
         $this->expectExceptionMessage('The "group_or" parameter should hold an array with filters. (Location: filter');
         (new JsonParser('{"filter":{"group_or":"wrong"}}'));
     }
+
+    /** @test */
+    public function it_throws_an_exception_when_string_is_no_valid_json()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('Jory string is no valid json.');
+        (new JsonParser('{"filte'));
+    }
 }

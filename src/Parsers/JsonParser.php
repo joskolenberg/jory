@@ -3,6 +3,7 @@
 namespace JosKolenberg\Jory\Parsers;
 
 use JosKolenberg\Jory\Contracts\JoryParserInterface;
+use JosKolenberg\Jory\Exceptions\JoryException;
 use JosKolenberg\Jory\Jory;
 
 /**
@@ -21,10 +22,13 @@ class JsonParser implements JoryParserInterface
      * JsonParser constructor.
      *
      * @param string $json
+     * @throws JoryException
      */
     public function __construct(string $json)
     {
-        $this->arrayParser = new ArrayParser(json_decode($json, true));
+        $array = json_decode($json, true);
+        if(json_last_error() !== JSON_ERROR_NONE) throw new JoryException('Jory string is no valid json.');
+        $this->arrayParser = new ArrayParser($array);
     }
 
     /**
