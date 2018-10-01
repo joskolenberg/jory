@@ -194,10 +194,6 @@ class ArrayValidator
         if (!is_array($relations)) {
             throw new JoryException('The relation parameter should be an array. (Location: '.$this->address.'relations)');
         }
-        // Relations key is set but empty, that's ok. return.
-        if (count($relations) == 0) {
-            return;
-        }
 
         foreach ($relations as $name => $jory) {
             $this->validateRelation($name, $jory);
