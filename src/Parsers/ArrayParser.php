@@ -8,6 +8,7 @@ use JosKolenberg\Jory\Jory;
 use JosKolenberg\Jory\Support\Filter;
 use JosKolenberg\Jory\Support\GroupAndFilter;
 use JosKolenberg\Jory\Support\GroupOrFilter;
+use JosKolenberg\Jory\Support\Relation;
 
 /**
  * Class to parse an array with associative jory data to an Jory object.
@@ -42,6 +43,7 @@ class ArrayParser implements JoryParserInterface
     {
         $jory = new Jory();
         $this->setFilters($jory);
+        $this->setRelations($jory);
 
         return $jory;
     }
@@ -104,6 +106,33 @@ class ArrayParser implements JoryParserInterface
         foreach ($keys as $key) {
             if (array_key_exists($key, $array)) {
                 return $array[$key];
+            }
+        }
+    }
+
+    /**
+     * Set the relations on the jory object based on the given data in constructor.
+     *
+     * @param Jory $jory
+     */
+    protected function setRelations(Jory $jory): void
+    {
+        $relations = $this->getArrayValue($this->joryArray, ['rlt', 'relations']);
+
+        if ($relations) {
+            foreach ($relations as $key => $joryData){
+                // split key into relation name and alias, or only name
+                $parts = explode(' as ', $key);
+
+                if(count($parts) === 1){
+                    $name = $parts[0];
+                    $alias = null;
+                }else{
+                    $name = $parts[0];
+                    $alias = $parts[1];
+                }
+                $subJory = (new ArrayParser($joryData))->getJory();
+                $jory->addRelation(new Relation($name, $subJory, $alias));
             }
         }
     }

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: joskolenberg
- * Date: 11-09-18
- * Time: 09:16.
- */
 
 namespace JosKolenberg\Jory\Tests\Parsers;
 
