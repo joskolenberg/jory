@@ -21,7 +21,7 @@ class ArrayValidatorTest extends TestCase
         $this->expectExceptionMessage('A filter cannot contain more than one of the these fields: "f", "field", "and", "group_and", "or" or "group_or". (Location: filter)');
         (new ArrayValidator([
             'filter' => [
-                'f'   => 'John',
+                'f' => 'John',
                 'and' => [],
             ],
         ]))->validate();
@@ -36,8 +36,8 @@ class ArrayValidatorTest extends TestCase
                         'v' => 'John',
                     ],
                     [
-                        'f'  => 'last_name',
-                        'v'  => 'Lennon',
+                        'f' => 'last_name',
+                        'v' => 'Lennon',
                         'or' => [],
                     ],
                 ],
@@ -60,8 +60,8 @@ class ArrayValidatorTest extends TestCase
                     [
                         'or' => [
                             [
-                                'f'   => 'band',
-                                'v'   => 'Beatles',
+                                'f' => 'band',
+                                'v' => 'Beatles',
                                 'and' => [],
                             ],
                         ],
@@ -79,7 +79,7 @@ class ArrayValidatorTest extends TestCase
 
         (new ArrayValidator([
             'filter' => [
-                'no'  => 'valid',
+                'no' => 'valid',
                 'key' => 'here',
             ],
         ]))->validate();
@@ -122,8 +122,8 @@ class ArrayValidatorTest extends TestCase
                                         'field' => 'sub3',
                                     ],
                                     [
-                                        'field'    => 'sub4',
-                                        'o'        => '=',
+                                        'field' => 'sub4',
+                                        'o' => '=',
                                         'operator' => 'like',
                                     ],
                                     [
@@ -164,7 +164,7 @@ class ArrayValidatorTest extends TestCase
                                 'and' => [
                                     [
                                         'field' => 'sub',
-                                        'v'     => 'testing',
+                                        'v' => 'testing',
                                         'value' => 'testing',
                                     ],
                                     [
@@ -408,5 +408,106 @@ class ArrayValidatorTest extends TestCase
         ]))->validate();
 
         $this->assertTrue(true);
+    }
+
+    /** @test */
+    function it_does_not_throw_an_exception_when_no_relations_are_provided()
+    {
+        (new ArrayValidator([]))->validate();
+
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    function it_does_not_throw_an_exception_when_an_empty_relations_array_is_provided()
+    {
+        (new ArrayValidator([
+            'relations' => [],
+        ]))->validate();
+
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    function it_throws_an_exception_when_relations_key_is_not_an_array()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('The relation parameter should be an array.');
+
+        (new ArrayValidator([
+            'relations' => 'wrong',
+        ]))->validate();
+    }
+
+    /** @test */
+    function it_throws_an_exception_when_rlt_key_is_not_an_array()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('The relation parameter should be an array.');
+
+        (new ArrayValidator([
+            'rlt' => 'wrong',
+        ]))->validate();
+    }
+
+    /** @test */
+    function it_throws_an_exception_when_a_relations_name_is_empty()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('A relations name should not be empty. (Location: relations)');
+
+        (new ArrayValidator([
+            'rlt' => [
+                '' => [],
+            ],
+        ]))->validate();
+    }
+
+    /** @test */
+    function it_can_validate_the_jory_data_in_the_relation()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('A filter should contain one of the these fields: "f", "field", "and", "group_and", "or" or "group_or". (Location: user.filter)');
+
+        (new ArrayValidator([
+            'rlt' => [
+                'user' => [
+                    'filter' => [
+                        'wrong' => 'parameter',
+                    ]
+                ],
+            ],
+        ]))->validate();
+    }
+
+    /** @test */
+    function it_can_validate_the_jory_data_in_the_relation_2()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('A filter should contain one of the these fields: "f", "field", "and", "group_and", "or" or "group_or". (Location: user.filter(and).1(or).0)');
+
+        (new ArrayValidator([
+            'rlt' => [
+                'user' => [
+                    'filter' => [
+                        'and' => [
+                            [
+                                'f' => 'test',
+                            ],
+                            [
+                                'or' => [
+                                    [
+                                        'wrong' => 'test',
+                                    ],
+                                    [
+                                        'wrong' => 'test',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ]
+                ],
+            ],
+        ]))->validate();
     }
 }

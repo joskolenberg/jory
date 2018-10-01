@@ -14,16 +14,23 @@ class ArrayValidator
     /**
      * @var array
      */
-    private $joryArray;
+    protected $joryArray;
+
+    /**
+     * @var string
+     */
+    protected $address;
 
     /**
      * ArrayValidator constructor.
      *
      * @param array $joryArray
+     * @param string $address
      */
-    public function __construct(array $joryArray)
+    public function __construct(array $joryArray, string $address = '')
     {
         $this->joryArray = $joryArray;
+        $this->address = $address == '' ? '' : $address . '.'; // postfix with dot
     }
 
     /**
@@ -35,6 +42,7 @@ class ArrayValidator
     public function validate(): void
     {
         $this->validateRootFilter();
+        $this->validateRelations();
     }
 
     /**
@@ -54,7 +62,7 @@ class ArrayValidator
         }
 
         // There is a filter, loop through all filters
-        $this->validateFilter($rootFilter, 'filter');
+        $this->validateFilter($rootFilter, $this->address . 'filter');
     }
 
     /**
@@ -166,5 +174,42 @@ class ArrayValidator
                 $this->validateFilter($subFilter, $address.'(or).'.$key);
             }
         }
+    }
+
+    /**
+     * Validate the relations
+     * Throws a JoryException on failure.
+     *
+     * @throws JoryException
+     */
+    protected function validateRelations(): void
+    {
+        $relations = $this->getArrayValue($this->joryArray, ['rlt', 'relations']);
+
+        // No relations set, that's ok. return.
+        if(!$relations) return;
+
+        if(!is_array($relations)) throw new JoryException('The relation parameter should be an array. (Location: ' . $this->address . 'relations)');
+
+        // Relations key is set but empty, that's ok. return.
+        if(count($relations) == 0) return;
+
+        foreach ($relations as $name => $jory){
+            $this->validateRelation($name, $jory);
+        }
+    }
+
+    /**
+     * Validate a single relation
+     * Throws a JoryException on failure.
+     *
+     * @throws JoryException
+     */
+    protected function validateRelation($name, $jory): void
+    {
+        if(empty($name)) throw new JoryException('A relations name should not be empty. (Location: ' . $this->address . 'relations)');
+
+        // The data in $jory is another jory array, validate recursive with new validator.
+        (new ArrayValidator($jory, $this->address . $name))->validate();
     }
 }
