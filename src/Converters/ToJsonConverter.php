@@ -58,7 +58,7 @@ class ToJsonConverter
      *
      * @param array $array
      */
-    protected function fixEmptyArrays(array &$array)
+    protected function fixEmptyRelationArrays(array &$array)
     {
         $activeKey = '';
         if(array_key_exists('rlt', $array)) $activeKey = 'rlt';
@@ -73,7 +73,7 @@ class ToJsonConverter
                 if(empty($jory)){
                     $array[$activeKey][$name] = new \stdClass();
                 }else{
-                    $this->fixEmptyArrays($jory);
+                    $this->fixEmptyRelationArrays($jory);
                 }
             }
         }
