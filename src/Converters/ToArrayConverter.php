@@ -51,7 +51,7 @@ class ToArrayConverter
             $result[$this->minified ? 'flt' : 'filter'] = $this->getFilterArray($filter);
         }
         $relations = $this->jory->getRelations();
-        if($relations) {
+        if ($relations) {
             $result[$this->minified ? 'rlt' : 'relations'] = $this->getRelationsArray($relations);
         }
 
@@ -106,12 +106,15 @@ class ToArrayConverter
     protected function getRelationsArray(array $relations)
     {
         $relationsArray = [];
-        foreach ($relations as $relation){
+        foreach ($relations as $relation) {
             $key = $relation->getRelation();
-            if($relation->getAlias()) $key .= ' as ' . $relation->getAlias();
+            if ($relation->getAlias()) {
+                $key .= ' as '.$relation->getAlias();
+            }
 
-            $relationsArray[$key] = (new ToArrayConverter($relation->getJory(), $this->minified))->get();
+            $relationsArray[$key] = (new self($relation->getJory(), $this->minified))->get();
         }
+
         return $relationsArray;
     }
 }

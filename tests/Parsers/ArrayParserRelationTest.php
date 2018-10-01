@@ -2,13 +2,11 @@
 
 namespace JosKolenberg\Jory\Tests\Parsers;
 
-
 use JosKolenberg\Jory\Parsers\ArrayParser;
 use PHPUnit\Framework\TestCase;
 
 class ArrayParserRelationTest extends TestCase
 {
-
     /** @test */
     public function it_can_parse_an_empty_relations_array_which_results_in_the_relations_array_being_empty_in_jory()
     {
@@ -33,7 +31,7 @@ class ArrayParserRelationTest extends TestCase
         $parser = new ArrayParser([
             'relations' => [
                 'user' => [],
-            ]
+            ],
         ]);
         $jory = $parser->getJory();
         $this->assertCount(1, $jory->getRelations());
@@ -47,7 +45,7 @@ class ArrayParserRelationTest extends TestCase
             'relations' => [
                 'user' => [],
                 'cars' => [],
-            ]
+            ],
         ]);
         $jory = $parser->getJory();
         $this->assertCount(2, $jory->getRelations());
@@ -61,7 +59,7 @@ class ArrayParserRelationTest extends TestCase
         $parser = new ArrayParser([
             'relations' => [
                 'users as active_users' => [],
-            ]
+            ],
         ]);
         $jory = $parser->getJory();
         $this->assertCount(1, $jory->getRelations());
@@ -74,15 +72,15 @@ class ArrayParserRelationTest extends TestCase
     {
         $parser = new ArrayParser([
             'relations' => [
-                'users' => [],
+                'users'                 => [],
                 'users as active_users' => [
                     'filter' => [
-                        'field' => 'active',
+                        'field'    => 'active',
                         'operator' => '=',
-                        'value' => true,
+                        'value'    => true,
                     ],
                 ],
-            ]
+            ],
         ]);
         $jory = $parser->getJory();
         $this->assertCount(2, $jory->getRelations());
@@ -95,5 +93,4 @@ class ArrayParserRelationTest extends TestCase
         $this->assertEquals('=', $jory->getRelations()[1]->getJory()->getFilter()->getOperator());
         $this->assertTrue($jory->getRelations()[1]->getJory()->getFilter()->getValue());
     }
-
 }

@@ -43,9 +43,9 @@ class ToJsonConverter
 
         // if array is empty convert into empty object
         // To prevent json being an array [] instead of an object {}
-        if(empty($array)){
+        if (empty($array)) {
             $array = new \stdClass();
-        }else{
+        } else {
             $this->fixEmptyRelationArrays($array);
         }
 
@@ -61,18 +61,24 @@ class ToJsonConverter
     protected function fixEmptyRelationArrays(array &$array)
     {
         $activeKey = '';
-        if(array_key_exists('rlt', $array)) $activeKey = 'rlt';
-        if(array_key_exists('relations', $array)) $activeKey = 'relations';
+        if (array_key_exists('rlt', $array)) {
+            $activeKey = 'rlt';
+        }
+        if (array_key_exists('relations', $array)) {
+            $activeKey = 'relations';
+        }
 
-        if(!$activeKey) return;
+        if (!$activeKey) {
+            return;
+        }
 
         $relations = $array[$activeKey];
 
-        if($relations){
-            foreach ($relations as $name => $jory){
-                if(empty($jory)){
+        if ($relations) {
+            foreach ($relations as $name => $jory) {
+                if (empty($jory)) {
                     $array[$activeKey][$name] = new \stdClass();
-                }else{
+                } else {
                     $this->fixEmptyRelationArrays($jory);
                 }
             }

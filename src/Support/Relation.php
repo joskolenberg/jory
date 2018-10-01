@@ -2,19 +2,16 @@
 
 namespace JosKolenberg\Jory\Support;
 
-
 use JosKolenberg\Jory\Exceptions\JoryException;
 use JosKolenberg\Jory\Jory;
 
 /**
- * Class to hold data for a relation
+ * Class to hold data for a relation.
  *
  * Class Relation
- * @package JosKolenberg\Jory\Support
  */
 class Relation
 {
-
     /**
      * @var string
      */
@@ -33,15 +30,17 @@ class Relation
     /**
      * Relation constructor.
      *
-     * @param string $relation Name of the relation.
-     * @param Jory|null $jory Jory object for querying the relation.
-     * @param string|null $alias Alias name for returning the relation on another key.
+     * @param string      $relation Name of the relation.
+     * @param Jory|null   $jory     Jory object for querying the relation.
+     * @param string|null $alias    Alias name for returning the relation on another key.
+     *
      * @throws JoryException
      */
     public function __construct(string $relation, Jory $jory = null, string $alias = null)
     {
-        if(empty($relation)) throw new JoryException('A relation name cannot be empty.');
-
+        if (empty($relation)) {
+            throw new JoryException('A relation name cannot be empty.');
+        }
         $this->relation = $relation;
         $this->jory = $jory;
 
@@ -49,7 +48,9 @@ class Relation
         $alias = $alias ? $alias : null;
 
         // When alias name equals the relation name it is considered no alias
-        if($alias == $relation) $alias = null;
+        if ($alias == $relation) {
+            $alias = null;
+        }
         $this->alias = $alias;
     }
 
