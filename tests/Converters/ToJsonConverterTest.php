@@ -54,13 +54,13 @@ class ToJsonConverterTest extends TestCase
                 ],
             ],
             'relations' => [
-                'users' => [],
+                'users'                 => [],
                 'users as active_users' => [
                     'filter' => [
-                        'field' => 'active',
+                        'field'    => 'active',
                         'operator' => '=',
-                        'value' => true,
-                    ]
+                        'value'    => true,
+                    ],
                 ],
             ],
         ]);
@@ -111,13 +111,13 @@ class ToJsonConverterTest extends TestCase
                 ],
             ],
             'relations' => [
-                'users' => [],
+                'users'                 => [],
                 'users as active_users' => [
                     'filter' => [
-                        'field' => 'active',
+                        'field'    => 'active',
                         'operator' => '=',
-                        'value' => true,
-                    ]
+                        'value'    => true,
+                    ],
                 ],
             ],
         ]);

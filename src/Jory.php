@@ -50,7 +50,7 @@ class Jory
     }
 
     /**
-     * Add a relation
+     * Add a relation.
      *
      * @param Relation $relation
      */
@@ -60,7 +60,7 @@ class Jory
     }
 
     /**
-     * Get the relations
+     * Get the relations.
      *
      * @return array
      */
