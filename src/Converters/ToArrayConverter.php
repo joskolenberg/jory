@@ -7,6 +7,7 @@ use JosKolenberg\Jory\Jory;
 use JosKolenberg\Jory\Support\Filter;
 use JosKolenberg\Jory\Support\GroupAndFilter;
 use JosKolenberg\Jory\Support\GroupOrFilter;
+use JosKolenberg\Jory\Support\Relation;
 
 /**
  * Class to convert a Jory object to an associative array.
@@ -48,6 +49,10 @@ class ToArrayConverter
         $filter = $this->jory->getFilter();
         if ($filter !== null) {
             $result[$this->minified ? 'flt' : 'filter'] = $this->getFilterArray($filter);
+        }
+        $relations = $this->jory->getRelations();
+        if($relations) {
+            $result[$this->minified ? 'rlt' : 'relations'] = $this->getRelationsArray($relations);
         }
 
         return $result;
@@ -91,5 +96,22 @@ class ToArrayConverter
 
             return $result;
         }
+    }
+
+    /**
+     * Turn an array of relation objects into an array.
+     *
+     * @param array $relations
+     */
+    protected function getRelationsArray(array $relations)
+    {
+        $relationsArray = [];
+        foreach ($relations as $relation){
+            $key = $relation->getRelation();
+            if($relation->getAlias()) $key .= ' as ' . $relation->getAlias();
+
+            $relationsArray[$key] = (new ToArrayConverter($relation->getJory(), $this->minified))->get();
+        }
+        return $relationsArray;
     }
 }

@@ -32,16 +32,16 @@ class ToArrayConverterTest extends TestCase
                     [
                         'group_or' => [
                             [
-                                'field'    => 'band',
+                                'field' => 'band',
                                 'operator' => 'in',
-                                'value'    => ['beatles', 'stones'],
+                                'value' => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
-                                        'field'    => 'project',
+                                        'field' => 'project',
                                         'operator' => 'like',
-                                        'value'    => 'Cream',
+                                        'value' => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
@@ -51,6 +51,16 @@ class ToArrayConverterTest extends TestCase
                             ],
                         ],
                     ],
+                ],
+            ],
+            'relations' => [
+                'users' => [],
+                'users as active_users' => [
+                    'filter' => [
+                        'field' => 'active',
+                        'operator' => '=',
+                        'value' => true,
+                    ]
                 ],
             ],
         ]);
@@ -94,6 +104,16 @@ class ToArrayConverterTest extends TestCase
                     ],
                 ],
             ],
+            'rlt' => [
+                'users' => [],
+                'users as active_users' => [
+                    'flt' => [
+                        'f' => 'active',
+                        'o' => '=',
+                        'v' => true,
+                    ]
+                ],
+            ],
         ], $converter->get());
     }
 
@@ -114,16 +134,16 @@ class ToArrayConverterTest extends TestCase
                     [
                         'group_or' => [
                             [
-                                'field'    => 'band',
+                                'field' => 'band',
                                 'operator' => 'in',
-                                'value'    => ['beatles', 'stones'],
+                                'value' => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
-                                        'field'    => 'project',
+                                        'field' => 'project',
                                         'operator' => 'like',
-                                        'value'    => 'Cream',
+                                        'value' => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
@@ -133,6 +153,16 @@ class ToArrayConverterTest extends TestCase
                             ],
                         ],
                     ],
+                ],
+            ],
+            'relations' => [
+                'users' => [],
+                'users as active_users' => [
+                    'filter' => [
+                        'field' => 'active',
+                        'operator' => '=',
+                        'value' => true,
+                    ]
                 ],
             ],
         ]);
@@ -155,16 +185,16 @@ class ToArrayConverterTest extends TestCase
                     [
                         'group_or' => [
                             [
-                                'field'    => 'band',
+                                'field' => 'band',
                                 'operator' => 'in',
-                                'value'    => ['beatles', 'stones'],
+                                'value' => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
-                                        'field'    => 'project',
+                                        'field' => 'project',
                                         'operator' => 'like',
-                                        'value'    => 'Cream',
+                                        'value' => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
@@ -174,6 +204,16 @@ class ToArrayConverterTest extends TestCase
                             ],
                         ],
                     ],
+                ],
+            ],
+            'relations' => [
+                'users' => [],
+                'users as active_users' => [
+                    'filter' => [
+                        'field' => 'active',
+                        'operator' => '=',
+                        'value' => true,
+                    ]
                 ],
             ],
         ], $converter->get());

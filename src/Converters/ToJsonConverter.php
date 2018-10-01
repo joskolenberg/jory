@@ -39,6 +39,43 @@ class ToJsonConverter
      */
     public function get(): string
     {
-        return json_encode((new ToArrayConverter($this->jory, $this->minified))->get());
+        $array = (new ToArrayConverter($this->jory, $this->minified))->get();
+
+        // if array is empty convert into empty object
+        // To prevent json being an array [] instead of an object {}
+        if(empty($array)){
+            $array = new \stdClass();
+        }else{
+            $this->fixEmptyRelationArrays($array);
+        }
+
+        return json_encode($array);
+    }
+
+    /**
+     * If relations hold an empty array as data, convert them to an empty object.
+     * This result in json being an object {} (what we want) instead of an array [].
+     *
+     * @param array $array
+     */
+    protected function fixEmptyArrays(array &$array)
+    {
+        $activeKey = '';
+        if(array_key_exists('rlt', $array)) $activeKey = 'rlt';
+        if(array_key_exists('relations', $array)) $activeKey = 'relations';
+
+        if(!$activeKey) return;
+
+        $relations = $array[$activeKey];
+
+        if($relations){
+            foreach ($relations as $name => $jory){
+                if(empty($jory)){
+                    $array[$activeKey][$name] = new \stdClass();
+                }else{
+                    $this->fixEmptyArrays($jory);
+                }
+            }
+        }
     }
 }

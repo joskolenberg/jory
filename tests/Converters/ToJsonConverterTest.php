@@ -53,13 +53,23 @@ class ToJsonConverterTest extends TestCase
                     ],
                 ],
             ],
+            'relations' => [
+                'users' => [],
+                'users as active_users' => [
+                    'filter' => [
+                        'field' => 'active',
+                        'operator' => '=',
+                        'value' => true,
+                    ]
+                ],
+            ],
         ]);
 
         $jory = $parser->getJory();
 
         $converter = new ToJsonConverter($jory);
 
-        $this->assertEquals('{"flt":{"and":[{"f":"first_name","v":"Eric"},{"f":"last_name","v":"Clapton"},{"or":[{"f":"band","o":"in","v":["beatles","stones"]},{"and":[{"f":"project","o":"like","v":"Cream"},{"f":"drummer","v":"Ginger Baker"}]}]}]}}', $converter->get());
+        $this->assertEquals('{"flt":{"and":[{"f":"first_name","v":"Eric"},{"f":"last_name","v":"Clapton"},{"or":[{"f":"band","o":"in","v":["beatles","stones"]},{"and":[{"f":"project","o":"like","v":"Cream"},{"f":"drummer","v":"Ginger Baker"}]}]}]},"rlt":{"users":{},"users as active_users":{"flt":{"f":"active","o":"=","v":true}}}}', $converter->get());
     }
 
     /** @test */
@@ -100,12 +110,22 @@ class ToJsonConverterTest extends TestCase
                     ],
                 ],
             ],
+            'relations' => [
+                'users' => [],
+                'users as active_users' => [
+                    'filter' => [
+                        'field' => 'active',
+                        'operator' => '=',
+                        'value' => true,
+                    ]
+                ],
+            ],
         ]);
 
         $jory = $parser->getJory();
 
         $converter = new ToJsonConverter($jory, false);
 
-        $this->assertEquals('{"filter":{"group_and":[{"field":"first_name","value":"Eric"},{"field":"last_name","value":"Clapton"},{"group_or":[{"field":"band","operator":"in","value":["beatles","stones"]},{"group_and":[{"field":"project","operator":"like","value":"Cream"},{"field":"drummer","value":"Ginger Baker"}]}]}]}}', $converter->get());
+        $this->assertEquals('{"filter":{"group_and":[{"field":"first_name","value":"Eric"},{"field":"last_name","value":"Clapton"},{"group_or":[{"field":"band","operator":"in","value":["beatles","stones"]},{"group_and":[{"field":"project","operator":"like","value":"Cream"},{"field":"drummer","value":"Ginger Baker"}]}]}]},"relations":{"users":{},"users as active_users":{"filter":{"field":"active","operator":"=","value":true}}}}', $converter->get());
     }
 }
