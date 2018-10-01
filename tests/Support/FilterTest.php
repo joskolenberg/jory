@@ -28,6 +28,13 @@ class FilterTest extends TestCase
     }
 
     /** @test */
+    public function it_can_give_the_field_as_a_minified_attribute()
+    {
+        $filter = new Filter('name');
+        $this->assertEquals('name', $filter->f);
+    }
+
+    /** @test */
     public function it_can_give_the_operator_by_getter_function()
     {
         $filter = new Filter('name', 'like');
@@ -42,6 +49,13 @@ class FilterTest extends TestCase
     }
 
     /** @test */
+    public function it_can_give_the_operator_as_a_minified_attribute()
+    {
+        $filter = new Filter('name', 'like');
+        $this->assertEquals('like', $filter->o);
+    }
+
+    /** @test */
     public function it_can_give_the_value_by_getter_function()
     {
         $filter = new Filter('name', 'like', 'John');
@@ -53,6 +67,13 @@ class FilterTest extends TestCase
     {
         $filter = new Filter('name', 'like', 'John');
         $this->assertEquals('John', $filter->value);
+    }
+
+    /** @test */
+    public function it_can_give_the_value_as_a_minified_attribute()
+    {
+        $filter = new Filter('name', 'like', 'John');
+        $this->assertEquals('John', $filter->v);
     }
 
     /** @test */

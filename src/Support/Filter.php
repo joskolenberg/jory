@@ -65,9 +65,15 @@ class Filter implements FilterInterface
     public function __get($attribute)
     {
         switch ($attribute) {
-            case 'field': return $this->getField();
-            case 'operator': return $this->getOperator();
-            case 'value': return $this->getValue();
+            case 'f':
+            case 'field':
+                return $this->getField();
+            case 'o':
+            case 'operator':
+                return $this->getOperator();
+            case 'v':
+            case 'value':
+                return $this->getValue();
         }
     }
 }
