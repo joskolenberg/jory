@@ -13,6 +13,7 @@ use JosKolenberg\Jory\Jory;
 use JosKolenberg\Jory\Support\Filter;
 use JosKolenberg\Jory\Support\GroupAndFilter;
 use JosKolenberg\Jory\Support\GroupOrFilter;
+use JosKolenberg\Jory\Support\Relation;
 use PHPUnit\Framework\TestCase;
 
 class JoryTest extends TestCase
@@ -102,5 +103,31 @@ class JoryTest extends TestCase
         $jory->setFilter(new Filter('name', '=', 'John'));
         $filter = $jory->getFilter();
         $this->assertEquals('{"filter":{"field":"name","operator":"=","value":"John"}}', $jory->toJson(false));
+    }
+
+    /** @test */
+    public function it_can_add_relations_and_return_them_as_an_array()
+    {
+        $jory = new Jory();
+        $jory->addRelation(new Relation('user'));
+
+        $relations = $jory->getRelations();
+
+        $this->assertCount(1, $relations);
+        $this->assertInstanceOf(Relation::class, $relations[0]);
+    }
+
+    /** @test */
+    public function it_can_add_relations_and_return_them_as_an_array_2()
+    {
+        $jory = new Jory();
+        $jory->addRelation(new Relation('user'));
+        $jory->addRelation(new Relation('user'));
+        $jory->addRelation(new Relation('user'));
+
+        $relations = $jory->getRelations();
+
+        $this->assertCount(3, $relations);
+        $this->assertInstanceOf(Relation::class, $relations[2]);
     }
 }

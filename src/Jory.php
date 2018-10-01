@@ -6,6 +6,7 @@ use JosKolenberg\Jory\Contracts\FilterInterface;
 use JosKolenberg\Jory\Converters\ToArrayConverter;
 use JosKolenberg\Jory\Converters\ToJsonConverter;
 use JosKolenberg\Jory\Support\Filter;
+use JosKolenberg\Jory\Support\Relation;
 
 /**
  * Class to hold Jory data which can be used to modify database queries.
@@ -15,9 +16,14 @@ use JosKolenberg\Jory\Support\Filter;
 class Jory
 {
     /**
-     * @var
+     * @var FilterInterface|null
      */
     protected $filter;
+
+    /**
+     * @var array
+     */
+    protected $relations = [];
 
     /**
      * Set the filter.
@@ -41,6 +47,26 @@ class Jory
     public function getFilter():? FilterInterface
     {
         return $this->filter;
+    }
+
+    /**
+     * Add a relation
+     *
+     * @param Relation $relation
+     */
+    public function addRelation(Relation $relation): void
+    {
+        $this->relations[] = $relation;
+    }
+
+    /**
+     * Get the relations
+     *
+     * @return array
+     */
+    public function getRelations(): array
+    {
+        return $this->relations;
     }
 
     /**
