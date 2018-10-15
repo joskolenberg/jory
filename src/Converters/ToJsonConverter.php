@@ -68,7 +68,7 @@ class ToJsonConverter
             $activeKey = 'relations';
         }
 
-        if (!$activeKey) {
+        if (! $activeKey) {
             return;
         }
 

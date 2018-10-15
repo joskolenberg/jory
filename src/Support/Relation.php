@@ -2,8 +2,8 @@
 
 namespace JosKolenberg\Jory\Support;
 
-use JosKolenberg\Jory\Exceptions\JoryException;
 use JosKolenberg\Jory\Jory;
+use JosKolenberg\Jory\Exceptions\JoryException;
 
 /**
  * Class to hold data for a relation.
@@ -15,7 +15,7 @@ class Relation
     /**
      * @var string
      */
-    protected $relation;
+    protected $name;
 
     /**
      * @var Jory|null
@@ -23,35 +23,20 @@ class Relation
     protected $jory;
 
     /**
-     * @var string|null
-     */
-    protected $alias;
-
-    /**
      * Relation constructor.
      *
-     * @param string      $relation Name of the relation.
+     * @param string      $name Name of the relation.
      * @param Jory|null   $jory     Jory object for querying the relation.
-     * @param string|null $alias    Alias name for returning the relation on another key.
      *
      * @throws JoryException
      */
-    public function __construct(string $relation, Jory $jory = null, string $alias = null)
+    public function __construct(string $name, Jory $jory = null)
     {
-        if (empty($relation)) {
+        if (empty($name)) {
             throw new JoryException('A relation name cannot be empty.');
         }
-        $this->relation = $relation;
+        $this->name = $name;
         $this->jory = $jory;
-
-        // Empty string resolves to no alias
-        $alias = $alias ? $alias : null;
-
-        // When alias name equals the relation name it is considered no alias
-        if ($alias == $relation) {
-            $alias = null;
-        }
-        $this->alias = $alias;
     }
 
     /**
@@ -59,9 +44,9 @@ class Relation
      *
      * @return string
      */
-    public function getRelation(): string
+    public function getName(): string
     {
-        return $this->relation;
+        return $this->name;
     }
 
     /**
@@ -75,16 +60,6 @@ class Relation
     }
 
     /**
-     * Get the alias for he relation if it should be returned on another key than the relations name.
-     *
-     * @return string
-     */
-    public function getAlias():? string
-    {
-        return $this->alias;
-    }
-
-    /**
      * Magic method for accessing attributes.
      *
      * @param $attribute
@@ -94,15 +69,12 @@ class Relation
     public function __get($attribute)
     {
         switch ($attribute) {
-            case 'r':
-            case 'relation':
-                return $this->getRelation();
+            case 'n':
+            case 'name':
+                return $this->getName();
             case 'j':
             case 'jory':
                 return $this->getJory();
-            case 'a':
-            case 'alias':
-                return $this->getAlias();
         }
     }
 }

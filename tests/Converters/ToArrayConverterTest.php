@@ -8,10 +8,10 @@
 
 namespace JosKolenberg\Jory\Tests\Converters;
 
-use JosKolenberg\Jory\Converters\ToArrayConverter;
-use JosKolenberg\Jory\Parsers\ArrayParser;
-use JosKolenberg\Jory\Support\Filter;
 use PHPUnit\Framework\TestCase;
+use JosKolenberg\Jory\Support\Filter;
+use JosKolenberg\Jory\Parsers\ArrayParser;
+use JosKolenberg\Jory\Converters\ToArrayConverter;
 
 class ToArrayConverterTest extends TestCase
 {
@@ -54,8 +54,7 @@ class ToArrayConverterTest extends TestCase
                 ],
             ],
             'relations' => [
-                'users'                 => [],
-                'users as active_users' => [
+                'users' => [
                     'filter' => [
                         'field'    => 'active',
                         'operator' => '=',
@@ -105,8 +104,7 @@ class ToArrayConverterTest extends TestCase
                 ],
             ],
             'rlt' => [
-                'users'                 => [],
-                'users as active_users' => [
+                'users' => [
                     'flt' => [
                         'f' => 'active',
                         'o' => '=',

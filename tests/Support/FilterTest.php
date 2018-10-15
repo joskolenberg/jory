@@ -8,8 +8,8 @@
 
 namespace JosKolenberg\Jory\Tests\Support;
 
-use JosKolenberg\Jory\Support\Filter;
 use PHPUnit\Framework\TestCase;
+use JosKolenberg\Jory\Support\Filter;
 
 class FilterTest extends TestCase
 {

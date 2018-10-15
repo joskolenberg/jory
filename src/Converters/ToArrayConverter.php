@@ -2,12 +2,12 @@
 
 namespace JosKolenberg\Jory\Converters;
 
-use JosKolenberg\Jory\Contracts\FilterInterface;
 use JosKolenberg\Jory\Jory;
 use JosKolenberg\Jory\Support\Filter;
-use JosKolenberg\Jory\Support\GroupAndFilter;
-use JosKolenberg\Jory\Support\GroupOrFilter;
 use JosKolenberg\Jory\Support\Relation;
+use JosKolenberg\Jory\Support\GroupOrFilter;
+use JosKolenberg\Jory\Support\GroupAndFilter;
+use JosKolenberg\Jory\Contracts\FilterInterface;
 
 /**
  * Class to convert a Jory object to an associative array.
@@ -107,10 +107,7 @@ class ToArrayConverter
     {
         $relationsArray = [];
         foreach ($relations as $relation) {
-            $key = $relation->getRelation();
-            if ($relation->getAlias()) {
-                $key .= ' as '.$relation->getAlias();
-            }
+            $key = $relation->getName();
 
             $relationsArray[$key] = (new self($relation->getJory(), $this->minified))->get();
         }

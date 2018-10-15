@@ -8,9 +8,9 @@
 
 namespace JosKolenberg\Jory\Tests\Parsers;
 
-use JosKolenberg\Jory\Exceptions\JoryException;
-use JosKolenberg\Jory\Parsers\ArrayValidator;
 use PHPUnit\Framework\TestCase;
+use JosKolenberg\Jory\Parsers\ArrayValidator;
+use JosKolenberg\Jory\Exceptions\JoryException;
 
 class ArrayValidatorTest extends TestCase
 {
