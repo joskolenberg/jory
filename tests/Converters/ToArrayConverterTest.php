@@ -8,10 +8,10 @@
 
 namespace JosKolenberg\Jory\Tests\Converters;
 
-use JosKolenberg\Jory\Converters\ToArrayConverter;
-use JosKolenberg\Jory\Parsers\ArrayParser;
-use JosKolenberg\Jory\Support\Filter;
 use PHPUnit\Framework\TestCase;
+use JosKolenberg\Jory\Support\Filter;
+use JosKolenberg\Jory\Parsers\ArrayParser;
+use JosKolenberg\Jory\Converters\ToArrayConverter;
 
 class ToArrayConverterTest extends TestCase
 {

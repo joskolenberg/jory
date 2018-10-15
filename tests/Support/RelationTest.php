@@ -2,10 +2,10 @@
 
 namespace JosKolenberg\Jory\Tests\Support;
 
-use JosKolenberg\Jory\Exceptions\JoryException;
 use JosKolenberg\Jory\Jory;
-use JosKolenberg\Jory\Support\Relation;
 use PHPUnit\Framework\TestCase;
+use JosKolenberg\Jory\Support\Relation;
+use JosKolenberg\Jory\Exceptions\JoryException;
 
 class RelationTest extends TestCase
 {

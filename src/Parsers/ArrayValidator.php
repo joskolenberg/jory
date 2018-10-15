@@ -138,11 +138,11 @@ class ArrayValidator
                 throw new JoryException('A filter cannot contain both an "v" and "value" parameter, remove one. (Location: '.$address.')');
             }
             // A string value in "field" (or "f") is required
-            if (!is_string($filter[$foundKey])) {
+            if (! is_string($filter[$foundKey])) {
                 throw new JoryException('The "'.$foundKey.'" parameter should have a string value. (Location: '.$address.')');
             }
             // A string value in "operator" (or "o") is optional
-            if ($this->hasArrayKey($filter, ['o', 'operator']) && !is_string($this->getArrayValue($filter, ['o', 'operator']))) {
+            if ($this->hasArrayKey($filter, ['o', 'operator']) && ! is_string($this->getArrayValue($filter, ['o', 'operator']))) {
                 throw new JoryException('The "operator" (or "o") parameter should have a string value or be omitted. (Location: '.$address.')');
             }
             // A mixed value in "value" is optional
@@ -155,7 +155,7 @@ class ArrayValidator
 
             // This filter should contain an array with valid subfilters
             $subFilters = $filter[$foundKey];
-            if (!is_array($subFilters)) {
+            if (! is_array($subFilters)) {
                 throw new JoryException('The "'.$foundKey.'" parameter should hold an array with filters. (Location: '.$address.')');
             }
             foreach ($subFilters as $key => $subFilter) {
@@ -167,7 +167,7 @@ class ArrayValidator
 
             // This filter should contain an array with valid subfilters
             $subFilters = $filter[$foundKey];
-            if (!is_array($subFilters)) {
+            if (! is_array($subFilters)) {
                 throw new JoryException('The "'.$foundKey.'" parameter should hold an array with filters. (Location: '.$address.')');
             }
             foreach ($subFilters as $key => $subFilter) {
@@ -187,11 +187,11 @@ class ArrayValidator
         $relations = $this->getArrayValue($this->joryArray, ['rlt', 'relations']);
 
         // No relations set, that's ok. return.
-        if (!$relations) {
+        if (! $relations) {
             return;
         }
 
-        if (!is_array($relations)) {
+        if (! is_array($relations)) {
             throw new JoryException('The relation parameter should be an array. (Location: '.$this->address.'relations)');
         }
 

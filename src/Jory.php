@@ -2,11 +2,11 @@
 
 namespace JosKolenberg\Jory;
 
-use JosKolenberg\Jory\Contracts\FilterInterface;
-use JosKolenberg\Jory\Converters\ToArrayConverter;
-use JosKolenberg\Jory\Converters\ToJsonConverter;
 use JosKolenberg\Jory\Support\Filter;
 use JosKolenberg\Jory\Support\Relation;
+use JosKolenberg\Jory\Contracts\FilterInterface;
+use JosKolenberg\Jory\Converters\ToJsonConverter;
+use JosKolenberg\Jory\Converters\ToArrayConverter;
 
 /**
  * Class to hold Jory data which can be used to modify database queries.
