@@ -120,19 +120,9 @@ class ArrayParser implements JoryParserInterface
         $relations = $this->getArrayValue($this->joryArray, ['rlt', 'relations']);
 
         if ($relations) {
-            foreach ($relations as $key => $joryData) {
-                // split key into relation name and alias, or only name
-                $parts = explode(' as ', $key);
-
-                if (count($parts) === 1) {
-                    $name = $parts[0];
-                    $alias = null;
-                } else {
-                    $name = $parts[0];
-                    $alias = $parts[1];
-                }
+            foreach ($relations as $name => $joryData) {
                 $subJory = (new self($joryData))->getJory();
-                $jory->addRelation(new Relation($name, $subJory, $alias));
+                $jory->addRelation(new Relation($name, $subJory));
             }
         }
     }

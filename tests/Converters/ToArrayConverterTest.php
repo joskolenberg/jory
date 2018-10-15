@@ -54,8 +54,7 @@ class ToArrayConverterTest extends TestCase
                 ],
             ],
             'relations' => [
-                'users'                 => [],
-                'users as active_users' => [
+                'users' => [
                     'filter' => [
                         'field'    => 'active',
                         'operator' => '=',
@@ -105,8 +104,7 @@ class ToArrayConverterTest extends TestCase
                 ],
             ],
             'rlt' => [
-                'users'                 => [],
-                'users as active_users' => [
+                'users' => [
                     'flt' => [
                         'f' => 'active',
                         'o' => '=',

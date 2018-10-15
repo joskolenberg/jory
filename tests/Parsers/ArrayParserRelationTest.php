@@ -35,7 +35,7 @@ class ArrayParserRelationTest extends TestCase
         ]);
         $jory = $parser->getJory();
         $this->assertCount(1, $jory->getRelations());
-        $this->assertEquals('user', $jory->getRelations()[0]->getRelation());
+        $this->assertEquals('user', $jory->getRelations()[0]->getName());
     }
 
     /** @test */
@@ -49,48 +49,7 @@ class ArrayParserRelationTest extends TestCase
         ]);
         $jory = $parser->getJory();
         $this->assertCount(2, $jory->getRelations());
-        $this->assertEquals('user', $jory->getRelations()[0]->getRelation());
-        $this->assertEquals('cars', $jory->getRelations()[1]->getRelation());
-    }
-
-    /** @test */
-    public function it_can_parse_relations_with_an_alias()
-    {
-        $parser = new ArrayParser([
-            'relations' => [
-                'users as active_users' => [],
-            ],
-        ]);
-        $jory = $parser->getJory();
-        $this->assertCount(1, $jory->getRelations());
-        $this->assertEquals('users', $jory->getRelations()[0]->getRelation());
-        $this->assertEquals('active_users', $jory->getRelations()[0]->getAlias());
-    }
-
-    /** @test */
-    public function it_can_parse_a_relation_multiple_times_under_different_aliases()
-    {
-        $parser = new ArrayParser([
-            'relations' => [
-                'users'                 => [],
-                'users as active_users' => [
-                    'filter' => [
-                        'field'    => 'active',
-                        'operator' => '=',
-                        'value'    => true,
-                    ],
-                ],
-            ],
-        ]);
-        $jory = $parser->getJory();
-        $this->assertCount(2, $jory->getRelations());
-        $this->assertEquals('users', $jory->getRelations()[0]->getRelation());
-        $this->assertNull($jory->getRelations()[0]->getAlias());
-
-        $this->assertEquals('users', $jory->getRelations()[1]->getRelation());
-        $this->assertEquals('active_users', $jory->getRelations()[1]->getAlias());
-        $this->assertEquals('active', $jory->getRelations()[1]->getJory()->getFilter()->getField());
-        $this->assertEquals('=', $jory->getRelations()[1]->getJory()->getFilter()->getOperator());
-        $this->assertTrue($jory->getRelations()[1]->getJory()->getFilter()->getValue());
+        $this->assertEquals('user', $jory->getRelations()[0]->getName());
+        $this->assertEquals('cars', $jory->getRelations()[1]->getName());
     }
 }

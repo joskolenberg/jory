@@ -107,10 +107,7 @@ class ToArrayConverter
     {
         $relationsArray = [];
         foreach ($relations as $relation) {
-            $key = $relation->getRelation();
-            if ($relation->getAlias()) {
-                $key .= ' as '.$relation->getAlias();
-            }
+            $key = $relation->getName();
 
             $relationsArray[$key] = (new self($relation->getJory(), $this->minified))->get();
         }
