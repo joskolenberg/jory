@@ -8,11 +8,11 @@
 
 namespace JosKolenberg\Jory\Tests\Parsers;
 
-use JosKolenberg\Jory\Parsers\ArrayParser;
-use JosKolenberg\Jory\Support\Filter;
-use JosKolenberg\Jory\Support\GroupAndFilter;
-use JosKolenberg\Jory\Support\GroupOrFilter;
 use PHPUnit\Framework\TestCase;
+use JosKolenberg\Jory\Support\Filter;
+use JosKolenberg\Jory\Parsers\ArrayParser;
+use JosKolenberg\Jory\Support\GroupOrFilter;
+use JosKolenberg\Jory\Support\GroupAndFilter;
 
 class MixedArrayParserFilterTest extends TestCase
 {

@@ -8,12 +8,12 @@
 
 namespace JosKolenberg\Jory\Tests\Parsers;
 
-use JosKolenberg\Jory\Exceptions\JoryException;
-use JosKolenberg\Jory\Parsers\JsonParser;
-use JosKolenberg\Jory\Support\Filter;
-use JosKolenberg\Jory\Support\GroupAndFilter;
-use JosKolenberg\Jory\Support\GroupOrFilter;
 use PHPUnit\Framework\TestCase;
+use JosKolenberg\Jory\Support\Filter;
+use JosKolenberg\Jory\Parsers\JsonParser;
+use JosKolenberg\Jory\Support\GroupOrFilter;
+use JosKolenberg\Jory\Support\GroupAndFilter;
+use JosKolenberg\Jory\Exceptions\JoryException;
 
 class MinifiedJsonParserFilterTest extends TestCase
 {

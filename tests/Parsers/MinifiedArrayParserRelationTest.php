@@ -2,8 +2,8 @@
 
 namespace JosKolenberg\Jory\Tests\Parsers;
 
-use JosKolenberg\Jory\Parsers\ArrayParser;
 use PHPUnit\Framework\TestCase;
+use JosKolenberg\Jory\Parsers\ArrayParser;
 
 class MinifiedArrayParserRelationTest extends TestCase
 {

@@ -8,11 +8,11 @@
 
 namespace JosKolenberg\Jory\Tests\Support;
 
-use JosKolenberg\Jory\Contracts\FilterInterface;
-use JosKolenberg\Jory\Support\Filter;
-use JosKolenberg\Jory\Support\GroupAndFilter;
-use JosKolenberg\Jory\Support\GroupOrFilter;
 use PHPUnit\Framework\TestCase;
+use JosKolenberg\Jory\Support\Filter;
+use JosKolenberg\Jory\Support\GroupOrFilter;
+use JosKolenberg\Jory\Support\GroupAndFilter;
+use JosKolenberg\Jory\Contracts\FilterInterface;
 
 class GroupFilterTest extends TestCase
 {

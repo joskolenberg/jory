@@ -2,8 +2,8 @@
 
 namespace JosKolenberg\Jory\Support;
 
-use JosKolenberg\Jory\Exceptions\JoryException;
 use JosKolenberg\Jory\Jory;
+use JosKolenberg\Jory\Exceptions\JoryException;
 
 /**
  * Class to hold data for a relation.
