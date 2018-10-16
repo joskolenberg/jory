@@ -50,6 +50,10 @@ class ToArrayConverter
         if ($filter !== null) {
             $result[$this->minified ? 'flt' : 'filter'] = $this->getFilterArray($filter);
         }
+        $sorts = $this->jory->getSorts();
+        if ($sorts) {
+            $result[$this->minified ? 'srt' : 'sorts'] = $this->getSortsArray($sorts);
+        }
         $relations = $this->jory->getRelations();
         if ($relations) {
             $result[$this->minified ? 'rlt' : 'relations'] = $this->getRelationsArray($relations);
@@ -102,8 +106,9 @@ class ToArrayConverter
      * Turn an array of relation objects into an array.
      *
      * @param array $relations
+     * @return array
      */
-    protected function getRelationsArray(array $relations)
+    protected function getRelationsArray(array $relations): array
     {
         $relationsArray = [];
         foreach ($relations as $relation) {
@@ -113,5 +118,21 @@ class ToArrayConverter
         }
 
         return $relationsArray;
+    }
+
+    /**
+     * Turn an array of sort objects into an array.
+     *
+     * @param array $sorts
+     * @return array
+     */
+    protected function getSortsArray(array $sorts): array
+    {
+        $sortsArray = [];
+        foreach ($sorts as $sort) {
+            $sortsArray[$sort->getField()] = $sort->getOrder();
+        }
+
+        return $sortsArray;
     }
 }

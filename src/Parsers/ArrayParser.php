@@ -3,6 +3,7 @@
 namespace JosKolenberg\Jory\Parsers;
 
 use JosKolenberg\Jory\Jory;
+use JosKolenberg\Jory\Support\Sort;
 use JosKolenberg\Jory\Support\Filter;
 use JosKolenberg\Jory\Support\Relation;
 use JosKolenberg\Jory\Support\GroupOrFilter;
@@ -44,6 +45,7 @@ class ArrayParser implements JoryParserInterface
         $jory = new Jory();
         $this->setFilters($jory);
         $this->setRelations($jory);
+        $this->setSorts($jory);
 
         return $jory;
     }
@@ -123,6 +125,22 @@ class ArrayParser implements JoryParserInterface
             foreach ($relations as $name => $joryData) {
                 $subJory = (new self($joryData))->getJory();
                 $jory->addRelation(new Relation($name, $subJory));
+            }
+        }
+    }
+
+    /**
+     * Set the sorts on the jory object based on the given data in constructor.
+     *
+     * @param Jory $jory
+     */
+    protected function setSorts(Jory $jory): void
+    {
+        $sorts = $this->getArrayValue($this->joryArray, ['srt', 'sorts']);
+
+        if ($sorts) {
+            foreach ($sorts as $field => $order) {
+                $jory->addSort(new Sort($field, $order));
             }
         }
     }

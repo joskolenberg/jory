@@ -2,6 +2,7 @@
 
 namespace JosKolenberg\Jory;
 
+use JosKolenberg\Jory\Support\Sort;
 use JosKolenberg\Jory\Support\Filter;
 use JosKolenberg\Jory\Support\Relation;
 use JosKolenberg\Jory\Contracts\FilterInterface;
@@ -24,6 +25,11 @@ class Jory
      * @var array
      */
     protected $relations = [];
+
+    /**
+     * @var array
+     */
+    protected $sorts = [];
 
     /**
      * Set the filter.
@@ -67,6 +73,26 @@ class Jory
     public function getRelations(): array
     {
         return $this->relations;
+    }
+
+    /**
+     * Add a sort.
+     *
+     * @param Sort $sort
+     */
+    public function addSort(Sort $sort): void
+    {
+        $this->sorts[] = $sort;
+    }
+
+    /**
+     * Get the sorts.
+     *
+     * @return array
+     */
+    public function getSorts(): array
+    {
+        return $this->sorts;
     }
 
     /**
