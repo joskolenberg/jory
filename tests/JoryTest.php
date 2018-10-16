@@ -9,6 +9,7 @@
 namespace JosKolenberg\Jory\Tests;
 
 use JosKolenberg\Jory\Jory;
+use JosKolenberg\Jory\Support\Sort;
 use PHPUnit\Framework\TestCase;
 use JosKolenberg\Jory\Support\Filter;
 use JosKolenberg\Jory\Support\Relation;
@@ -74,7 +75,6 @@ class JoryTest extends TestCase
     {
         $jory = new Jory();
         $jory->setFilter(new Filter('name', '=', 'John'));
-        $filter = $jory->getFilter();
         $this->assertEquals(['flt' => ['f' => 'name', 'o' => '=', 'v' => 'John']], $jory->toArray());
     }
 
@@ -83,7 +83,6 @@ class JoryTest extends TestCase
     {
         $jory = new Jory();
         $jory->setFilter(new Filter('name', '=', 'John'));
-        $filter = $jory->getFilter();
         $this->assertEquals(['filter' => ['field' => 'name', 'operator' => '=', 'value' => 'John']], $jory->toArray(false));
     }
 
@@ -92,7 +91,6 @@ class JoryTest extends TestCase
     {
         $jory = new Jory();
         $jory->setFilter(new Filter('name', '=', 'John'));
-        $filter = $jory->getFilter();
         $this->assertEquals('{"flt":{"f":"name","o":"=","v":"John"}}', $jory->toJson());
     }
 
@@ -101,7 +99,6 @@ class JoryTest extends TestCase
     {
         $jory = new Jory();
         $jory->setFilter(new Filter('name', '=', 'John'));
-        $filter = $jory->getFilter();
         $this->assertEquals('{"filter":{"field":"name","operator":"=","value":"John"}}', $jory->toJson(false));
     }
 
@@ -129,5 +126,39 @@ class JoryTest extends TestCase
 
         $this->assertCount(3, $relations);
         $this->assertInstanceOf(Relation::class, $relations[2]);
+    }
+
+    /** @test */
+    public function it_can_add_sorts_and_return_them_as_an_array()
+    {
+        $jory = new Jory();
+        $jory->addSort(new Sort('user'));
+
+        $sorts = $jory->getSorts();
+
+        $this->assertCount(1, $sorts);
+        $this->assertInstanceOf(Sort::class, $sorts[0]);
+        $this->assertEquals('user', $sorts[0]->getField());
+        $this->assertEquals('asc', $sorts[0]->getOrder());
+    }
+
+    /** @test */
+    public function it_can_add_sorts_and_return_them_as_an_array_2()
+    {
+        $jory = new Jory();
+        $jory->addSort(new Sort('user'));
+        $jory->addSort(new Sort('car', 'asc'));
+        $jory->addSort(new Sort('bike', 'desc'));
+
+        $sorts = $jory->getSorts();
+
+        $this->assertCount(3, $sorts);
+        $this->assertInstanceOf(Sort::class, $sorts[2]);
+        $this->assertEquals('user', $sorts[0]->getField());
+        $this->assertEquals('asc', $sorts[0]->getOrder());
+        $this->assertEquals('car', $sorts[1]->getField());
+        $this->assertEquals('asc', $sorts[1]->getOrder());
+        $this->assertEquals('bike', $sorts[2]->getField());
+        $this->assertEquals('desc', $sorts[2]->getOrder());
     }
 }
