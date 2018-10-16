@@ -53,6 +53,9 @@ class ToArrayConverterTest extends TestCase
                     ],
                 ],
             ],
+            'sorts' => [
+                'year' => 'desc'
+            ],
             'relations' => [
                 'users' => [
                     'filter' => [
@@ -60,6 +63,10 @@ class ToArrayConverterTest extends TestCase
                         'operator' => '=',
                         'value'    => true,
                     ],
+                    'sorts' => [
+                        'name' => 'asc',
+                        'id' => 'desc',
+                    ]
                 ],
             ],
         ]);
@@ -103,6 +110,9 @@ class ToArrayConverterTest extends TestCase
                     ],
                 ],
             ],
+            'srt' => [
+                'year' => 'desc'
+            ],
             'rlt' => [
                 'users' => [
                     'flt' => [
@@ -110,6 +120,10 @@ class ToArrayConverterTest extends TestCase
                         'o' => '=',
                         'v' => true,
                     ],
+                    'srt' => [
+                        'name' => 'asc',
+                        'id' => 'desc',
+                    ]
                 ],
             ],
         ], $converter->get());
@@ -153,14 +167,20 @@ class ToArrayConverterTest extends TestCase
                     ],
                 ],
             ],
+            'sorts' => [
+                'year' => 'desc'
+            ],
             'relations' => [
-                'users'                 => [],
-                'users as active_users' => [
+                'users' => [
                     'filter' => [
                         'field'    => 'active',
                         'operator' => '=',
                         'value'    => true,
                     ],
+                    'sorts' => [
+                        'name' => 'asc',
+                        'id' => 'desc',
+                    ]
                 ],
             ],
         ]);
@@ -204,14 +224,20 @@ class ToArrayConverterTest extends TestCase
                     ],
                 ],
             ],
+            'sorts' => [
+                'year' => 'desc'
+            ],
             'relations' => [
-                'users'                 => [],
-                'users as active_users' => [
+                'users'  => [
                     'filter' => [
                         'field'    => 'active',
                         'operator' => '=',
                         'value'    => true,
                     ],
+                    'sorts' => [
+                        'name' => 'asc',
+                        'id' => 'desc',
+                    ]
                 ],
             ],
         ], $converter->get());
