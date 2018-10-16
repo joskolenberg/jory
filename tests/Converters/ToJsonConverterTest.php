@@ -54,7 +54,7 @@ class ToJsonConverterTest extends TestCase
                 ],
             ],
             'sorts' => [
-                'year' => 'desc'
+                'year' => 'desc',
             ],
             'relations' => [
                 'users' => [
@@ -66,7 +66,7 @@ class ToJsonConverterTest extends TestCase
                     'sorts' => [
                         'name' => 'asc',
                         'id' => 'desc',
-                    ]
+                    ],
                 ],
             ],
         ]);
@@ -117,7 +117,7 @@ class ToJsonConverterTest extends TestCase
                 ],
             ],
             'sorts' => [
-                'year' => 'desc'
+                'year' => 'desc',
             ],
             'relations' => [
                 'users' => [
@@ -129,7 +129,7 @@ class ToJsonConverterTest extends TestCase
                     'sorts' => [
                         'name' => 'asc',
                         'id' => 'desc',
-                    ]
+                    ],
                 ],
             ],
         ]);

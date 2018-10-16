@@ -54,7 +54,7 @@ class ToArrayConverterTest extends TestCase
                 ],
             ],
             'sorts' => [
-                'year' => 'desc'
+                'year' => 'desc',
             ],
             'relations' => [
                 'users' => [
@@ -66,7 +66,7 @@ class ToArrayConverterTest extends TestCase
                     'sorts' => [
                         'name' => 'asc',
                         'id' => 'desc',
-                    ]
+                    ],
                 ],
             ],
         ]);
@@ -111,7 +111,7 @@ class ToArrayConverterTest extends TestCase
                 ],
             ],
             'srt' => [
-                'year' => 'desc'
+                'year' => 'desc',
             ],
             'rlt' => [
                 'users' => [
@@ -123,7 +123,7 @@ class ToArrayConverterTest extends TestCase
                     'srt' => [
                         'name' => 'asc',
                         'id' => 'desc',
-                    ]
+                    ],
                 ],
             ],
         ], $converter->get());
@@ -168,7 +168,7 @@ class ToArrayConverterTest extends TestCase
                 ],
             ],
             'sorts' => [
-                'year' => 'desc'
+                'year' => 'desc',
             ],
             'relations' => [
                 'users' => [
@@ -180,7 +180,7 @@ class ToArrayConverterTest extends TestCase
                     'sorts' => [
                         'name' => 'asc',
                         'id' => 'desc',
-                    ]
+                    ],
                 ],
             ],
         ]);
@@ -225,7 +225,7 @@ class ToArrayConverterTest extends TestCase
                 ],
             ],
             'sorts' => [
-                'year' => 'desc'
+                'year' => 'desc',
             ],
             'relations' => [
                 'users'  => [
@@ -237,7 +237,7 @@ class ToArrayConverterTest extends TestCase
                     'sorts' => [
                         'name' => 'asc',
                         'id' => 'desc',
-                    ]
+                    ],
                 ],
             ],
         ], $converter->get());
