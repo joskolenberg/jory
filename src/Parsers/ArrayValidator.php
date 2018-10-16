@@ -252,7 +252,7 @@ class ArrayValidator
             throw new JoryException('A sorts name should not be empty. (Location: '.$this->address.'sorts)');
         }
 
-        if(!in_array($order, ['asc', 'desc'])){
+        if (! in_array($order, ['asc', 'desc'])) {
             throw new JoryException('A sorts order should be asc or desc. (Location: '.$this->address.'sorts.'.$field.')');
         }
     }

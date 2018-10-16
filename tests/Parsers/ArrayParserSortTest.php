@@ -2,16 +2,14 @@
 
 namespace JosKolenberg\Jory\Tests\Parsers;
 
-
-use JosKolenberg\Jory\Exceptions\JoryException;
-use JosKolenberg\Jory\Parsers\ArrayParser;
 use PHPUnit\Framework\TestCase;
+use JosKolenberg\Jory\Parsers\ArrayParser;
+use JosKolenberg\Jory\Exceptions\JoryException;
 
 class ArrayParserSortTest extends TestCase
 {
-
     /** @test */
-    function it_can_parse_an_empty_sorts_array_which_results_in_the_sorts_array_being_empty_in_jory()
+    public function it_can_parse_an_empty_sorts_array_which_results_in_the_sorts_array_being_empty_in_jory()
     {
         $parser = new ArrayParser([
             'sorts' => [],
@@ -21,7 +19,7 @@ class ArrayParserSortTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_an_asc_sort()
+    public function it_can_parse_an_asc_sort()
     {
         $parser = new ArrayParser([
             'sorts' => [
@@ -34,7 +32,7 @@ class ArrayParserSortTest extends TestCase
     }
 
     /** @test */
-    function it_can_parse_an_desc_sort()
+    public function it_can_parse_an_desc_sort()
     {
         $parser = new ArrayParser([
             'sorts' => [
@@ -47,7 +45,7 @@ class ArrayParserSortTest extends TestCase
     }
 
     /** @test */
-    function it_throws_an_exception_when_an_invalid_sort_is_passed()
+    public function it_throws_an_exception_when_an_invalid_sort_is_passed()
     {
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('A sorts order should be asc or desc. (Location: sorts.name)');

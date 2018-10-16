@@ -2,17 +2,13 @@
 
 namespace JosKolenberg\Jory\Support;
 
-
 use JosKolenberg\Jory\Exceptions\JoryException;
 
 /**
  * Class to hold data by which a query can be sorted.
- *
- * @package JosKolenberg\Jory\Support
  */
 class Sort
 {
-
     /**
      * @var string
      */
@@ -30,10 +26,11 @@ class Sort
      *
      * @throws JoryException
      */
-    public function __construct(string $field, string $order='asc')
+    public function __construct(string $field, string $order = 'asc')
     {
-        if(!in_array($order, ['asc', 'desc'])) throw new JoryException('A sorts order can only be asc or desc.');
-
+        if (! in_array($order, ['asc', 'desc'])) {
+            throw new JoryException('A sorts order can only be asc or desc.');
+        }
         $this->field = $field;
         $this->order = $order;
     }

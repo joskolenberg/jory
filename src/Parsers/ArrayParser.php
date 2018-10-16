@@ -3,13 +3,13 @@
 namespace JosKolenberg\Jory\Parsers;
 
 use JosKolenberg\Jory\Jory;
+use JosKolenberg\Jory\Support\Sort;
 use JosKolenberg\Jory\Support\Filter;
 use JosKolenberg\Jory\Support\Relation;
 use JosKolenberg\Jory\Support\GroupOrFilter;
 use JosKolenberg\Jory\Support\GroupAndFilter;
 use JosKolenberg\Jory\Contracts\FilterInterface;
 use JosKolenberg\Jory\Contracts\JoryParserInterface;
-use JosKolenberg\Jory\Support\Sort;
 
 /**
  * Class to parse an array with associative jory data to an Jory object.

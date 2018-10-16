@@ -2,14 +2,12 @@
 
 namespace JosKolenberg\Jory\Tests\Support;
 
-
-use JosKolenberg\Jory\Exceptions\JoryException;
-use JosKolenberg\Jory\Support\Sort;
 use PHPUnit\Framework\TestCase;
+use JosKolenberg\Jory\Support\Sort;
+use JosKolenberg\Jory\Exceptions\JoryException;
 
 class SortTest extends TestCase
 {
-
     /** @test */
     public function it_can_give_the_field_name_by_getter_function()
     {
@@ -59,7 +57,7 @@ class SortTest extends TestCase
     }
 
     /** @test */
-    function it_throws_an_exception_when_no_valid_order_is_given()
+    public function it_throws_an_exception_when_no_valid_order_is_given()
     {
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('A sorts order can only be asc or desc.');
@@ -67,7 +65,7 @@ class SortTest extends TestCase
     }
 
     /** @test */
-    function the_order_defaults_to_asc_when_none_is_given()
+    public function the_order_defaults_to_asc_when_none_is_given()
     {
         $sort = new Sort('users');
         $this->assertEquals('asc', $sort->getOrder());

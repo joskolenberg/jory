@@ -9,8 +9,8 @@
 namespace JosKolenberg\Jory\Tests;
 
 use JosKolenberg\Jory\Jory;
-use JosKolenberg\Jory\Support\Sort;
 use PHPUnit\Framework\TestCase;
+use JosKolenberg\Jory\Support\Sort;
 use JosKolenberg\Jory\Support\Filter;
 use JosKolenberg\Jory\Support\Relation;
 use JosKolenberg\Jory\Support\GroupOrFilter;
