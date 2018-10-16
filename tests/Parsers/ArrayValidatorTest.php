@@ -597,4 +597,21 @@ class ArrayValidatorTest extends TestCase
             ]
         ]))->validate();
     }
+
+    /** @test */
+    function it_can_validate_a_sort_in_a_relation()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('A sorts order should be asc or desc. (Location: user.sorts.name)');
+
+        (new ArrayValidator([
+            'rlt' => [
+                'user' => [
+                    'srt' => [
+                        'name' => 'wrong',
+                    ],
+                ],
+            ],
+        ]))->validate();
+    }
 }
