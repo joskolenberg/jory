@@ -59,4 +59,15 @@ class ArrayParserSortTest extends TestCase
         ]);
     }
 
+    /** @test */
+    function it_throws_an_exception_when_a_non_array_is_passed_as_sort()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('The sorts parameter should be an array. (Location: sorts)');
+
+        new ArrayParser([
+            'sorts' => 'string',
+        ]);
+    }
+
 }
