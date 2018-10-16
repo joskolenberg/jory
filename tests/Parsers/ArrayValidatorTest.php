@@ -510,4 +510,91 @@ class ArrayValidatorTest extends TestCase
             ],
         ]))->validate();
     }
+
+    /** @test */
+    function it_can_validate_if_jor_has_valid_sorts()
+    {
+        (new ArrayValidator([
+            'srt' => [
+                'user' => 'asc',
+                'car' => 'desc',
+            ]
+        ]))->validate();
+
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    function it_can_validate_if_jor_has_a_valid_sort_2()
+    {
+        (new ArrayValidator([
+            'sorts' => [
+                'user' => 'asc',
+            ]
+        ]))->validate();
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    function it_can_validate_if_jor_has_a_valid_sort_3()
+    {
+        (new ArrayValidator([
+            'sorts' => [
+                'user' => 'desc',
+            ]
+        ]))->validate();
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    function it_can_validate_if_a_sort_has_a_invalid_order_1()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('A sorts order should be asc or desc. (Location: sorts.user)');
+        (new ArrayValidator([
+            'sorts' => [
+                'user' => 'wrong',
+            ]
+        ]))->validate();
+    }
+
+    /** @test */
+    function it_can_validate_if_a_sort_has_a_invalid_order_2()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('A sorts order should be asc or desc. (Location: sorts.user)');
+        (new ArrayValidator([
+            'sorts' => [
+                'user' => [
+                    'totally' => 'wrong'
+                ],
+            ]
+        ]))->validate();
+    }
+
+    /** @test */
+    function it_can_validate_if_a_sort_has_a_invalid_field_1()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('A sorts name should not be empty. (Location: sorts)');
+        (new ArrayValidator([
+            'sorts' => [
+                'test'
+            ]
+        ]))->validate();
+    }
+
+    /** @test */
+    function it_can_validate_if_a_sort_has_a_invalid_field_2()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('A sorts name should not be empty. (Location: sorts)');
+        (new ArrayValidator([
+            'sorts' => [
+                [
+                    'totally' => 'wrong'
+                ],
+            ]
+        ]))->validate();
+    }
 }

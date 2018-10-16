@@ -43,6 +43,7 @@ class ArrayValidator
     {
         $this->validateRootFilter();
         $this->validateRelations();
+        $this->validateSorts();
     }
 
     /**
@@ -213,5 +214,46 @@ class ArrayValidator
         }
         // The data in $jory is another jory array, validate recursive with new validator.
         (new self($jory, $this->address.$name))->validate();
+    }
+
+    /**
+     * Validate the sorts
+     * Throws a JoryException on failure.
+     *
+     * @throws JoryException
+     */
+    protected function validateSorts(): void
+    {
+        $sorts = $this->getArrayValue($this->joryArray, ['srt', 'sorts']);
+
+        // No sorts set, that's ok. return.
+        if (! $sorts) {
+            return;
+        }
+
+        if (! is_array($sorts)) {
+            throw new JoryException('The sorts parameter should be an array. (Location: '.$this->address.'sorts)');
+        }
+
+        foreach ($sorts as $field => $order) {
+            $this->validateSort($field, $order);
+        }
+    }
+
+    /**
+     * Validate a single sort
+     * Throws a JoryException on failure.
+     *
+     * @throws JoryException
+     */
+    protected function validateSort($field, $order): void
+    {
+        if (empty($field)) {
+            throw new JoryException('A sorts name should not be empty. (Location: '.$this->address.'sorts)');
+        }
+
+        if(!in_array($order, ['asc', 'desc'])){
+            throw new JoryException('A sorts order should be asc or desc. (Location: '.$this->address.'sorts.'.$field.')');
+        }
     }
 }
