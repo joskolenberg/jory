@@ -21,7 +21,7 @@ class ArrayValidatorTest extends TestCase
         $this->expectExceptionMessage('A filter cannot contain more than one of the these fields: "f", "field", "and", "group_and", "or" or "group_or". (Location: filter)');
         (new ArrayValidator([
             'filter' => [
-                'f'   => 'John',
+                'f' => 'John',
                 'and' => [],
             ],
         ]))->validate();
@@ -36,8 +36,8 @@ class ArrayValidatorTest extends TestCase
                         'v' => 'John',
                     ],
                     [
-                        'f'  => 'last_name',
-                        'v'  => 'Lennon',
+                        'f' => 'last_name',
+                        'v' => 'Lennon',
                         'or' => [],
                     ],
                 ],
@@ -60,8 +60,8 @@ class ArrayValidatorTest extends TestCase
                     [
                         'or' => [
                             [
-                                'f'   => 'band',
-                                'v'   => 'Beatles',
+                                'f' => 'band',
+                                'v' => 'Beatles',
                                 'and' => [],
                             ],
                         ],
@@ -79,7 +79,7 @@ class ArrayValidatorTest extends TestCase
 
         (new ArrayValidator([
             'filter' => [
-                'no'  => 'valid',
+                'no' => 'valid',
                 'key' => 'here',
             ],
         ]))->validate();
@@ -122,8 +122,8 @@ class ArrayValidatorTest extends TestCase
                                         'field' => 'sub3',
                                     ],
                                     [
-                                        'field'    => 'sub4',
-                                        'o'        => '=',
+                                        'field' => 'sub4',
+                                        'o' => '=',
                                         'operator' => 'like',
                                     ],
                                     [
@@ -164,7 +164,7 @@ class ArrayValidatorTest extends TestCase
                                 'and' => [
                                     [
                                         'field' => 'sub',
-                                        'v'     => 'testing',
+                                        'v' => 'testing',
                                         'value' => 'testing',
                                     ],
                                     [
@@ -613,5 +613,63 @@ class ArrayValidatorTest extends TestCase
                 ],
             ],
         ]))->validate();
+    }
+
+    /** @test */
+    public function it_can_validate_the_offset_value_1()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('The offset parameter should be an integer value. (Location: offset)');
+        (new ArrayValidator([
+            'ofs' => 'not_a_number'
+        ]))->validate();
+    }
+
+    /** @test */
+    public function it_can_validate_the_offset_value_2()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('The offset parameter should be an integer value. (Location: offset)');
+        (new ArrayValidator([
+            'offset' => '123'
+        ]))->validate();
+    }
+
+    /** @test */
+    public function it_can_validate_the_offset_value_3()
+    {
+        (new ArrayValidator([
+            'ofs' => 123
+        ]))->validate();
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    public function it_can_validate_the_limit_value_1()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('The limit parameter should be an integer value. (Location: limit)');
+        (new ArrayValidator([
+            'lmt' => 'not_a_number'
+        ]))->validate();
+    }
+
+    /** @test */
+    public function it_can_validate_the_limit_value_2()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('The limit parameter should be an integer value. (Location: limit)');
+        (new ArrayValidator([
+            'limit' => '123'
+        ]))->validate();
+    }
+
+    /** @test */
+    public function it_can_validate_the_limit_value_3()
+    {
+        (new ArrayValidator([
+            'lmt' => 123
+        ]))->validate();
+        $this->assertTrue(true);
     }
 }

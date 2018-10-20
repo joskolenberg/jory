@@ -44,6 +44,8 @@ class ArrayValidator
         $this->validateRootFilter();
         $this->validateRelations();
         $this->validateSorts();
+        $this->validateOffset();
+        $this->validateLimit();
     }
 
     /**
@@ -237,6 +239,46 @@ class ArrayValidator
 
         foreach ($sorts as $field => $order) {
             $this->validateSort($field, $order);
+        }
+    }
+
+    /**
+     * Validate the offset value
+     * Throws a JoryException on failure.
+     *
+     * @throws JoryException
+     */
+    protected function validateOffset(): void
+    {
+        $offset = $this->getArrayValue($this->joryArray, ['ofs', 'offset']);
+
+        // No offset set, that's ok. return.
+        if ($offset == null) {
+            return;
+        }
+
+        if (! is_int($offset)) {
+            throw new JoryException('The offset parameter should be an integer value. (Location: '.$this->address.'offset)');
+        }
+    }
+
+    /**
+     * Validate the limit value
+     * Throws a JoryException on failure.
+     *
+     * @throws JoryException
+     */
+    protected function validateLimit(): void
+    {
+        $limit = $this->getArrayValue($this->joryArray, ['lmt', 'limit']);
+
+        // No limit set, that's ok. return.
+        if ($limit == null) {
+            return;
+        }
+
+        if (! is_int($limit)) {
+            throw new JoryException('The limit parameter should be an integer value. (Location: '.$this->address.'limit)');
         }
     }
 
