@@ -3,7 +3,6 @@
 namespace JosKolenberg\Jory;
 
 use JosKolenberg\Jory\Support\Sort;
-use JosKolenberg\Jory\Support\Filter;
 use JosKolenberg\Jory\Support\Relation;
 use JosKolenberg\Jory\Contracts\FilterInterface;
 use JosKolenberg\Jory\Converters\ToJsonConverter;
@@ -30,6 +29,16 @@ class Jory
      * @var array
      */
     protected $sorts = [];
+
+    /**
+     * @var null|int
+     */
+    protected $offset = null;
+
+    /**
+     * @var null|int
+     */
+    protected $limit = null;
 
     /**
      * Set the filter.
@@ -93,6 +102,47 @@ class Jory
     public function getSorts(): array
     {
         return $this->sorts;
+    }
+
+    /**
+     * Get the offset value.
+     *
+     * @return int|null
+     */
+    public function getOffset(): ?int
+    {
+        return $this->offset;
+    }
+
+    /**
+     * Set the offset value.
+     *
+     * @param int|null $offset
+     */
+    public function setOffset(?int $offset): void
+    {
+        $this->offset = $offset;
+    }
+
+
+    /**
+     * Get the limit value.
+     *
+     * @return int|null
+     */
+    public function getLimit(): ?int
+    {
+        return $this->limit;
+    }
+
+    /**
+     * Set the limit value.
+     *
+     * @param int|null $limit
+     */
+    public function setLimit(?int $limit): void
+    {
+        $this->limit = $limit;
     }
 
     /**

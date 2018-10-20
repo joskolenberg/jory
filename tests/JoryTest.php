@@ -161,4 +161,50 @@ class JoryTest extends TestCase
         $this->assertEquals('bike', $sorts[2]->getField());
         $this->assertEquals('desc', $sorts[2]->getOrder());
     }
+
+    /** @test */
+    public function it_can_set_and_get_its_offset_value()
+    {
+        $jory = new Jory();
+        $jory->setOffset(123);
+        $this->assertEquals(123, $jory->getOffset());
+    }
+
+    /** @test */
+    public function the_default_value_for_offset_is_null()
+    {
+        $jory = new Jory();
+        $this->assertNull($jory->getOffset());
+    }
+
+    /** @test */
+    public function it_can_set_null_value_for_offset()
+    {
+        $jory = new Jory();
+        $jory->setOffset(null);
+        $this->assertNull($jory->getOffset());
+    }
+
+    /** @test */
+    public function it_can_set_and_get_its_limit_value()
+    {
+        $jory = new Jory();
+        $jory->setLimit(123);
+        $this->assertEquals(123, $jory->getLimit());
+    }
+
+    /** @test */
+    public function the_default_value_for_limit_is_null()
+    {
+        $jory = new Jory();
+        $this->assertNull($jory->getLimit());
+    }
+
+    /** @test */
+    public function it_can_set_null_value_for_limit()
+    {
+        $jory = new Jory();
+        $jory->setLimit(null);
+        $this->assertNull($jory->getLimit());
+    }
 }
