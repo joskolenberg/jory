@@ -58,6 +58,12 @@ class ToArrayConverter
         if ($relations) {
             $result[$this->minified ? 'rlt' : 'relations'] = $this->getRelationsArray($relations);
         }
+        if ($this->jory->getOffset() != null) {
+            $result[$this->minified ? 'ofs' : 'offset'] = $this->jory->getOffset();
+        }
+        if ($this->jory->getLimit() != null) {
+            $result[$this->minified ? 'lmt' : 'limit'] = $this->jory->getLimit();
+        }
 
         return $result;
     }

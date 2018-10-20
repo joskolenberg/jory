@@ -46,6 +46,8 @@ class ArrayParser implements JoryParserInterface
         $this->setFilters($jory);
         $this->setRelations($jory);
         $this->setSorts($jory);
+        $this->setOffset($jory);
+        $this->setLimit($jory);
 
         return $jory;
     }
@@ -142,6 +144,32 @@ class ArrayParser implements JoryParserInterface
             foreach ($sorts as $field => $order) {
                 $jory->addSort(new Sort($field, $order));
             }
+        }
+    }
+
+    /**
+     * Set the offset on the jory object based on the given data in constructor.
+     *
+     * @param Jory $jory
+     */
+    public function setOffset(Jory $jory): void
+    {
+        $offset = $this->getArrayValue($this->joryArray, ['ofs', 'offset']);
+        if ($offset) {
+            $jory->setOffset($offset);
+        }
+    }
+
+    /**
+     * Set the limit on the jory object based on the given data in constructor.
+     *
+     * @param Jory $jory
+     */
+    public function setLimit(Jory $jory): void
+    {
+        $limit = $this->getArrayValue($this->joryArray, ['lmt', 'limit']);
+        if ($limit) {
+            $jory->setLimit($limit);
         }
     }
 }

@@ -67,8 +67,12 @@ class ToArrayConverterTest extends TestCase
                         'name' => 'asc',
                         'id' => 'desc',
                     ],
+                    'offset' => 100,
+                    'limit' => 50,
                 ],
             ],
+            'offset' => 20,
+            'limit' => 5,
         ]);
 
         $jory = $parser->getJory();
@@ -124,8 +128,12 @@ class ToArrayConverterTest extends TestCase
                         'name' => 'asc',
                         'id' => 'desc',
                     ],
+                    'ofs' => 100,
+                    'lmt' => 50,
                 ],
             ],
+            'ofs' => 20,
+            'lmt' => 5,
         ], $converter->get());
     }
 
@@ -170,8 +178,12 @@ class ToArrayConverterTest extends TestCase
             'sorts' => [
                 'year' => 'desc',
             ],
+            'offset' => 20,
+            'limit' => 5,
             'relations' => [
                 'users' => [
+                    'offset' => 100,
+                    'limit' => 50,
                     'filter' => [
                         'field'    => 'active',
                         'operator' => '=',
@@ -238,8 +250,12 @@ class ToArrayConverterTest extends TestCase
                         'name' => 'asc',
                         'id' => 'desc',
                     ],
+                    'offset' => 100,
+                    'limit' => 50,
                 ],
             ],
+            'offset' => 20,
+            'limit' => 5,
         ], $converter->get());
     }
 }
