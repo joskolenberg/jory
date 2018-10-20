@@ -645,6 +645,15 @@ class ArrayValidatorTest extends TestCase
     }
 
     /** @test */
+    public function it_can_validate_the_offset_value_4()
+    {
+        (new ArrayValidator([
+            'offset' => null
+        ]))->validate();
+        $this->assertTrue(true);
+    }
+
+    /** @test */
     public function it_can_validate_the_limit_value_1()
     {
         $this->expectException(JoryException::class);
@@ -669,6 +678,15 @@ class ArrayValidatorTest extends TestCase
     {
         (new ArrayValidator([
             'lmt' => 123
+        ]))->validate();
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    public function it_can_validate_the_limit_value_4()
+    {
+        (new ArrayValidator([
+            'limit' => null
         ]))->validate();
         $this->assertTrue(true);
     }
