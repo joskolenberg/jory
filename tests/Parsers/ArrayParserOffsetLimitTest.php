@@ -8,7 +8,6 @@ use JosKolenberg\Jory\Exceptions\JoryException;
 
 class ArrayParserOffsetLimitTest extends TestCase
 {
-
     /** @test */
     public function it_can_set_an_offset_value()
     {
@@ -25,9 +24,9 @@ class ArrayParserOffsetLimitTest extends TestCase
         $parser = new ArrayParser([
             'relations' => [
                 'users' => [
-                    'offset' => 123
-                ]
-            ]
+                    'offset' => 123,
+                ],
+            ],
         ]);
         $jory = $parser->getJory();
         $this->assertEquals(123, $jory->getRelations()[0]->getJory()->getOffset());
@@ -58,7 +57,7 @@ class ArrayParserOffsetLimitTest extends TestCase
         $this->expectExceptionMessage('The offset parameter should be an integer value. (Location: offset)');
 
         new ArrayParser([
-            'offset' => 'string'
+            'offset' => 'string',
         ]);
     }
 
@@ -71,9 +70,9 @@ class ArrayParserOffsetLimitTest extends TestCase
         new ArrayParser([
             'relations' => [
                 'users' => [
-                    'offset' => 'not_a_number'
-                ]
-            ]
+                    'offset' => 'not_a_number',
+                ],
+            ],
         ]);
     }
 
@@ -93,9 +92,9 @@ class ArrayParserOffsetLimitTest extends TestCase
         $parser = new ArrayParser([
             'relations' => [
                 'users' => [
-                    'limit' => 123
-                ]
-            ]
+                    'limit' => 123,
+                ],
+            ],
         ]);
         $jory = $parser->getJory();
         $this->assertEquals(123, $jory->getRelations()[0]->getJory()->getLimit());
@@ -126,7 +125,7 @@ class ArrayParserOffsetLimitTest extends TestCase
         $this->expectExceptionMessage('The limit parameter should be an integer value. (Location: limit)');
 
         new ArrayParser([
-            'limit' => 'string'
+            'limit' => 'string',
         ]);
     }
 
@@ -139,9 +138,9 @@ class ArrayParserOffsetLimitTest extends TestCase
         new ArrayParser([
             'relations' => [
                 'users' => [
-                    'limit' => 'not_a_number'
-                ]
-            ]
+                    'limit' => 'not_a_number',
+                ],
+            ],
         ]);
     }
 }

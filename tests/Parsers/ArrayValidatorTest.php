@@ -621,7 +621,7 @@ class ArrayValidatorTest extends TestCase
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('The offset parameter should be an integer value. (Location: offset)');
         (new ArrayValidator([
-            'ofs' => 'not_a_number'
+            'ofs' => 'not_a_number',
         ]))->validate();
     }
 
@@ -631,7 +631,7 @@ class ArrayValidatorTest extends TestCase
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('The offset parameter should be an integer value. (Location: offset)');
         (new ArrayValidator([
-            'offset' => '123'
+            'offset' => '123',
         ]))->validate();
     }
 
@@ -639,7 +639,7 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_the_offset_value_3()
     {
         (new ArrayValidator([
-            'ofs' => 123
+            'ofs' => 123,
         ]))->validate();
         $this->assertTrue(true);
     }
@@ -648,7 +648,7 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_the_offset_value_4()
     {
         (new ArrayValidator([
-            'offset' => null
+            'offset' => null,
         ]))->validate();
         $this->assertTrue(true);
     }
@@ -659,7 +659,7 @@ class ArrayValidatorTest extends TestCase
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('The limit parameter should be an integer value. (Location: limit)');
         (new ArrayValidator([
-            'lmt' => 'not_a_number'
+            'lmt' => 'not_a_number',
         ]))->validate();
     }
 
@@ -669,7 +669,7 @@ class ArrayValidatorTest extends TestCase
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('The limit parameter should be an integer value. (Location: limit)');
         (new ArrayValidator([
-            'limit' => '123'
+            'limit' => '123',
         ]))->validate();
     }
 
@@ -677,7 +677,7 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_the_limit_value_3()
     {
         (new ArrayValidator([
-            'lmt' => 123
+            'lmt' => 123,
         ]))->validate();
         $this->assertTrue(true);
     }
@@ -686,7 +686,7 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_the_limit_value_4()
     {
         (new ArrayValidator([
-            'limit' => null
+            'limit' => null,
         ]))->validate();
         $this->assertTrue(true);
     }

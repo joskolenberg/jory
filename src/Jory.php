@@ -124,7 +124,6 @@ class Jory
         $this->offset = $offset;
     }
 
-
     /**
      * Get the limit value.
      *

@@ -8,7 +8,6 @@ use JosKolenberg\Jory\Exceptions\JoryException;
 
 class MinifiedArrayParserOffsetLimitTest extends TestCase
 {
-
     /** @test */
     public function it_can_set_an_offset_value()
     {
@@ -25,9 +24,9 @@ class MinifiedArrayParserOffsetLimitTest extends TestCase
         $parser = new ArrayParser([
             'rlt' => [
                 'users' => [
-                    'ofs' => 123
-                ]
-            ]
+                    'ofs' => 123,
+                ],
+            ],
         ]);
         $jory = $parser->getJory();
         $this->assertEquals(123, $jory->getRelations()[0]->getJory()->getOffset());
@@ -58,7 +57,7 @@ class MinifiedArrayParserOffsetLimitTest extends TestCase
         $this->expectExceptionMessage('The offset parameter should be an integer value. (Location: offset)');
 
         new ArrayParser([
-            'ofs' => 'string'
+            'ofs' => 'string',
         ]);
     }
 
@@ -71,9 +70,9 @@ class MinifiedArrayParserOffsetLimitTest extends TestCase
         new ArrayParser([
             'rlt' => [
                 'users' => [
-                    'ofs' => 'not_a_number'
-                ]
-            ]
+                    'ofs' => 'not_a_number',
+                ],
+            ],
         ]);
     }
 
@@ -93,9 +92,9 @@ class MinifiedArrayParserOffsetLimitTest extends TestCase
         $parser = new ArrayParser([
             'rlt' => [
                 'users' => [
-                    'lmt' => 123
-                ]
-            ]
+                    'lmt' => 123,
+                ],
+            ],
         ]);
         $jory = $parser->getJory();
         $this->assertEquals(123, $jory->getRelations()[0]->getJory()->getLimit());
@@ -126,7 +125,7 @@ class MinifiedArrayParserOffsetLimitTest extends TestCase
         $this->expectExceptionMessage('The limit parameter should be an integer value. (Location: limit)');
 
         new ArrayParser([
-            'lmt' => 'string'
+            'lmt' => 'string',
         ]);
     }
 
@@ -139,9 +138,9 @@ class MinifiedArrayParserOffsetLimitTest extends TestCase
         new ArrayParser([
             'rlt' => [
                 'users' => [
-                    'lmt' => 'not_a_number'
-                ]
-            ]
+                    'lmt' => 'not_a_number',
+                ],
+            ],
         ]);
     }
 }
