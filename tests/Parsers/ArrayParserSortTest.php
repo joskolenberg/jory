@@ -48,7 +48,7 @@ class ArrayParserSortTest extends TestCase
     public function it_throws_an_exception_when_an_invalid_sort_is_passed()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A sorts order should be asc or desc. (Location: sorts.name)');
+        $this->expectExceptionMessage('A sorts order should be string asc or desc. (Location: sorts.name)');
 
         new ArrayParser([
             'sorts' => [
