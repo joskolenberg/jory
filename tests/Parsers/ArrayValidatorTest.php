@@ -712,9 +712,7 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_a_fields_array_with_an_empty_array()
     {
         (new ArrayValidator([
-            'fields' => [
-                'first_name',
-            ],
+            'fields' => [],
         ]))->validate();
         $this->assertTrue(true);
     }
@@ -749,7 +747,7 @@ class ArrayValidatorTest extends TestCase
         $this->expectExceptionMessage('The fields parameter must be an array. (Location: fields)');
 
         (new ArrayValidator([
-            'fields' => 'this_is_npt_an_array',
+            'fields' => 'this_is_not_an_array',
         ]))->validate();
     }
 

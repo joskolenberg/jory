@@ -48,6 +48,7 @@ class ArrayParser implements JoryParserInterface
         $this->setSorts($jory);
         $this->setOffset($jory);
         $this->setLimit($jory);
+        $this->setFields($jory);
 
         return $jory;
     }
@@ -171,5 +172,17 @@ class ArrayParser implements JoryParserInterface
         if ($limit) {
             $jory->setLimit($limit);
         }
+    }
+
+    /**
+     * Set the fields on the jory object based on the given data in constructor.
+     *
+     * @param Jory $jory
+     */
+    protected function setFields(Jory $jory): void
+    {
+        $fields = $this->getArrayValue($this->joryArray, ['fld', 'fields']);
+
+        $jory->setFields($fields);
     }
 }
