@@ -41,6 +41,11 @@ class Jory
     protected $limit = null;
 
     /**
+     * @var null|array
+     */
+    protected $fields = null;
+
+    /**
      * Set the filter.
      *
      * @param FilterInterface $filter
@@ -142,6 +147,29 @@ class Jory
     public function setLimit(?int $limit): void
     {
         $this->limit = $limit;
+    }
+
+    /**
+     * Get the array of fields.
+     * An empty array means no fields,
+     * a null value means no fields selected; apply default fields.
+     *
+     * @return array|null
+     */
+    public function getFields(): ?array
+    {
+        return $this->fields;
+    }
+
+    /**
+     * Set the fields.
+     *
+     * @param array|null $fields
+     */
+
+    public function setFields(?array $fields): void
+    {
+        $this->fields = $fields;
     }
 
     /**
