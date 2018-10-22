@@ -64,6 +64,9 @@ class ToArrayConverter
         if ($this->jory->getLimit() != null) {
             $result[$this->minified ? 'lmt' : 'limit'] = $this->jory->getLimit();
         }
+        if ($this->jory->getFields() != null) {
+            $result[$this->minified ? 'fld' : 'fields'] = $this->jory->getFields();
+        }
 
         return $result;
     }

@@ -63,6 +63,10 @@ class ToArrayConverterTest extends TestCase
                         'operator' => '=',
                         'value'    => true,
                     ],
+                    'fields' => [
+                        'first_name',
+                        'last_name',
+                    ],
                     'sorts' => [
                         'name' => 'asc',
                         'id' => 'desc',
@@ -130,6 +134,10 @@ class ToArrayConverterTest extends TestCase
                     ],
                     'ofs' => 100,
                     'lmt' => 50,
+                    'fld' => [
+                        'first_name',
+                        'last_name',
+                    ],
                 ],
             ],
             'ofs' => 20,
@@ -193,6 +201,10 @@ class ToArrayConverterTest extends TestCase
                         'name' => 'asc',
                         'id' => 'desc',
                     ],
+                    'fields' => [
+                        'first_name',
+                        'last_name',
+                    ],
                 ],
             ],
         ]);
@@ -252,6 +264,10 @@ class ToArrayConverterTest extends TestCase
                     ],
                     'offset' => 100,
                     'limit' => 50,
+                    'fields' => [
+                        'first_name',
+                        'last_name',
+                    ],
                 ],
             ],
             'offset' => 20,
