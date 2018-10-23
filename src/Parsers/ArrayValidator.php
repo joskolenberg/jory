@@ -24,7 +24,7 @@ class ArrayValidator
     /**
      * ArrayValidator constructor.
      *
-     * @param array  $joryArray
+     * @param array $joryArray
      * @param string $address
      */
     public function __construct(array $joryArray, string $address = '')
@@ -239,7 +239,7 @@ class ArrayValidator
         }
 
         foreach ($sorts as $field => $order) {
-            if(! is_string($field)){
+            if (! is_string($field)) {
                 throw new JoryException('The key for a sort item must be a string. (Location: '.$this->address.'sorts)');
             }
             if (! is_string($order) || ! in_array($order, ['asc', 'desc'])) {
@@ -303,12 +303,12 @@ class ArrayValidator
             return;
         }
 
-        if(! is_array($fields)){
+        if (! is_array($fields)) {
             throw new JoryException('The fields parameter must be an array. (Location: '.$this->address.'fields)');
         }
 
-        foreach ($fields as $key => $field){
-            if(! is_string($field)){
+        foreach ($fields as $key => $field) {
+            if (! is_string($field)) {
                 throw new JoryException('The fields parameter can only contain strings. (Location: '.$this->address.'fields.'.$key.')');
             }
         }

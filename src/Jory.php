@@ -64,7 +64,7 @@ class Jory
      *
      * @return FilterInterface|null
      */
-    public function getFilter():? FilterInterface
+    public function getFilter(): ? FilterInterface
     {
         return $this->filter;
     }
@@ -166,7 +166,6 @@ class Jory
      *
      * @param array|null $fields
      */
-
     public function setFields(?array $fields): void
     {
         $this->fields = $fields;
