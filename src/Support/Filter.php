@@ -15,10 +15,12 @@ class Filter implements FilterInterface
      * @var string
      */
     private $field;
+
     /**
      * @var string
      */
     private $operator;
+
     /**
      * @var string
      */
@@ -42,7 +44,7 @@ class Filter implements FilterInterface
     /**
      * @return string
      */
-    public function getOperator():? string
+    public function getOperator(): ? string
     {
         return $this->operator;
     }

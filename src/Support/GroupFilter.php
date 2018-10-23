@@ -13,6 +13,7 @@ use JosKolenberg\Jory\Contracts\FilterInterface;
 abstract class GroupFilter implements \Iterator, \Countable, FilterInterface
 {
     protected $position = 0;
+
     protected $filters = [];
 
     public function push(FilterInterface $filter): void

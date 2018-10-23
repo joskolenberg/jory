@@ -229,8 +229,8 @@ class MinifiedArrayParserFilterTest extends TestCase
             'flt' => [
                 'or' => [
                     [
-                        'f'   => 'first_name',
-                        'v'   => 'John',
+                        'f' => 'first_name',
+                        'v' => 'John',
                         'and' => [],
                     ],
                     [

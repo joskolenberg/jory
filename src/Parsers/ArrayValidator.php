@@ -146,7 +146,10 @@ class ArrayValidator
                 throw new JoryException('The "'.$foundKey.'" parameter should have a string value. (Location: '.$address.')');
             }
             // A string value in "operator" (or "o") is optional
-            if ($this->hasArrayKey($filter, ['o', 'operator']) && ! is_string($this->getArrayValue($filter, ['o', 'operator']))) {
+            if ($this->hasArrayKey($filter, ['o', 'operator']) && ! is_string($this->getArrayValue($filter, [
+                    'o',
+                    'operator',
+                ]))) {
                 throw new JoryException('The "operator" (or "o") parameter should have a string value or be omitted. (Location: '.$address.')');
             }
             // A mixed value in "value" is optional

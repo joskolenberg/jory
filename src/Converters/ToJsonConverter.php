@@ -15,6 +15,7 @@ class ToJsonConverter
      * @var Jory
      */
     private $jory;
+
     /**
      * @var bool
      */

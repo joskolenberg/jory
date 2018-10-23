@@ -23,26 +23,26 @@ class MixedArrayParserFilterTest extends TestCase
             'filter' => [
                 'and' => [
                     [
-                        'f'     => 'first_name',
+                        'f' => 'first_name',
                         'value' => 'Eric',
                     ],
                     [
                         'field' => 'last_name',
-                        'v'     => 'Clapton',
+                        'v' => 'Clapton',
                     ],
                     [
                         'or' => [
                             [
-                                'f'     => 'band',
-                                'o'     => 'in',
+                                'f' => 'band',
+                                'o' => 'in',
                                 'value' => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
-                                        'f'        => 'project',
+                                        'f' => 'project',
                                         'operator' => 'like',
-                                        'v'        => 'Cream',
+                                        'v' => 'Cream',
                                     ],
                                     [
                                         'f' => 'drummer',

@@ -13,6 +13,7 @@ class Sort
      * @var string
      */
     protected $field;
+
     /**
      * @var string
      */

@@ -83,7 +83,13 @@ class JoryTest extends TestCase
     {
         $jory = new Jory();
         $jory->setFilter(new Filter('name', '=', 'John'));
-        $this->assertEquals(['filter' => ['field' => 'name', 'operator' => '=', 'value' => 'John']], $jory->toArray(false));
+        $this->assertEquals([
+            'filter' => [
+                'field' => 'name',
+                'operator' => '=',
+                'value' => 'John',
+            ],
+        ], $jory->toArray(false));
     }
 
     /** @test */
