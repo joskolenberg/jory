@@ -207,4 +207,43 @@ class JoryTest extends TestCase
         $jory->setLimit(null);
         $this->assertNull($jory->getLimit());
     }
+
+    /** @test */
+    public function it_can_set_a_field()
+    {
+        $jory = new Jory();
+        $jory->setFields(['testing']);
+
+        $this->assertCount(1, $jory->getFields());
+        $this->assertEquals('testing', $jory->getFields()[0]);
+    }
+
+    /** @test */
+    public function it_can_set_multiple_fields()
+    {
+        $jory = new Jory();
+        $jory->setFields(['testing', '123']);
+
+        $this->assertCount(2, $jory->getFields());
+        $this->assertEquals('testing', $jory->getFields()[0]);
+        $this->assertEquals('123', $jory->getFields()[1]);
+    }
+
+    /** @test */
+    public function it_can_set_the_fields_to_null()
+    {
+        $jory = new Jory();
+        $jory->setFields(['testing', '123']);
+        $jory->setFields(null);
+
+        $this->assertNull($jory->getFields());
+    }
+
+    /** @test */
+    public function when_no_fields_are_added_the_field_parameter_is_null()
+    {
+        $jory = new Jory();
+
+        $this->assertNull($jory->getFields());
+    }
 }

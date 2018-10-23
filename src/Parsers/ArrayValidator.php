@@ -24,7 +24,7 @@ class ArrayValidator
     /**
      * ArrayValidator constructor.
      *
-     * @param array  $joryArray
+     * @param array $joryArray
      * @param string $address
      */
     public function __construct(array $joryArray, string $address = '')
@@ -46,6 +46,7 @@ class ArrayValidator
         $this->validateSorts();
         $this->validateOffset();
         $this->validateLimit();
+        $this->validateFields();
     }
 
     /**
@@ -238,7 +239,12 @@ class ArrayValidator
         }
 
         foreach ($sorts as $field => $order) {
-            $this->validateSort($field, $order);
+            if (! is_string($field)) {
+                throw new JoryException('The key for a sort item must be a string. (Location: '.$this->address.'sorts)');
+            }
+            if (! is_string($order) || ! in_array($order, ['asc', 'desc'])) {
+                throw new JoryException('A sorts order should be string asc or desc. (Location: '.$this->address.'sorts.'.$field.')');
+            }
         }
     }
 
@@ -283,19 +289,28 @@ class ArrayValidator
     }
 
     /**
-     * Validate a single sort
+     * Validate the fields
      * Throws a JoryException on failure.
      *
      * @throws JoryException
      */
-    protected function validateSort($field, $order): void
+    protected function validateFields(): void
     {
-        if (empty($field)) {
-            throw new JoryException('A sorts name should not be empty. (Location: '.$this->address.'sorts)');
+        $fields = $this->getArrayValue($this->joryArray, ['fld', 'fields']);
+
+        // No fields set, that's ok. return.
+        if ($fields == null) {
+            return;
         }
 
-        if (! in_array($order, ['asc', 'desc'])) {
-            throw new JoryException('A sorts order should be asc or desc. (Location: '.$this->address.'sorts.'.$field.')');
+        if (! is_array($fields)) {
+            throw new JoryException('The fields parameter must be an array. (Location: '.$this->address.'fields)');
+        }
+
+        foreach ($fields as $key => $field) {
+            if (! is_string($field)) {
+                throw new JoryException('The fields parameter can only contain strings. (Location: '.$this->address.'fields.'.$key.')');
+            }
         }
     }
 }
