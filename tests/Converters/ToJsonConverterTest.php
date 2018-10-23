@@ -32,16 +32,16 @@ class ToJsonConverterTest extends TestCase
                     [
                         'group_or' => [
                             [
-                                'field'    => 'band',
+                                'field' => 'band',
                                 'operator' => 'in',
-                                'value'    => ['beatles', 'stones'],
+                                'value' => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
-                                        'field'    => 'project',
+                                        'field' => 'project',
                                         'operator' => 'like',
-                                        'value'    => 'Cream',
+                                        'value' => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
@@ -65,9 +65,9 @@ class ToJsonConverterTest extends TestCase
                     'offset' => 100,
                     'limit' => 50,
                     'filter' => [
-                        'field'    => 'active',
+                        'field' => 'active',
                         'operator' => '=',
-                        'value'    => true,
+                        'value' => true,
                     ],
                     'sorts' => [
                         'name' => 'asc',
@@ -101,16 +101,16 @@ class ToJsonConverterTest extends TestCase
                     [
                         'group_or' => [
                             [
-                                'field'    => 'band',
+                                'field' => 'band',
                                 'operator' => 'in',
-                                'value'    => ['beatles', 'stones'],
+                                'value' => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
-                                        'field'    => 'project',
+                                        'field' => 'project',
                                         'operator' => 'like',
-                                        'value'    => 'Cream',
+                                        'value' => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
@@ -128,9 +128,9 @@ class ToJsonConverterTest extends TestCase
             'relations' => [
                 'users' => [
                     'filter' => [
-                        'field'    => 'active',
+                        'field' => 'active',
                         'operator' => '=',
-                        'value'    => true,
+                        'value' => true,
                     ],
                     'offset' => 100,
                     'limit' => 50,

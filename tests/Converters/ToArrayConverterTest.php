@@ -32,16 +32,16 @@ class ToArrayConverterTest extends TestCase
                     [
                         'group_or' => [
                             [
-                                'field'    => 'band',
+                                'field' => 'band',
                                 'operator' => 'in',
-                                'value'    => ['beatles', 'stones'],
+                                'value' => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
-                                        'field'    => 'project',
+                                        'field' => 'project',
                                         'operator' => 'like',
-                                        'value'    => 'Cream',
+                                        'value' => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
@@ -59,9 +59,9 @@ class ToArrayConverterTest extends TestCase
             'relations' => [
                 'users' => [
                     'filter' => [
-                        'field'    => 'active',
+                        'field' => 'active',
                         'operator' => '=',
-                        'value'    => true,
+                        'value' => true,
                     ],
                     'fields' => [
                         'first_name',
@@ -162,16 +162,16 @@ class ToArrayConverterTest extends TestCase
                     [
                         'group_or' => [
                             [
-                                'field'    => 'band',
+                                'field' => 'band',
                                 'operator' => 'in',
-                                'value'    => ['beatles', 'stones'],
+                                'value' => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
-                                        'field'    => 'project',
+                                        'field' => 'project',
                                         'operator' => 'like',
-                                        'value'    => 'Cream',
+                                        'value' => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
@@ -193,9 +193,9 @@ class ToArrayConverterTest extends TestCase
                     'offset' => 100,
                     'limit' => 50,
                     'filter' => [
-                        'field'    => 'active',
+                        'field' => 'active',
                         'operator' => '=',
-                        'value'    => true,
+                        'value' => true,
                     ],
                     'sorts' => [
                         'name' => 'asc',
@@ -227,16 +227,16 @@ class ToArrayConverterTest extends TestCase
                     [
                         'group_or' => [
                             [
-                                'field'    => 'band',
+                                'field' => 'band',
                                 'operator' => 'in',
-                                'value'    => ['beatles', 'stones'],
+                                'value' => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
-                                        'field'    => 'project',
+                                        'field' => 'project',
                                         'operator' => 'like',
-                                        'value'    => 'Cream',
+                                        'value' => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
@@ -252,11 +252,11 @@ class ToArrayConverterTest extends TestCase
                 'year' => 'desc',
             ],
             'relations' => [
-                'users'  => [
+                'users' => [
                     'filter' => [
-                        'field'    => 'active',
+                        'field' => 'active',
                         'operator' => '=',
-                        'value'    => true,
+                        'value' => true,
                     ],
                     'sorts' => [
                         'name' => 'asc',

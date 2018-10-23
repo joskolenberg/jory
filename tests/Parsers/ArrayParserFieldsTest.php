@@ -11,8 +11,7 @@ class ArrayParserFieldsTest extends TestCase
     /** @test */
     public function it_can_parse_an_omitted_fields_parameter()
     {
-        $parser = new ArrayParser([
-        ]);
+        $parser = new ArrayParser([]);
         $jory = $parser->getJory();
         $this->assertNull($jory->getFields());
     }

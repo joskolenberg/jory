@@ -76,9 +76,10 @@ class ArrayParser implements JoryParserInterface
     protected function getFilterFromData($data): FilterInterface
     {
         if (($field = $this->getArrayValue($data, ['f', 'field'])) !== null) {
-            return new Filter($field,
-                $this->getArrayValue($data, ['o', 'operator']),
-                $this->getArrayValue($data, ['v', 'value']));
+            return new Filter($field, $this->getArrayValue($data, ['o', 'operator']), $this->getArrayValue($data, [
+                'v',
+                'value',
+            ]));
         }
         if (($groupAndData = $this->getArrayValue($data, ['and', 'group_and'])) !== null) {
             $group = new GroupAndFilter();
