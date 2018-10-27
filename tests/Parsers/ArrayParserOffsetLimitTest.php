@@ -19,6 +19,16 @@ class ArrayParserOffsetLimitTest extends TestCase
     }
 
     /** @test */
+    public function it_can_set_an_offset_value_to_zero()
+    {
+        $parser = new ArrayParser([
+            'offset' => 0,
+        ]);
+        $jory = $parser->getJory();
+        $this->assertSame(0, $jory->getOffset());
+    }
+
+    /** @test */
     public function it_can_set_an_offset_value_in_a_relation()
     {
         $parser = new ArrayParser([
@@ -84,6 +94,16 @@ class ArrayParserOffsetLimitTest extends TestCase
         ]);
         $jory = $parser->getJory();
         $this->assertEquals(12, $jory->getLimit());
+    }
+
+    /** @test */
+    public function it_can_set_an_limit_value_to_zero()
+    {
+        $parser = new ArrayParser([
+            'limit' => 0,
+        ]);
+        $jory = $parser->getJory();
+        $this->assertSame(0, $jory->getLimit());
     }
 
     /** @test */

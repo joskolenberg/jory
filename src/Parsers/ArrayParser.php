@@ -157,7 +157,7 @@ class ArrayParser implements JoryParserInterface
     public function setOffset(Jory $jory): void
     {
         $offset = $this->getArrayValue($this->joryArray, ['ofs', 'offset']);
-        if ($offset) {
+        if ($offset !== null) {
             $jory->setOffset($offset);
         }
     }
@@ -170,7 +170,7 @@ class ArrayParser implements JoryParserInterface
     public function setLimit(Jory $jory): void
     {
         $limit = $this->getArrayValue($this->joryArray, ['lmt', 'limit']);
-        if ($limit) {
+        if ($limit !== null) {
             $jory->setLimit($limit);
         }
     }
