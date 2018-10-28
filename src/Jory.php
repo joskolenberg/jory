@@ -194,4 +194,51 @@ class Jory
     {
         return (new ToJsonConverter($this, $minified))->get();
     }
+
+    /**
+     * Tell if this Jory contains a selected field.
+     *
+     * @param string $field
+     * @return bool
+     */
+    public function hasField(string $field): bool
+    {
+        if($this->fields === null){
+            return false;
+        }
+
+        return in_array($field, $this->fields);
+    }
+
+    /**
+     * Tell if this Jory contains a sorting on the given field.
+     *
+     * @param string $field
+     * @return bool
+     */
+    public function hasSort(string $field): bool
+    {
+        foreach ($this->sorts as $sort) {
+            if($field === $sort->getField()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Tell if this Jory contains a filter on the given field.
+     *
+     * @param string $field
+     * @return bool
+     */
+    public function hasFilter(string $field): bool
+    {
+        if($this->filter === null){
+            return false;
+        }
+
+        return $this->filter->hasFilter($field);
+    }
 }

@@ -78,4 +78,15 @@ class Filter implements FilterInterface
                 return $this->getValue();
         }
     }
+
+    /**
+     * Tell if this filter contains a filter on the given field.
+     *
+     * @param string $field
+     * @return bool
+     */
+    public function hasFilter(string $field): bool
+    {
+        return $this->field === $field;
+    }
 }

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: joskolenberg
- * Date: 11-09-18
- * Time: 08:14.
- */
 
 namespace JosKolenberg\Jory\Tests;
 
@@ -13,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use JosKolenberg\Jory\Support\Sort;
 use JosKolenberg\Jory\Support\Filter;
 use JosKolenberg\Jory\Support\Relation;
+use JosKolenberg\Jory\Parsers\ArrayParser;
 use JosKolenberg\Jory\Support\GroupOrFilter;
 use JosKolenberg\Jory\Support\GroupAndFilter;
 use JosKolenberg\Jory\Contracts\FilterInterface;
@@ -251,5 +246,198 @@ class JoryTest extends TestCase
         $jory = new Jory();
 
         $this->assertNull($jory->getFields());
+    }
+
+    /** @test */
+    public function it_can_tell_if_it_contains_a_field_1()
+    {
+        $jory = new Jory();
+        $jory->setFields([]);
+        $this->assertFalse($jory->hasField('first_name'));
+    }
+
+    /** @test */
+    public function it_can_tell_if_it_contains_a_field_2()
+    {
+        $jory = new Jory();
+        $jory->setFields(['last_name']);
+        $this->assertFalse($jory->hasField('first_name'));
+    }
+
+    /** @test */
+    public function it_can_tell_if_it_contains_a_field_3()
+    {
+        $jory = new Jory();
+        $jory->setFields([
+            'first_name',
+            'last_name',
+            'full_name',
+        ]);
+        $this->assertTrue($jory->hasField('first_name'));
+    }
+
+    /** @test */
+    public function it_can_tell_if_it_contains_a_sort_1()
+    {
+        $jory = new Jory();
+        $this->assertFalse($jory->hasSort('first_name'));
+    }
+
+    /** @test */
+    public function it_can_tell_if_it_contains_a_sort_2()
+    {
+        $jory = new Jory();
+        $jory->addSort(new Sort('last_name', 'asc'));
+        $this->assertFalse($jory->hasSort('first_name'));
+    }
+
+    /** @test */
+    public function it_can_tell_if_it_contains_a_sort_3()
+    {
+        $jory = new Jory();
+        $jory->addSort(new Sort('first_name', 'asc'));
+        $jory->addSort(new Sort('last_name', 'asc'));
+        $jory->addSort(new Sort('full_name', 'asc'));
+        $this->assertTrue($jory->hasSort('first_name'));
+    }
+
+    /** @test */
+    public function it_can_tell_if_it_contains_a_filter_1()
+    {
+        $parser = new ArrayParser([
+            'filter' => [
+                'group_and' => [
+                    [
+                        'field' => 'first_name',
+                        'value' => 'Eric',
+                    ],
+                    [
+                        'field' => 'last_name',
+                        'value' => 'Clapton',
+                    ],
+                    [
+                        'group_or' => [
+                            [
+                                'field' => 'band',
+                                'operator' => 'in',
+                                'value' => ['beatles', 'stones'],
+                            ],
+                            [
+                                'group_and' => [
+                                    [
+                                        'field' => 'project',
+                                        'operator' => 'like',
+                                        'value' => 'Cream',
+                                    ],
+                                    [
+                                        'field' => 'drummer',
+                                        'value' => 'Ginger Baker',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        $jory = $parser->getJory();
+
+        $this->assertTrue($jory->hasFilter('project'));
+    }
+
+    /** @test */
+    public function it_can_tell_if_it_contains_a_filter_2()
+    {
+        $parser = new ArrayParser([
+            'filter' => [
+                'group_and' => [
+                    [
+                        'field' => 'first_name',
+                        'value' => 'Eric',
+                    ],
+                    [
+                        'field' => 'last_name',
+                        'value' => 'Clapton',
+                    ],
+                    [
+                        'group_or' => [
+                            [
+                                'field' => 'band',
+                                'operator' => 'in',
+                                'value' => ['beatles', 'stones'],
+                            ],
+                            [
+                                'group_and' => [
+                                    [
+                                        'field' => 'project',
+                                        'operator' => 'like',
+                                        'value' => 'Cream',
+                                    ],
+                                    [
+                                        'field' => 'drummer',
+                                        'value' => 'Ginger Baker',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+
+        $jory = $parser->getJory();
+
+        $this->assertFalse($jory->hasFilter('album'));
+    }
+
+    /** @test */
+    public function it_can_tell_if_it_contains_a_filter_3()
+    {
+        $parser = new ArrayParser([]);
+
+        $jory = $parser->getJory();
+
+        $this->assertFalse($jory->hasFilter('album'));
+    }
+
+    /** @test */
+    public function it_can_tell_if_it_contains_a_filter_4()
+    {
+        $parser = new ArrayParser([
+            'filter' => [
+                'field' => 'first_name',
+                'value' => 'Eric',
+            ],
+        ]);
+
+        $jory = $parser->getJory();
+
+        $this->assertFalse($jory->hasFilter('last_name'));
+        $this->assertTrue($jory->hasFilter('first_name'));
+    }
+
+    /** @test */
+    public function it_can_tell_if_it_contains_a_filter_5()
+    {
+        $parser = new ArrayParser([
+            'filter' => [
+                'group_and' => [
+                    [
+                        'field' => 'first_name',
+                        'value' => 'Eric',
+                    ],
+                    [
+                        'field' => 'last_name',
+                        'value' => 'Clapton',
+                    ],
+                ],
+            ],
+        ]);
+
+        $jory = $parser->getJory();
+
+        $this->assertFalse($jory->hasFilter('full_name'));
+        $this->assertTrue($jory->hasFilter('first_name'));
     }
 }

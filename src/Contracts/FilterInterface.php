@@ -4,9 +4,15 @@ namespace JosKolenberg\Jory\Contracts;
 
 /**
  * Interface FilterInterface.
- *
- * Marker interface for typehinting Filter objects
  */
 interface FilterInterface
 {
+
+    /**
+     * Tell if this filter contains a filter on the given field.
+     *
+     * @param string $field
+     * @return bool
+     */
+    public function hasFilter(string $field): bool;
 }

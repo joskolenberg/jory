@@ -60,4 +60,20 @@ abstract class GroupFilter implements \Iterator, \Countable, FilterInterface
     {
         return $this->filters[$index];
     }
-}
+
+    /**
+     * Tell if this filter contains a filter on the given field.
+     *
+     * @param string $field
+     * @return bool
+     */
+    public function hasFilter(string $field): bool
+    {
+        foreach ($this->filters as $filter) {
+            if($filter->hasFilter($field)) {
+                return true;
+            }
+        }
+
+        return false;
+    }}
