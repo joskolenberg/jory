@@ -50,10 +50,10 @@ class MinifiedArrayParserSortTest extends TestCase
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('A sorts order should be string asc or desc. (Location: sorts.name)');
 
-        new ArrayParser([
+        (new ArrayParser([
             'srt' => [
                 'name' => 'wrong',
             ],
-        ]);
+        ]))->getJory();
     }
 }

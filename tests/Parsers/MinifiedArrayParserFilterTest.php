@@ -225,7 +225,7 @@ class MinifiedArrayParserFilterTest extends TestCase
     {
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('A filter cannot contain more than one of the these fields: "f", "field", "and", "group_and", "or" or "group_or". (Location: filter(or).0)');
-        new ArrayParser([
+        (new ArrayParser([
             'flt' => [
                 'or' => [
                     [
@@ -239,6 +239,6 @@ class MinifiedArrayParserFilterTest extends TestCase
                     ],
                 ],
             ],
-        ]);
+        ]))->getJory();
     }
 }

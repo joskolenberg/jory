@@ -56,9 +56,9 @@ class MinifiedArrayParserOffsetLimitTest extends TestCase
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('The offset parameter should be an integer value. (Location: offset)');
 
-        new ArrayParser([
+        (new ArrayParser([
             'ofs' => 'string',
-        ]);
+        ]))->getJory();
     }
 
     /** @test */
@@ -67,13 +67,13 @@ class MinifiedArrayParserOffsetLimitTest extends TestCase
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('The offset parameter should be an integer value. (Location: users.offset)');
 
-        new ArrayParser([
+        (new ArrayParser([
             'rlt' => [
                 'users' => [
                     'ofs' => 'not_a_number',
                 ],
             ],
-        ]);
+        ]))->getJory();
     }
 
     /** @test */
@@ -124,9 +124,9 @@ class MinifiedArrayParserOffsetLimitTest extends TestCase
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('The limit parameter should be an integer value. (Location: limit)');
 
-        new ArrayParser([
+        (new ArrayParser([
             'lmt' => 'string',
-        ]);
+        ]))->getJory();
     }
 
     /** @test */
@@ -135,12 +135,12 @@ class MinifiedArrayParserOffsetLimitTest extends TestCase
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('The limit parameter should be an integer value. (Location: users.limit)');
 
-        new ArrayParser([
+        (new ArrayParser([
             'rlt' => [
                 'users' => [
                     'lmt' => 'not_a_number',
                 ],
             ],
-        ]);
+        ]))->getJory();
     }
 }

@@ -30,8 +30,6 @@ class ArrayParser implements JoryParserInterface
      */
     public function __construct(array $joryArray)
     {
-        (new ArrayValidator($joryArray))->validate();
-
         $this->joryArray = $joryArray;
     }
 
@@ -39,9 +37,12 @@ class ArrayParser implements JoryParserInterface
      * Get the Jory object based on the given data.
      *
      * @return Jory
+     * @throws \JosKolenberg\Jory\Exceptions\JoryException
      */
     public function getJory(): Jory
     {
+        (new ArrayValidator($this->joryArray))->validate();
+
         $jory = new Jory();
         $this->setFilters($jory);
         $this->setRelations($jory);
@@ -154,7 +155,7 @@ class ArrayParser implements JoryParserInterface
      *
      * @param Jory $jory
      */
-    public function setOffset(Jory $jory): void
+    protected function setOffset(Jory $jory): void
     {
         $offset = $this->getArrayValue($this->joryArray, ['ofs', 'offset']);
         if ($offset !== null) {
@@ -167,7 +168,7 @@ class ArrayParser implements JoryParserInterface
      *
      * @param Jory $jory
      */
-    public function setLimit(Jory $jory): void
+    protected function setLimit(Jory $jory): void
     {
         $limit = $this->getArrayValue($this->joryArray, ['lmt', 'limit']);
         if ($limit !== null) {

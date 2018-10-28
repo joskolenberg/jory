@@ -50,11 +50,11 @@ class ArrayParserSortTest extends TestCase
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('A sorts order should be string asc or desc. (Location: sorts.name)');
 
-        new ArrayParser([
+        (new ArrayParser([
             'sorts' => [
                 'name' => 'wrong',
             ],
-        ]);
+        ]))->getJory();
     }
 
     /** @test */
@@ -63,8 +63,8 @@ class ArrayParserSortTest extends TestCase
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('The sorts parameter should be an array. (Location: sorts)');
 
-        new ArrayParser([
+        (new ArrayParser([
             'sorts' => 'string',
-        ]);
+        ]))->getJory();
     }
 }

@@ -67,9 +67,9 @@ class MinifiedArrayParserFieldsTest extends TestCase
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('The fields parameter must be an array. (Location: fields)');
 
-        new ArrayParser([
+        (new ArrayParser([
             'fld' => 'this_is_not_an_array',
-        ]);
+        ]))->getJory();
     }
 
     /** @test */
@@ -78,7 +78,7 @@ class MinifiedArrayParserFieldsTest extends TestCase
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('The fields parameter can only contain strings. (Location: users.fields.1)');
 
-        new ArrayParser([
+        (new ArrayParser([
             'rlt' => [
                 'users' => [
                     'fld' => [
@@ -90,6 +90,6 @@ class MinifiedArrayParserFieldsTest extends TestCase
                     ],
                 ],
             ],
-        ]);
+        ]))->getJory();
     }
 }

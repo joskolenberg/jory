@@ -145,6 +145,6 @@ class MinifiedJsonParserFilterTest extends TestCase
     {
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('The "or" parameter should hold an array with filters. (Location: filter');
-        (new JsonParser('{"filter":{"or":"wrong"}}'));
+        (new JsonParser('{"filter":{"or":"wrong"}}'))->getJory();
     }
 }

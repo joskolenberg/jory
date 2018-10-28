@@ -16,31 +16,30 @@ class JsonParser implements JoryParserInterface
     /**
      * @var string
      */
-    private $arrayParser;
+    private $json;
 
     /**
      * JsonParser constructor.
      *
      * @param string $json
-     *
-     * @throws JoryException
      */
     public function __construct(string $json)
     {
-        $array = json_decode($json, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new JoryException('Jory string is no valid json.');
-        }
-        $this->arrayParser = new ArrayParser($array);
+        $this->json = $json;
     }
 
     /**
      * Get the Jory object based on the given data.
      *
      * @return Jory
+     * @throws JoryException
      */
     public function getJory(): Jory
     {
-        return $this->arrayParser->getJory();
+        $array = json_decode($this->json, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new JoryException('Jory string is no valid json.');
+        }
+        return (new ArrayParser($array))->getJory();
     }
 }

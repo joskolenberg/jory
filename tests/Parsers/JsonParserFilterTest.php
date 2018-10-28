@@ -145,7 +145,7 @@ class JsonParserFilterTest extends TestCase
     {
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('The "group_or" parameter should hold an array with filters. (Location: filter');
-        (new JsonParser('{"filter":{"group_or":"wrong"}}'));
+        (new JsonParser('{"filter":{"group_or":"wrong"}}'))->getJory();
     }
 
     /** @test */
@@ -153,6 +153,6 @@ class JsonParserFilterTest extends TestCase
     {
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('Jory string is no valid json.');
-        (new JsonParser('{"filte'));
+        (new JsonParser('{"filte'))->getJory();
     }
 }

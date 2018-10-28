@@ -255,7 +255,7 @@ class ArrayParserFilterTest extends TestCase
     {
         $this->expectException(JoryException::class);
         $this->expectExceptionMessage('A filter should contain one of the these fields: "f", "field", "and", "group_and", "or" or "group_or". (Location: filter)');
-        new ArrayParser([
+        (new ArrayParser([
             'filter' => [
                 'group_ord' => [
                     [
@@ -270,6 +270,6 @@ class ArrayParserFilterTest extends TestCase
                 ],
                 'also_not_valid' => 'not parsed',
             ],
-        ]);
+        ]))->getJory();
     }
 }
