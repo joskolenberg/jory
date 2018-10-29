@@ -54,7 +54,7 @@ class ToArrayConverterTest extends TestCase
                 ],
             ],
             'sorts' => [
-                'year' => 'desc',
+                '-year',
             ],
             'relations' => [
                 'users' => [
@@ -68,8 +68,8 @@ class ToArrayConverterTest extends TestCase
                         'last_name',
                     ],
                     'sorts' => [
-                        'name' => 'asc',
-                        'id' => 'desc',
+                        'name',
+                        '-id',
                     ],
                     'offset' => 100,
                     'limit' => 50,
@@ -119,7 +119,7 @@ class ToArrayConverterTest extends TestCase
                 ],
             ],
             'srt' => [
-                'year' => 'desc',
+                '-year',
             ],
             'rlt' => [
                 'users' => [
@@ -129,8 +129,8 @@ class ToArrayConverterTest extends TestCase
                         'v' => true,
                     ],
                     'srt' => [
-                        'name' => 'asc',
-                        'id' => 'desc',
+                        'name',
+                        '-id',
                     ],
                     'ofs' => 100,
                     'lmt' => 50,
@@ -184,7 +184,7 @@ class ToArrayConverterTest extends TestCase
                 ],
             ],
             'sorts' => [
-                'year' => 'desc',
+                '-year',
             ],
             'offset' => 20,
             'limit' => 5,
@@ -198,8 +198,8 @@ class ToArrayConverterTest extends TestCase
                         'value' => true,
                     ],
                     'sorts' => [
-                        'name' => 'asc',
-                        'id' => 'desc',
+                        'name',
+                        '-id',
                     ],
                     'fields' => [
                         'first_name',
@@ -249,7 +249,7 @@ class ToArrayConverterTest extends TestCase
                 ],
             ],
             'sorts' => [
-                'year' => 'desc',
+                '-year',
             ],
             'relations' => [
                 'users' => [
@@ -259,8 +259,8 @@ class ToArrayConverterTest extends TestCase
                         'value' => true,
                     ],
                     'sorts' => [
-                        'name' => 'asc',
-                        'id' => 'desc',
+                        'name',
+                        '-id',
                     ],
                     'offset' => 100,
                     'limit' => 50,

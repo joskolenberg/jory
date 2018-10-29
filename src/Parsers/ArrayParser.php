@@ -8,6 +8,7 @@ use JosKolenberg\Jory\Support\Filter;
 use JosKolenberg\Jory\Support\Relation;
 use JosKolenberg\Jory\Support\GroupOrFilter;
 use JosKolenberg\Jory\Support\GroupAndFilter;
+use JosKolenberg\Jory\Exceptions\JoryException;
 use JosKolenberg\Jory\Contracts\FilterInterface;
 use JosKolenberg\Jory\Contracts\JoryParserInterface;
 
@@ -144,8 +145,18 @@ class ArrayParser implements JoryParserInterface
         $sorts = $this->getArrayValue($this->joryArray, ['srt', 'sorts']);
 
         if ($sorts) {
-            foreach ($sorts as $field => $order) {
-                $jory->addSort(new Sort($field, $order));
+            foreach ($sorts as $sort) {
+                $order = 'asc';
+                if(substr($sort, 0, 1) === '-'){
+                    $order = 'desc';
+                    $sort = substr($sort, 1);
+                }
+                try {
+                    $jory->addSort(new Sort($sort, $order));
+                } catch (JoryException $e) {
+                    // This exception cannot be thrown here because we checked the data.
+                    // Use empty try/catch to prevent IDE suggesting we should use a @throws tag.
+                }
             }
         }
     }

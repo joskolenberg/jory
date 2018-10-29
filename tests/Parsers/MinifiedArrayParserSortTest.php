@@ -23,7 +23,7 @@ class MinifiedArrayParserSortTest extends TestCase
     {
         $parser = new ArrayParser([
             'srt' => [
-                'name' => 'asc',
+                'name',
             ],
         ]);
         $jory = $parser->getJory();
@@ -36,7 +36,7 @@ class MinifiedArrayParserSortTest extends TestCase
     {
         $parser = new ArrayParser([
             'srt' => [
-                'name' => 'desc',
+                '-name',
             ],
         ]);
         $jory = $parser->getJory();
@@ -48,11 +48,13 @@ class MinifiedArrayParserSortTest extends TestCase
     public function it_throws_an_exception_when_an_invalid_sort_is_passed()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A sorts order should be string asc or desc. (Location: sorts.name)');
+        $this->expectExceptionMessage('A sort item must be a string. (Location: sorts)');
 
         (new ArrayParser([
             'srt' => [
-                'name' => 'wrong',
+                [
+                    'name' => 'wrong',
+                ],
             ],
         ]))->getJory();
     }

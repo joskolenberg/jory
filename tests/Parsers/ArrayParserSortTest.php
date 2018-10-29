@@ -23,7 +23,7 @@ class ArrayParserSortTest extends TestCase
     {
         $parser = new ArrayParser([
             'sorts' => [
-                'name' => 'asc',
+                'name',
             ],
         ]);
         $jory = $parser->getJory();
@@ -36,25 +36,12 @@ class ArrayParserSortTest extends TestCase
     {
         $parser = new ArrayParser([
             'sorts' => [
-                'name' => 'desc',
+                '-name',
             ],
         ]);
         $jory = $parser->getJory();
         $this->assertEquals('name', $jory->getSorts()[0]->getField());
         $this->assertEquals('desc', $jory->getSorts()[0]->getOrder());
-    }
-
-    /** @test */
-    public function it_throws_an_exception_when_an_invalid_sort_is_passed()
-    {
-        $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A sorts order should be string asc or desc. (Location: sorts.name)');
-
-        (new ArrayParser([
-            'sorts' => [
-                'name' => 'wrong',
-            ],
-        ]))->getJory();
     }
 
     /** @test */

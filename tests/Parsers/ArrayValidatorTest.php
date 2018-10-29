@@ -547,22 +547,10 @@ class ArrayValidatorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_validate_if_a_sort_has_a_invalid_order_1()
+    public function it_can_validate_if_a_sort_has_a_invalid_order()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A sorts order should be string asc or desc. (Location: sorts.user)');
-        (new ArrayValidator([
-            'sorts' => [
-                'user' => 'wrong',
-            ],
-        ]))->validate();
-    }
-
-    /** @test */
-    public function it_can_validate_if_a_sort_has_a_invalid_order_2()
-    {
-        $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A sorts order should be string asc or desc. (Location: sorts.user)');
+        $this->expectExceptionMessage('A sort item must be a string. (Location: sorts)');
         (new ArrayValidator([
             'sorts' => [
                 'user' => [
@@ -573,22 +561,10 @@ class ArrayValidatorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_validate_if_a_sort_has_a_invalid_field_1()
+    public function it_can_validate_if_a_sort_has_a_invalid_field()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The key for a sort item must be a string. (Location: sorts)');
-        (new ArrayValidator([
-            'sorts' => [
-                'test',
-            ],
-        ]))->validate();
-    }
-
-    /** @test */
-    public function it_can_validate_if_a_sort_has_a_invalid_field_2()
-    {
-        $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The key for a sort item must be a string. (Location: sorts)');
+        $this->expectExceptionMessage('A sort item must be a string. (Location: sorts)');
         (new ArrayValidator([
             'sorts' => [
                 [
@@ -602,13 +578,15 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_a_sort_in_a_relation()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A sorts order should be string asc or desc. (Location: user.sorts.name)');
+        $this->expectExceptionMessage('A sort item must be a string. (Location: user.sorts)');
 
         (new ArrayValidator([
             'rlt' => [
                 'user' => [
                     'srt' => [
-                        'name' => 'wrong',
+                        [
+                            'name' => 'wrong',
+                        ],
                     ],
                 ],
             ],
@@ -694,8 +672,7 @@ class ArrayValidatorTest extends TestCase
     /** @test */
     public function it_can_validate_an_omitted_fields_array()
     {
-        (new ArrayValidator([
-        ]))->validate();
+        (new ArrayValidator([]))->validate();
         $this->assertTrue(true);
     }
 

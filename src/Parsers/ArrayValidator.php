@@ -241,12 +241,9 @@ class ArrayValidator
             throw new JoryException('The sorts parameter should be an array. (Location: '.$this->address.'sorts)');
         }
 
-        foreach ($sorts as $field => $order) {
-            if (! is_string($field)) {
-                throw new JoryException('The key for a sort item must be a string. (Location: '.$this->address.'sorts)');
-            }
-            if (! is_string($order) || ! in_array($order, ['asc', 'desc'])) {
-                throw new JoryException('A sorts order should be string asc or desc. (Location: '.$this->address.'sorts.'.$field.')');
+        foreach ($sorts as $sort) {
+            if (! is_string($sort)) {
+                throw new JoryException('A sort item must be a string. (Location: '.$this->address.'sorts)');
             }
         }
     }

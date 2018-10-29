@@ -139,7 +139,7 @@ class ToArrayConverter
     {
         $sortsArray = [];
         foreach ($sorts as $sort) {
-            $sortsArray[$sort->getField()] = $sort->getOrder();
+            $sortsArray[] = ($sort->getOrder() === 'desc' ? '-' : '') . $sort->getField();
         }
 
         return $sortsArray;
