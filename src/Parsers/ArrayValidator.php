@@ -30,7 +30,7 @@ class ArrayValidator
     public function __construct(array $joryArray, string $address = '')
     {
         $this->joryArray = $joryArray;
-        $this->address = $address == '' ? '' : $address.'.'; // postfix with dot
+        $this->address = $address === '' ? '' : $address.'.'; // postfix with dot
     }
 
     /**
@@ -259,7 +259,7 @@ class ArrayValidator
         $offset = $this->getArrayValue($this->joryArray, ['ofs', 'offset']);
 
         // No offset set, that's ok. return.
-        if ($offset == null) {
+        if ($offset === null) {
             return;
         }
 
@@ -279,7 +279,7 @@ class ArrayValidator
         $limit = $this->getArrayValue($this->joryArray, ['lmt', 'limit']);
 
         // No limit set, that's ok. return.
-        if ($limit == null) {
+        if ($limit === null) {
             return;
         }
 
@@ -299,7 +299,7 @@ class ArrayValidator
         $fields = $this->getArrayValue($this->joryArray, ['fld', 'fields']);
 
         // No fields set, that's ok. return.
-        if ($fields == null) {
+        if ($fields === null) {
             return;
         }
 
