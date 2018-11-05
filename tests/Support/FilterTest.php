@@ -56,24 +56,24 @@ class FilterTest extends TestCase
     }
 
     /** @test */
-    public function it_can_give_the_value_by_getter_function()
+    public function it_can_give_the_data_by_getter_function()
     {
         $filter = new Filter('name', 'like', 'John');
-        $this->assertEquals('John', $filter->getValue());
+        $this->assertEquals('John', $filter->getData());
     }
 
     /** @test */
-    public function it_can_give_the_value_as_an_attribute()
+    public function it_can_give_the_data_as_an_attribute()
     {
         $filter = new Filter('name', 'like', 'John');
-        $this->assertEquals('John', $filter->value);
+        $this->assertEquals('John', $filter->data);
     }
 
     /** @test */
-    public function it_can_give_the_value_as_a_minified_attribute()
+    public function it_can_give_the_data_as_a_minified_attribute()
     {
         $filter = new Filter('name', 'like', 'John');
-        $this->assertEquals('John', $filter->v);
+        $this->assertEquals('John', $filter->d);
     }
 
     /** @test */
@@ -87,19 +87,19 @@ class FilterTest extends TestCase
     }
 
     /** @test */
-    public function an_empty_value_defaults_to_null()
+    public function empty_data_defaults_to_null()
     {
         $filter = new Filter('name');
-        $this->assertNull($filter->getValue());
+        $this->assertNull($filter->getData());
 
         $filter = new Filter('name');
-        $this->assertNull($filter->value);
+        $this->assertNull($filter->data);
     }
 
     /** @test */
-    public function the_value_attribute_can_contain_mixed_data_including_arrays()
+    public function the_data_attribute_can_contain_mixed_data_including_arrays()
     {
         $filter = new Filter('name', '=', ['testing', [1, 2, 3]]);
-        $this->assertEquals(['testing', [1, 2, 3]], $filter->getValue());
+        $this->assertEquals(['testing', [1, 2, 3]], $filter->getData());
     }
 }

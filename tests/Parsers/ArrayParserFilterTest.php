@@ -41,7 +41,7 @@ class ArrayParserFilterTest extends TestCase
         $this->assertInstanceOf(Filter::class, $jory->getFilter());
         $this->assertEquals('name', $jory->getFilter()->getField());
         $this->assertNull($jory->getFilter()->getOperator());
-        $this->assertNull($jory->getFilter()->getValue());
+        $this->assertNull($jory->getFilter()->getData());
     }
 
     /** @test */
@@ -57,40 +57,40 @@ class ArrayParserFilterTest extends TestCase
         $this->assertInstanceOf(Filter::class, $jory->getFilter());
         $this->assertEquals('name', $jory->getFilter()->getField());
         $this->assertEquals('=', $jory->getFilter()->getOperator());
-        $this->assertNull($jory->getFilter()->getValue());
+        $this->assertNull($jory->getFilter()->getData());
     }
 
     /** @test */
-    public function it_can_parse_a_single_filter_with_a_name_operator_and_value()
+    public function it_can_parse_a_single_filter_with_a_name_operator_and_data()
     {
         $parser = new ArrayParser([
             'filter' => [
                 'field'    => 'name',
                 'operator' => '=',
-                'value'    => 'John',
+                'data'    => 'John',
             ],
         ]);
         $jory = $parser->getJory();
         $this->assertInstanceOf(Filter::class, $jory->getFilter());
         $this->assertEquals('name', $jory->getFilter()->getField());
         $this->assertEquals('=', $jory->getFilter()->getOperator());
-        $this->assertEquals('John', $jory->getFilter()->getValue());
+        $this->assertEquals('John', $jory->getFilter()->getData());
     }
 
     /** @test */
-    public function it_can_parse_a_single_filter_with_only_a_name_and_value()
+    public function it_can_parse_a_single_filter_with_only_a_name_and_data()
     {
         $parser = new ArrayParser([
             'filter' => [
                 'field' => 'name',
-                'value' => 'John',
+                'data' => 'John',
             ],
         ]);
         $jory = $parser->getJory();
         $this->assertInstanceOf(Filter::class, $jory->getFilter());
         $this->assertEquals('name', $jory->getFilter()->getField());
         $this->assertNull($jory->getFilter()->getOperator());
-        $this->assertEquals('John', $jory->getFilter()->getValue());
+        $this->assertEquals('John', $jory->getFilter()->getData());
     }
 
     /** @test */
@@ -101,11 +101,11 @@ class ArrayParserFilterTest extends TestCase
                 'group_and' => [
                     [
                         'field' => 'first_name',
-                        'value' => 'John',
+                        'data' => 'John',
                     ],
                     [
                         'field' => 'last_name',
-                        'value' => 'Lennon',
+                        'data' => 'Lennon',
                     ],
                 ],
             ],
@@ -114,9 +114,9 @@ class ArrayParserFilterTest extends TestCase
         $filter = $jory->getFilter();
         $this->assertInstanceOf(GroupAndFilter::class, $filter);
         $this->assertEquals('first_name', $filter->getByIndex(0)->field);
-        $this->assertEquals('John', $filter->getByIndex(0)->value);
+        $this->assertEquals('John', $filter->getByIndex(0)->data);
         $this->assertEquals('last_name', $filter->getByIndex(1)->field);
-        $this->assertEquals('Lennon', $filter->getByIndex(1)->value);
+        $this->assertEquals('Lennon', $filter->getByIndex(1)->data);
     }
 
     /** @test */
@@ -127,11 +127,11 @@ class ArrayParserFilterTest extends TestCase
                 'group_or' => [
                     [
                         'field' => 'first_name',
-                        'value' => 'John',
+                        'data' => 'John',
                     ],
                     [
                         'field' => 'last_name',
-                        'value' => 'Lennon',
+                        'data' => 'Lennon',
                     ],
                 ],
             ],
@@ -140,9 +140,9 @@ class ArrayParserFilterTest extends TestCase
         $filter = $jory->getFilter();
         $this->assertInstanceOf(GroupOrFilter::class, $filter);
         $this->assertEquals('first_name', $filter->getByIndex(0)->field);
-        $this->assertEquals('John', $filter->getByIndex(0)->value);
+        $this->assertEquals('John', $filter->getByIndex(0)->data);
         $this->assertEquals('last_name', $filter->getByIndex(1)->field);
-        $this->assertEquals('Lennon', $filter->getByIndex(1)->value);
+        $this->assertEquals('Lennon', $filter->getByIndex(1)->data);
     }
 
     /** @test */
@@ -153,29 +153,29 @@ class ArrayParserFilterTest extends TestCase
                 'group_and' => [
                     [
                         'field' => 'first_name',
-                        'value' => 'Eric',
+                        'data' => 'Eric',
                     ],
                     [
                         'field' => 'last_name',
-                        'value' => 'Clapton',
+                        'data' => 'Clapton',
                     ],
                     [
                         'group_or' => [
                             [
                                 'field'    => 'band',
                                 'operator' => 'in',
-                                'value'    => ['beatles', 'stones'],
+                                'data'    => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
                                         'field'    => 'project',
                                         'operator' => 'like',
-                                        'value'    => 'Cream',
+                                        'data'    => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
-                                        'value' => 'Ginger Baker',
+                                        'data' => 'Ginger Baker',
                                     ],
                                 ],
                             ],
@@ -192,26 +192,26 @@ class ArrayParserFilterTest extends TestCase
         $this->assertEquals(3, count($filter));
         $this->assertInstanceOf(Filter::class, $filter->getByIndex(0));
         $this->assertEquals('first_name', $filter->getByIndex(0)->field);
-        $this->assertEquals('Eric', $filter->getByIndex(0)->value);
+        $this->assertEquals('Eric', $filter->getByIndex(0)->data);
         $this->assertInstanceOf(Filter::class, $filter->getByIndex(1));
         $this->assertEquals('last_name', $filter->getByIndex(1)->field);
-        $this->assertEquals('Clapton', $filter->getByIndex(1)->value);
+        $this->assertEquals('Clapton', $filter->getByIndex(1)->data);
         $this->assertInstanceOf(GroupOrFilter::class, $filter->getByIndex(2));
         $this->assertEquals(2, count($filter->getByIndex(2)));
         $this->assertInstanceOf(Filter::class, $filter->getByIndex(2)->getByIndex(0));
         $this->assertEquals('band', $filter->getByIndex(2)->getByIndex(0)->field);
         $this->assertEquals('in', $filter->getByIndex(2)->getByIndex(0)->operator);
-        $this->assertEquals(['beatles', 'stones'], $filter->getByIndex(2)->getByIndex(0)->value);
+        $this->assertEquals(['beatles', 'stones'], $filter->getByIndex(2)->getByIndex(0)->data);
         $this->assertInstanceOf(GroupAndFilter::class, $filter->getByIndex(2)->getByIndex(1));
         $this->assertEquals(2, count($filter->getByIndex(2)->getByIndex(1)));
         $this->assertInstanceOf(Filter::class, $filter->getByIndex(2)->getByIndex(1)->getByIndex(0));
         $this->assertEquals('project', $filter->getByIndex(2)->getByIndex(1)->getByIndex(0)->field);
         $this->assertEquals('like', $filter->getByIndex(2)->getByIndex(1)->getByIndex(0)->operator);
-        $this->assertEquals('Cream', $filter->getByIndex(2)->getByIndex(1)->getByIndex(0)->value);
+        $this->assertEquals('Cream', $filter->getByIndex(2)->getByIndex(1)->getByIndex(0)->data);
         $this->assertInstanceOf(Filter::class, $filter->getByIndex(2)->getByIndex(1)->getByIndex(1));
         $this->assertEquals('drummer', $filter->getByIndex(2)->getByIndex(1)->getByIndex(1)->field);
         $this->assertNull($filter->getByIndex(2)->getByIndex(1)->getByIndex(1)->operator);
-        $this->assertEquals('Ginger Baker', $filter->getByIndex(2)->getByIndex(1)->getByIndex(1)->value);
+        $this->assertEquals('Ginger Baker', $filter->getByIndex(2)->getByIndex(1)->getByIndex(1)->data);
     }
 
     /** @test */
@@ -222,12 +222,12 @@ class ArrayParserFilterTest extends TestCase
                 'group_or' => [
                     [
                         'field'     => 'first_name',
-                        'value'     => 'John',
+                        'data'     => 'John',
                         'not_valid' => 'Testing',
                     ],
                     [
                         'field' => 'last_name',
-                        'value' => 'Lennon',
+                        'data' => 'Lennon',
                     ],
                 ],
                 'also_not_valid' => 'not parsed',
@@ -239,11 +239,11 @@ class ArrayParserFilterTest extends TestCase
                 'group_or' => [
                     [
                         'field' => 'first_name',
-                        'value' => 'John',
+                        'data' => 'John',
                     ],
                     [
                         'field' => 'last_name',
-                        'value' => 'Lennon',
+                        'data' => 'Lennon',
                     ],
                 ],
             ],
@@ -260,12 +260,12 @@ class ArrayParserFilterTest extends TestCase
                 'group_ord' => [
                     [
                         'field'     => 'first_name',
-                        'value'     => 'John',
+                        'data'     => 'John',
                         'not_valid' => 'Testing',
                     ],
                     [
                         'field' => 'last_name',
-                        'value' => 'Lennon',
+                        'data' => 'Lennon',
                     ],
                 ],
                 'also_not_valid' => 'not parsed',

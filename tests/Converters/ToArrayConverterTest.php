@@ -23,29 +23,29 @@ class ToArrayConverterTest extends TestCase
                 'group_and' => [
                     [
                         'field' => 'first_name',
-                        'value' => 'Eric',
+                        'data' => 'Eric',
                     ],
                     [
                         'field' => 'last_name',
-                        'value' => 'Clapton',
+                        'data' => 'Clapton',
                     ],
                     [
                         'group_or' => [
                             [
                                 'field' => 'band',
                                 'operator' => 'in',
-                                'value' => ['beatles', 'stones'],
+                                'data' => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
                                         'field' => 'project',
                                         'operator' => 'like',
-                                        'value' => 'Cream',
+                                        'data' => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
-                                        'value' => 'Ginger Baker',
+                                        'data' => 'Ginger Baker',
                                     ],
                                 ],
                             ],
@@ -61,7 +61,7 @@ class ToArrayConverterTest extends TestCase
                     'filter' => [
                         'field' => 'active',
                         'operator' => '=',
-                        'value' => true,
+                        'data' => true,
                     ],
                     'fields' => [
                         'first_name',
@@ -88,29 +88,29 @@ class ToArrayConverterTest extends TestCase
                 'and' => [
                     [
                         'f' => 'first_name',
-                        'v' => 'Eric',
+                        'd' => 'Eric',
                     ],
                     [
                         'f' => 'last_name',
-                        'v' => 'Clapton',
+                        'd' => 'Clapton',
                     ],
                     [
                         'or' => [
                             [
                                 'f' => 'band',
                                 'o' => 'in',
-                                'v' => ['beatles', 'stones'],
+                                'd' => ['beatles', 'stones'],
                             ],
                             [
                                 'and' => [
                                     [
                                         'f' => 'project',
                                         'o' => 'like',
-                                        'v' => 'Cream',
+                                        'd' => 'Cream',
                                     ],
                                     [
                                         'f' => 'drummer',
-                                        'v' => 'Ginger Baker',
+                                        'd' => 'Ginger Baker',
                                     ],
                                 ],
                             ],
@@ -126,7 +126,7 @@ class ToArrayConverterTest extends TestCase
                     'flt' => [
                         'f' => 'active',
                         'o' => '=',
-                        'v' => true,
+                        'd' => true,
                     ],
                     'srt' => [
                         'name',
@@ -153,29 +153,29 @@ class ToArrayConverterTest extends TestCase
                 'group_and' => [
                     [
                         'field' => 'first_name',
-                        'value' => 'Eric',
+                        'data' => 'Eric',
                     ],
                     [
                         'field' => 'last_name',
-                        'value' => 'Clapton',
+                        'data' => 'Clapton',
                     ],
                     [
                         'group_or' => [
                             [
                                 'field' => 'band',
                                 'operator' => 'in',
-                                'value' => ['beatles', 'stones'],
+                                'data' => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
                                         'field' => 'project',
                                         'operator' => 'like',
-                                        'value' => 'Cream',
+                                        'data' => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
-                                        'value' => 'Ginger Baker',
+                                        'data' => 'Ginger Baker',
                                     ],
                                 ],
                             ],
@@ -195,7 +195,7 @@ class ToArrayConverterTest extends TestCase
                     'filter' => [
                         'field' => 'active',
                         'operator' => '=',
-                        'value' => true,
+                        'data' => true,
                     ],
                     'sorts' => [
                         'name',
@@ -218,29 +218,29 @@ class ToArrayConverterTest extends TestCase
                 'group_and' => [
                     [
                         'field' => 'first_name',
-                        'value' => 'Eric',
+                        'data' => 'Eric',
                     ],
                     [
                         'field' => 'last_name',
-                        'value' => 'Clapton',
+                        'data' => 'Clapton',
                     ],
                     [
                         'group_or' => [
                             [
                                 'field' => 'band',
                                 'operator' => 'in',
-                                'value' => ['beatles', 'stones'],
+                                'data' => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
                                         'field' => 'project',
                                         'operator' => 'like',
-                                        'value' => 'Cream',
+                                        'data' => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
-                                        'value' => 'Ginger Baker',
+                                        'data' => 'Ginger Baker',
                                     ],
                                 ],
                             ],
@@ -256,7 +256,7 @@ class ToArrayConverterTest extends TestCase
                     'filter' => [
                         'field' => 'active',
                         'operator' => '=',
-                        'value' => true,
+                        'data' => true,
                     ],
                     'sorts' => [
                         'name',

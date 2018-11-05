@@ -27,7 +27,7 @@ class JoryTest extends TestCase
         $this->assertInstanceOf(FilterInterface::class, $filter);
         $this->assertEquals('name', $filter->getField());
         $this->assertEquals('=', $filter->getoperator());
-        $this->assertEquals('John', $filter->getValue());
+        $this->assertEquals('John', $filter->getData());
     }
 
     /**
@@ -70,7 +70,7 @@ class JoryTest extends TestCase
     {
         $jory = new Jory();
         $jory->setFilter(new Filter('name', '=', 'John'));
-        $this->assertEquals(['flt' => ['f' => 'name', 'o' => '=', 'v' => 'John']], $jory->toArray());
+        $this->assertEquals(['flt' => ['f' => 'name', 'o' => '=', 'd' => 'John']], $jory->toArray());
     }
 
     /** @test */
@@ -82,7 +82,7 @@ class JoryTest extends TestCase
             'filter' => [
                 'field' => 'name',
                 'operator' => '=',
-                'value' => 'John',
+                'data' => 'John',
             ],
         ], $jory->toArray(false));
     }
@@ -92,7 +92,7 @@ class JoryTest extends TestCase
     {
         $jory = new Jory();
         $jory->setFilter(new Filter('name', '=', 'John'));
-        $this->assertEquals('{"flt":{"f":"name","o":"=","v":"John"}}', $jory->toJson());
+        $this->assertEquals('{"flt":{"f":"name","o":"=","d":"John"}}', $jory->toJson());
     }
 
     /** @test */
@@ -100,7 +100,7 @@ class JoryTest extends TestCase
     {
         $jory = new Jory();
         $jory->setFilter(new Filter('name', '=', 'John'));
-        $this->assertEquals('{"filter":{"field":"name","operator":"=","value":"John"}}', $jory->toJson(false));
+        $this->assertEquals('{"filter":{"field":"name","operator":"=","data":"John"}}', $jory->toJson(false));
     }
 
     /** @test */
@@ -309,29 +309,29 @@ class JoryTest extends TestCase
                 'group_and' => [
                     [
                         'field' => 'first_name',
-                        'value' => 'Eric',
+                        'data' => 'Eric',
                     ],
                     [
                         'field' => 'last_name',
-                        'value' => 'Clapton',
+                        'data' => 'Clapton',
                     ],
                     [
                         'group_or' => [
                             [
                                 'field' => 'band',
                                 'operator' => 'in',
-                                'value' => ['beatles', 'stones'],
+                                'data' => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
                                         'field' => 'project',
                                         'operator' => 'like',
-                                        'value' => 'Cream',
+                                        'data' => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
-                                        'value' => 'Ginger Baker',
+                                        'data' => 'Ginger Baker',
                                     ],
                                 ],
                             ],
@@ -354,29 +354,29 @@ class JoryTest extends TestCase
                 'group_and' => [
                     [
                         'field' => 'first_name',
-                        'value' => 'Eric',
+                        'data' => 'Eric',
                     ],
                     [
                         'field' => 'last_name',
-                        'value' => 'Clapton',
+                        'data' => 'Clapton',
                     ],
                     [
                         'group_or' => [
                             [
                                 'field' => 'band',
                                 'operator' => 'in',
-                                'value' => ['beatles', 'stones'],
+                                'data' => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
                                         'field' => 'project',
                                         'operator' => 'like',
-                                        'value' => 'Cream',
+                                        'data' => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
-                                        'value' => 'Ginger Baker',
+                                        'data' => 'Ginger Baker',
                                     ],
                                 ],
                             ],
@@ -407,7 +407,7 @@ class JoryTest extends TestCase
         $parser = new ArrayParser([
             'filter' => [
                 'field' => 'first_name',
-                'value' => 'Eric',
+                'data' => 'Eric',
             ],
         ]);
 
@@ -425,11 +425,11 @@ class JoryTest extends TestCase
                 'group_and' => [
                     [
                         'field' => 'first_name',
-                        'value' => 'Eric',
+                        'data' => 'Eric',
                     ],
                     [
                         'field' => 'last_name',
-                        'value' => 'Clapton',
+                        'data' => 'Clapton',
                     ],
                 ],
             ],

@@ -14,23 +14,23 @@ class Filter implements FilterInterface
     /**
      * @var string
      */
-    private $field;
+    protected $field;
 
     /**
      * @var string
      */
-    private $operator;
+    protected $operator;
 
     /**
      * @var string
      */
-    private $value;
+    protected $data;
 
-    public function __construct(string $field, string $operator = null, $value = null)
+    public function __construct(string $field, string $operator = null, $data = null)
     {
         $this->field = $field;
         $this->operator = $operator;
-        $this->value = $value;
+        $this->data = $data;
     }
 
     /**
@@ -52,9 +52,9 @@ class Filter implements FilterInterface
     /**
      * @return mixed|null
      */
-    public function getValue()
+    public function getData()
     {
-        return $this->value;
+        return $this->data;
     }
 
     /**
@@ -73,9 +73,9 @@ class Filter implements FilterInterface
             case 'o':
             case 'operator':
                 return $this->getOperator();
-            case 'v':
-            case 'value':
-                return $this->getValue();
+            case 'd':
+            case 'data':
+                return $this->getData();
         }
     }
 

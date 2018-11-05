@@ -23,29 +23,29 @@ class ToJsonConverterTest extends TestCase
                 'group_and' => [
                     [
                         'field' => 'first_name',
-                        'value' => 'Eric',
+                        'data' => 'Eric',
                     ],
                     [
                         'field' => 'last_name',
-                        'value' => 'Clapton',
+                        'data' => 'Clapton',
                     ],
                     [
                         'group_or' => [
                             [
                                 'field' => 'band',
                                 'operator' => 'in',
-                                'value' => ['beatles', 'stones'],
+                                'data' => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
                                         'field' => 'project',
                                         'operator' => 'like',
-                                        'value' => 'Cream',
+                                        'data' => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
-                                        'value' => 'Ginger Baker',
+                                        'data' => 'Ginger Baker',
                                     ],
                                 ],
                             ],
@@ -67,7 +67,7 @@ class ToJsonConverterTest extends TestCase
                     'filter' => [
                         'field' => 'active',
                         'operator' => '=',
-                        'value' => true,
+                        'data' => true,
                     ],
                     'sorts' => [
                         'name',
@@ -81,7 +81,7 @@ class ToJsonConverterTest extends TestCase
 
         $converter = new ToJsonConverter($jory);
 
-        $this->assertEquals('{"flt":{"and":[{"f":"first_name","v":"Eric"},{"f":"last_name","v":"Clapton"},{"or":[{"f":"band","o":"in","v":["beatles","stones"]},{"and":[{"f":"project","o":"like","v":"Cream"},{"f":"drummer","v":"Ginger Baker"}]}]}]},"srt":["-year"],"rlt":{"users":{"flt":{"f":"active","o":"=","v":true},"srt":["name","-id"],"ofs":100,"lmt":50,"fld":["first_name","last_name"]}}}', $converter->get());
+        $this->assertEquals('{"flt":{"and":[{"f":"first_name","d":"Eric"},{"f":"last_name","d":"Clapton"},{"or":[{"f":"band","o":"in","d":["beatles","stones"]},{"and":[{"f":"project","o":"like","d":"Cream"},{"f":"drummer","d":"Ginger Baker"}]}]}]},"srt":["-year"],"rlt":{"users":{"flt":{"f":"active","o":"=","d":true},"srt":["name","-id"],"ofs":100,"lmt":50,"fld":["first_name","last_name"]}}}', $converter->get());
     }
 
     /** @test */
@@ -92,29 +92,29 @@ class ToJsonConverterTest extends TestCase
                 'group_and' => [
                     [
                         'field' => 'first_name',
-                        'value' => 'Eric',
+                        'data' => 'Eric',
                     ],
                     [
                         'field' => 'last_name',
-                        'value' => 'Clapton',
+                        'data' => 'Clapton',
                     ],
                     [
                         'group_or' => [
                             [
                                 'field' => 'band',
                                 'operator' => 'in',
-                                'value' => ['beatles', 'stones'],
+                                'data' => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
                                         'field' => 'project',
                                         'operator' => 'like',
-                                        'value' => 'Cream',
+                                        'data' => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
-                                        'value' => 'Ginger Baker',
+                                        'data' => 'Ginger Baker',
                                     ],
                                 ],
                             ],
@@ -130,7 +130,7 @@ class ToJsonConverterTest extends TestCase
                     'filter' => [
                         'field' => 'active',
                         'operator' => '=',
-                        'value' => true,
+                        'data' => true,
                     ],
                     'offset' => 100,
                     'limit' => 50,
@@ -150,7 +150,7 @@ class ToJsonConverterTest extends TestCase
 
         $converter = new ToJsonConverter($jory, false);
 
-        $this->assertEquals('{"filter":{"group_and":[{"field":"first_name","value":"Eric"},{"field":"last_name","value":"Clapton"},{"group_or":[{"field":"band","operator":"in","value":["beatles","stones"]},{"group_and":[{"field":"project","operator":"like","value":"Cream"},{"field":"drummer","value":"Ginger Baker"}]}]}]},"sorts":["-year"],"relations":{"users":{"filter":{"field":"active","operator":"=","value":true},"sorts":["name","-id"],"offset":100,"limit":50,"fields":["first_name","last_name"]}}}', $converter->get());
+        $this->assertEquals('{"filter":{"group_and":[{"field":"first_name","data":"Eric"},{"field":"last_name","data":"Clapton"},{"group_or":[{"field":"band","operator":"in","data":["beatles","stones"]},{"group_and":[{"field":"project","operator":"like","data":"Cream"},{"field":"drummer","data":"Ginger Baker"}]}]}]},"sorts":["-year"],"relations":{"users":{"filter":{"field":"active","operator":"=","data":true},"sorts":["name","-id"],"offset":100,"limit":50,"fields":["first_name","last_name"]}}}', $converter->get());
     }
 
     /** @test */

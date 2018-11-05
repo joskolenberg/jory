@@ -79,8 +79,8 @@ class ArrayParser implements JoryParserInterface
     {
         if (($field = $this->getArrayValue($data, ['f', 'field'])) !== null) {
             return new Filter($field, $this->getArrayValue($data, ['o', 'operator']), $this->getArrayValue($data, [
-                'v',
-                'value',
+                'd',
+                'data',
             ]));
         }
         if (($groupAndData = $this->getArrayValue($data, ['and', 'group_and'])) !== null) {

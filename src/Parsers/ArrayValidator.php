@@ -138,8 +138,8 @@ class ArrayValidator
             if (array_key_exists('o', $filter) && array_key_exists('operator', $filter)) {
                 throw new JoryException('A filter cannot contain both an "o" and "operator" parameter, remove one. (Location: '.$address.')');
             }
-            if (array_key_exists('v', $filter) && array_key_exists('value', $filter)) {
-                throw new JoryException('A filter cannot contain both an "v" and "value" parameter, remove one. (Location: '.$address.')');
+            if (array_key_exists('d', $filter) && array_key_exists('data', $filter)) {
+                throw new JoryException('A filter cannot contain both an "d" and "data" parameter, remove one. (Location: '.$address.')');
             }
             // A string value in "field" (or "f") is required
             if (! is_string($filter[$foundKey])) {
@@ -152,7 +152,7 @@ class ArrayValidator
                 ]))) {
                 throw new JoryException('The "operator" (or "o") parameter should have a string value or be omitted. (Location: '.$address.')');
             }
-            // A mixed value in "value" is optional
+            // A mixed value in "data" is optional
             // No checks needed here
 
             // If extra fields are present; they will be omitted by the parser

@@ -33,11 +33,11 @@ class ArrayValidatorTest extends TestCase
                 'and' => [
                     [
                         'f' => 'first_name',
-                        'v' => 'John',
+                        'd' => 'John',
                     ],
                     [
                         'f' => 'last_name',
-                        'v' => 'Lennon',
+                        'd' => 'Lennon',
                         'or' => [],
                     ],
                 ],
@@ -51,17 +51,17 @@ class ArrayValidatorTest extends TestCase
                 'and' => [
                     [
                         'f' => 'first_name',
-                        'v' => 'John',
+                        'd' => 'John',
                     ],
                     [
                         'f' => 'last_name',
-                        'v' => 'Lennon',
+                        'd' => 'Lennon',
                     ],
                     [
                         'or' => [
                             [
                                 'f' => 'band',
-                                'v' => 'Beatles',
+                                'd' => 'Beatles',
                                 'and' => [],
                             ],
                         ],
@@ -95,17 +95,17 @@ class ArrayValidatorTest extends TestCase
                 'and' => [
                     [
                         'f' => 'first_name',
-                        'v' => 'John',
+                        'd' => 'John',
                     ],
                     [
                         'f' => 'last_name',
-                        'v' => 'Lennon',
+                        'd' => 'Lennon',
                     ],
                     [
                         'or' => [
                             [
                                 'f' => 'band',
-                                'v' => 'Beatles',
+                                'd' => 'Beatles',
                             ],
                             [
                                 'and' => [
@@ -139,33 +139,33 @@ class ArrayValidatorTest extends TestCase
     }
 
     /** @test */
-    public function it_will_throw_an_exception_when_a_v_and_value_parameter_are_provided()
+    public function it_will_throw_an_exception_when_a_d_and_data_parameter_are_provided()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A filter cannot contain both an "v" and "value" parameter, remove one. (Location: filter(and).2(or).1(and).0)');
+        $this->expectExceptionMessage('A filter cannot contain both an "d" and "data" parameter, remove one. (Location: filter(and).2(or).1(and).0)');
         (new ArrayValidator([
             'filter' => [
                 'and' => [
                     [
                         'f' => 'first_name',
-                        'v' => 'John',
+                        'd' => 'John',
                     ],
                     [
                         'f' => 'last_name',
-                        'v' => 'Lennon',
+                        'd' => 'Lennon',
                     ],
                     [
                         'or' => [
                             [
                                 'f' => 'band',
-                                'v' => 'Beatles',
+                                'd' => 'Beatles',
                             ],
                             [
                                 'and' => [
                                     [
                                         'field' => 'sub',
-                                        'v' => 'testing',
-                                        'value' => 'testing',
+                                        'd' => 'testing',
+                                        'data' => 'testing',
                                     ],
                                     [
                                         'field' => 'sub1',
@@ -201,17 +201,17 @@ class ArrayValidatorTest extends TestCase
                 'and' => [
                     [
                         'f' => 'first_name',
-                        'v' => 'John',
+                        'd' => 'John',
                     ],
                     [
                         'f' => true,
-                        'v' => 'Lennon',
+                        'd' => 'Lennon',
                     ],
                     [
                         'or' => [
                             [
                                 'f' => 'band',
-                                'v' => 'Beatles',
+                                'd' => 'Beatles',
                             ],
                             [
                                 'and' => [
@@ -252,17 +252,17 @@ class ArrayValidatorTest extends TestCase
                 'and' => [
                     [
                         'f' => 'first_name',
-                        'v' => 'John',
+                        'd' => 'John',
                     ],
                     [
                         'f' => 'last_name',
-                        'v' => 'Lennon',
+                        'd' => 'Lennon',
                     ],
                     [
                         'or' => [
                             [
                                 'f' => 'band',
-                                'v' => 'Beatles',
+                                'd' => 'Beatles',
                             ],
                             [
                                 'and' => [
@@ -307,17 +307,17 @@ class ArrayValidatorTest extends TestCase
                 'and' => [
                     [
                         'f' => 'first_name',
-                        'v' => 'John',
+                        'd' => 'John',
                     ],
                     [
                         'f' => 'last_name',
-                        'v' => 'Lennon',
+                        'd' => 'Lennon',
                     ],
                     [
                         'or' => [
                             [
                                 'f' => 'band',
-                                'v' => 'Beatles',
+                                'd' => 'Beatles',
                             ],
                             [
                                 'and' => 'wrong',
@@ -342,11 +342,11 @@ class ArrayValidatorTest extends TestCase
                 'and' => [
                     [
                         'f' => 'first_name',
-                        'v' => 'John',
+                        'd' => 'John',
                     ],
                     [
                         'f' => 'last_name',
-                        'v' => 'Lennon',
+                        'd' => 'Lennon',
                     ],
                     [
                         'or' => 'wrong_again',
@@ -367,17 +367,17 @@ class ArrayValidatorTest extends TestCase
                 'and' => [
                     [
                         'f' => 'first_name',
-                        'v' => 'John',
+                        'd' => 'John',
                     ],
                     [
                         'f' => 'last_name',
-                        'v' => 'Lennon',
+                        'd' => 'Lennon',
                     ],
                     [
                         'or' => [
                             [
                                 'f' => 'band',
-                                'v' => 'Beatles',
+                                'd' => 'Beatles',
                             ],
                             [
                                 'and' => [

@@ -85,8 +85,8 @@ class ToArrayConverter
             if ($filter->getOperator() !== null) {
                 $result[$this->minified ? 'o' : 'operator'] = $filter->getOperator();
             }
-            if ($filter->getValue() !== null) {
-                $result[$this->minified ? 'v' : 'value'] = $filter->getValue();
+            if ($filter->getData() !== null) {
+                $result[$this->minified ? 'd' : 'data'] = $filter->getData();
             }
 
             return $result;
