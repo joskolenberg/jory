@@ -203,7 +203,7 @@ class Jory
      */
     public function hasField(string $field): bool
     {
-        if($this->fields === null){
+        if ($this->fields === null) {
             return false;
         }
 
@@ -219,7 +219,7 @@ class Jory
     public function hasSort(string $field): bool
     {
         foreach ($this->sorts as $sort) {
-            if($field === $sort->getField()) {
+            if ($field === $sort->getField()) {
                 return true;
             }
         }
@@ -235,7 +235,7 @@ class Jory
      */
     public function hasFilter(string $field): bool
     {
-        if($this->filter === null){
+        if ($this->filter === null) {
             return false;
         }
 

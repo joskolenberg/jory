@@ -7,7 +7,6 @@ namespace JosKolenberg\Jory\Contracts;
  */
 interface FilterInterface
 {
-
     /**
      * Tell if this filter contains a filter on the given field.
      *

@@ -40,6 +40,7 @@ class JsonParser implements JoryParserInterface
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new JoryException('Jory string is no valid json.');
         }
+
         return (new ArrayParser($array))->getJory();
     }
 }

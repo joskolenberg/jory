@@ -147,7 +147,7 @@ class ArrayParser implements JoryParserInterface
         if ($sorts) {
             foreach ($sorts as $sort) {
                 $order = 'asc';
-                if(substr($sort, 0, 1) === '-'){
+                if (substr($sort, 0, 1) === '-') {
                     $order = 'desc';
                     $sort = substr($sort, 1);
                 }

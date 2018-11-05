@@ -49,7 +49,7 @@ class ArrayParserFilterTest extends TestCase
     {
         $parser = new ArrayParser([
             'filter' => [
-                'field'    => 'name',
+                'field' => 'name',
                 'operator' => '=',
             ],
         ]);
@@ -65,9 +65,9 @@ class ArrayParserFilterTest extends TestCase
     {
         $parser = new ArrayParser([
             'filter' => [
-                'field'    => 'name',
+                'field' => 'name',
                 'operator' => '=',
-                'data'    => 'John',
+                'data' => 'John',
             ],
         ]);
         $jory = $parser->getJory();
@@ -162,16 +162,16 @@ class ArrayParserFilterTest extends TestCase
                     [
                         'group_or' => [
                             [
-                                'field'    => 'band',
+                                'field' => 'band',
                                 'operator' => 'in',
-                                'data'    => ['beatles', 'stones'],
+                                'data' => ['beatles', 'stones'],
                             ],
                             [
                                 'group_and' => [
                                     [
-                                        'field'    => 'project',
+                                        'field' => 'project',
                                         'operator' => 'like',
-                                        'data'    => 'Cream',
+                                        'data' => 'Cream',
                                     ],
                                     [
                                         'field' => 'drummer',
@@ -221,8 +221,8 @@ class ArrayParserFilterTest extends TestCase
             'filter' => [
                 'group_or' => [
                     [
-                        'field'     => 'first_name',
-                        'data'     => 'John',
+                        'field' => 'first_name',
+                        'data' => 'John',
                         'not_valid' => 'Testing',
                     ],
                     [
@@ -259,8 +259,8 @@ class ArrayParserFilterTest extends TestCase
             'filter' => [
                 'group_ord' => [
                     [
-                        'field'     => 'first_name',
-                        'data'     => 'John',
+                        'field' => 'first_name',
+                        'data' => 'John',
                         'not_valid' => 'Testing',
                     ],
                     [

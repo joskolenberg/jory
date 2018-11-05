@@ -70,10 +70,11 @@ abstract class GroupFilter implements \Iterator, \Countable, FilterInterface
     public function hasFilter(string $field): bool
     {
         foreach ($this->filters as $filter) {
-            if($filter->hasFilter($field)) {
+            if ($filter->hasFilter($field)) {
                 return true;
             }
         }
 
         return false;
-    }}
+    }
+}

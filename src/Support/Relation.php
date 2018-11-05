@@ -25,8 +25,8 @@ class Relation
     /**
      * Relation constructor.
      *
-     * @param string      $name Name of the relation.
-     * @param Jory|null   $jory     Jory object for querying the relation.
+     * @param string $name Name of the relation.
+     * @param Jory|null $jory Jory object for querying the relation.
      *
      * @throws JoryException
      */
@@ -54,7 +54,7 @@ class Relation
      *
      * @return Jory
      */
-    public function getJory():? Jory
+    public function getJory(): ? Jory
     {
         return $this->jory;
     }
