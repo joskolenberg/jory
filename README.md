@@ -1,6 +1,9 @@
 [![Build Status](https://travis-ci.org/joskolenberg/jory.svg?branch=master)](https://travis-ci.org/joskolenberg/jory.svg?branch=master)
+[![Total Downloads](https://poser.pugx.org/joskolenberg/jory/downloads)](https://packagist.org/packages/joskolenberg/jory)
+[![Latest Stable Version](https://poser.pugx.org/joskolenberg/jory/v/stable)](https://packagist.org/packages/joskolenberg/jory)
 [![StyleCI](https://github.styleci.io/repos/147561955/shield?branch=master)](https://github.styleci.io/repos/147561955)
 [![Code Coverage](https://codecov.io/gh/joskolenberg/jory/branch/master/graph/badge.svg)](https://codecov.io/gh/joskolenberg/jory/branch/master/graph/badge.svg)
+[![License](https://poser.pugx.org/joskolenberg/jory/license)](https://packagist.org/packages/joskolenberg/jory)
 
 # Jory
 Jory is a way of defining database queries using a JSON string, useful for loading dynamic data from the front-end. Jory can add high flexibility to your REST API without the need to create e.g. a whole new GraphQL implementation. It can easily be used alongside your existing code.
