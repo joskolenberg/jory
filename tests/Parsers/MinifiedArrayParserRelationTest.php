@@ -2,10 +2,9 @@
 
 namespace JosKolenberg\Jory\Tests\Parsers;
 
-use JosKolenberg\Jory\Exceptions\JoryException;
-use JosKolenberg\Jory\Parsers\JsonParser;
 use PHPUnit\Framework\TestCase;
 use JosKolenberg\Jory\Parsers\ArrayParser;
+use JosKolenberg\Jory\Exceptions\JoryException;
 
 class MinifiedArrayParserRelationTest extends TestCase
 {
