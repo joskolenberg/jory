@@ -147,4 +147,16 @@ class MinifiedJsonParserFilterTest extends TestCase
         $this->expectExceptionMessage('The "or" parameter should hold an array with filters. (Location: filter');
         (new JsonParser('{"filter":{"or":"wrong"}}'))->getJory();
     }
+
+    /** @test */
+    public function it_can_parse_nested_relations_in_dot_notation_2()
+    {
+        $parser = new JsonParser('{"rlt":{"bands.songs":{"fld":["title"]},"bands.albums":{"fld":["name"]}}}');
+        $jory1 = $parser->getJory();
+
+        $parser = new JsonParser('{"rlt":{"bands":{"rlt":{	"songs":{"fld":["title"]},"albums":{"fld":["name"]}}}}}');
+        $jory2 = $parser->getJory();
+
+        $this->assertEquals($jory1->toJson(), $jory2->toJson());
+    }
 }

@@ -122,12 +122,14 @@ class ArrayParser implements JoryParserInterface
      * Set the relations on the jory object based on the given data in constructor.
      *
      * @param Jory $jory
+     * @throws \JosKolenberg\Jory\Exceptions\JoryException
      */
     protected function setRelations(Jory $jory): void
     {
         $relations = $this->getArrayValue($this->joryArray, ['rlt', 'relations']);
 
         if ($relations) {
+            $relations = $this->convertDotNotatedRelations($relations);
             foreach ($relations as $name => $joryData) {
                 $subJory = (new self($joryData))->getJory();
                 $jory->addRelation(new Relation($name, $subJory));
@@ -197,5 +199,47 @@ class ArrayParser implements JoryParserInterface
         $fields = $this->getArrayValue($this->joryArray, ['fld', 'fields']);
 
         $jory->setFields($fields);
+    }
+
+    /**
+     * Convert relations which are written in dot-notation to subrelations in the relations array.
+     *
+     * @param $relations
+     * @return mixed
+     */
+    protected function convertDotNotatedRelations($relations)
+    {
+        $dottedRelations = [];
+        foreach ($relations as $name => $joryData) {
+            $exploded = explode('.', $name);
+
+            if (count($exploded) > 1) {
+                // There was a dot, add it to the subRelations
+                $firstRelation = $exploded[0];
+                unset($exploded[0]);
+
+                // implode all next layers, they will be handled in the next parser
+                $dottedRelations[$firstRelation][implode('.', $exploded)] = $joryData;
+
+                unset($relations[$name]);
+            }
+        }
+
+        foreach ($dottedRelations as $name => $subRelations) {
+            if (! array_key_exists($name, $relations)) {
+                // This relation doesn't already exists, create it
+                $relations[$name] = ['rlt' => []];
+            }
+
+            foreach ($subRelations as $subName => $joryData) {
+                if (array_key_exists('rlt', $relations[$name])) {
+                    $relations[$name]['rlt'][$subName] = $joryData;
+                } else {
+                    $relations[$name]['relations'][$subName] = $joryData;
+                }
+            }
+        }
+
+        return $relations;
     }
 }

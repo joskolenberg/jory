@@ -2,6 +2,8 @@
 
 namespace JosKolenberg\Jory\Tests\Parsers;
 
+use JosKolenberg\Jory\Exceptions\JoryException;
+use JosKolenberg\Jory\Parsers\JsonParser;
 use PHPUnit\Framework\TestCase;
 use JosKolenberg\Jory\Parsers\ArrayParser;
 
@@ -51,5 +53,61 @@ class MinifiedArrayParserRelationTest extends TestCase
         $this->assertCount(2, $jory->getRelations());
         $this->assertEquals('user', $jory->getRelations()[0]->getName());
         $this->assertEquals('cars', $jory->getRelations()[1]->getName());
+    }
+
+    /** @test */
+    public function it_can_parse_nested_relations_in_dot_notation()
+    {
+        $parser = new ArrayParser([
+            'rlt' => [
+                'user.comments' => [],
+                'user.roles.log' => [],
+                'user' => [
+                    'fld' => ['last_name'],
+                ],
+                'user.roles.relatedUser' => [
+                    'fld' => ['first_name'],
+                ],
+                'cars' => [],
+            ],
+        ]);
+        $jory = $parser->getJory();
+        $this->assertCount(2, $jory->getRelations());
+
+        $usersRelation = $jory->getRelations()[0];
+        $this->assertEquals('user', $usersRelation->getName());
+        $this->assertEquals(['last_name'], $usersRelation->getJory()->getFields());
+        $this->assertEquals('comments', $usersRelation->getJory()->getRelations()[0]->getName());
+        $rolesRelation = $usersRelation->getJory()->getRelations()[1];
+        $this->assertEquals('roles', $rolesRelation->getName());
+        $this->assertEquals('log', $rolesRelation->getJory()->getRelations()[0]->getName());
+        $relatedUserRelation = $rolesRelation->getJory()->getRelations()[1];
+        $this->assertEquals('relatedUser', $relatedUserRelation->getName());
+        $this->assertEquals(['first_name'], $relatedUserRelation->getJory()->getFields());
+
+        $carsRelation = $jory->getRelations()[1];
+        $this->assertEquals('cars', $carsRelation->getName());
+    }
+
+    /** @test */
+    public function it_can_give_an_error_message_on_a_dot_notated_relation()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('The sorts parameter should be an array. (Location: user.roles.relatedUser.sorts)');
+
+        $parser = new ArrayParser([
+            'rlt' => [
+                'user.comments' => [],
+                'user.roles.log' => [],
+                'user' => [
+                    'fld' => ['last_name'],
+                ],
+                'user.roles.relatedUser' => [
+                    'srt' => 'wrong',
+                ],
+                'cars' => [],
+            ],
+        ]);
+        $parser->getJory();
     }
 }

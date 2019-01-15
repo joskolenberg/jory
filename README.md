@@ -311,6 +311,36 @@ Or minified:
   }
 }
 ```
+When you want to load multiple levels of relations you can also use dot-notation.
+```json
+{
+  "rlt": {
+    "bands.songs": {
+      "fld": ["title"]
+    },
+    "bands.albums": {
+      "fld": ["name"]
+    }
+  }
+}
+```
+Equals:
+```json
+{
+  "rlt": {
+    "bands": {
+      "rlt": {
+      	"songs": {
+          "fld": ["title"]
+      	},
+      	"albums": {
+      	  "fld": ["name"]
+      	}
+      }
+    }
+  }
+}
+```
 
 ## Offset and Limit
 The offset and limit can be applied using the ```offset (ofs)``` and ```limit (lmt)``` parameter. These parameters should hold an integer value.
