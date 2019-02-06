@@ -4,11 +4,21 @@ namespace JosKolenberg\Jory\Helpers;
 
 use JosKolenberg\Jory\Exceptions\JoryException;
 
-class KeyRespository
+/**
+ * Class KeyRepository
+ *
+ * @package JosKolenberg\Jory\Helpers
+ */
+class KeyRepository
 {
-
+    /**
+     * @var bool
+     */
     protected $minified = true;
 
+    /**
+     * @var array
+     */
     protected $map = [
         // Filters
         'flt' => 'filter',
@@ -28,6 +38,12 @@ class KeyRespository
         'lmt' => 'limit',
     ];
 
+    /**
+     * Set the get() method to return minified (or full) keys.
+     *
+     * @param bool $minified
+     * @return \JosKolenberg\Jory\Helpers\KeyRepository
+     */
     public function minified(bool $minified): self
     {
         $this->minified = $minified;
@@ -35,6 +51,13 @@ class KeyRespository
         return $this;
     }
 
+    /**
+     * Get the full for the given key.
+     *
+     * @param string $key
+     * @return string
+     * @throws \JosKolenberg\Jory\Exceptions\JoryException
+     */
     public function getFull(string $key): string
     {
         if(array_key_exists($key, $this->map)){
@@ -46,6 +69,13 @@ class KeyRespository
         throw new JoryException('Key ' . $key . ' is no valid Jory key.');
     }
 
+    /**
+     * Get the minified key for the given key.
+     *
+     * @param string $key
+     * @return string|null
+     * @throws \JosKolenberg\Jory\Exceptions\JoryException
+     */
     public function getMinified(string $key): ?string
     {
         if(array_key_exists($key, $this->map)){
@@ -57,6 +87,14 @@ class KeyRespository
         throw new JoryException('Key ' . $key . ' is no valid Jory key.');
     }
 
+    /**
+     * Get a key.
+     *
+     * @param string $key
+     * @param bool|null $minified
+     * @return string|null
+     * @throws \JosKolenberg\Jory\Exceptions\JoryException
+     */
     public function get(string $key, bool $minified = null): ?string
     {
         if(is_null($minified)){
@@ -65,6 +103,13 @@ class KeyRespository
         return $minified ? $this->getMinified($key) : $this->getFull($key);
     }
 
+    /**
+     * Get an array of both the minified and full key.
+     *
+     * @param string $key
+     * @return array
+     * @throws \JosKolenberg\Jory\Exceptions\JoryException
+     */
     public function getBoth(string $key): array
     {
         return [
@@ -73,18 +118,16 @@ class KeyRespository
         ];
     }
 
-    public function exists($key): bool
-    {
-        if(array_key_exists($key, $this->map)){
-            return true;
-        }
-        if(in_array($key, $this->map)){
-            return true;
-        }
-        return false;
-    }
-
-    public function getArrayValue(array $array, string $key): string
+    /**
+     * Get the value in an array on an given key.
+     * Checks both on full and minified key.
+     *
+     * @param array $array
+     * @param string $key
+     * @return mixed
+     * @throws \JosKolenberg\Jory\Exceptions\JoryException
+     */
+    public function getArrayValue(array $array, string $key)
     {
         foreach ($this->getBoth($key) as $loopKey) {
             if (array_key_exists($loopKey, $array)) {

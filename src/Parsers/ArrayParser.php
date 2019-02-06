@@ -7,6 +7,7 @@ use JosKolenberg\Jory\Support\Sort;
 use JosKolenberg\Jory\Support\Filter;
 use JosKolenberg\Jory\Support\Relation;
 use JosKolenberg\Jory\Support\GroupOrFilter;
+use JosKolenberg\Jory\Helpers\KeyRepository;
 use JosKolenberg\Jory\Support\GroupAndFilter;
 use JosKolenberg\Jory\Exceptions\JoryException;
 use JosKolenberg\Jory\Contracts\FilterInterface;
@@ -25,6 +26,11 @@ class ArrayParser implements JoryParserInterface
     protected $joryArray;
 
     /**
+     * @var \JosKolenberg\Jory\Helpers\KeyRepository
+     */
+    protected $keyRepository;
+
+    /**
      * ArrayParser constructor.
      *
      * @param array $joryArray
@@ -32,6 +38,7 @@ class ArrayParser implements JoryParserInterface
     public function __construct(array $joryArray)
     {
         $this->joryArray = $joryArray;
+        $this->keyRepository = new KeyRepository();
     }
 
     /**
@@ -62,7 +69,7 @@ class ArrayParser implements JoryParserInterface
      */
     protected function setFilters(Jory $jory): void
     {
-        $data = $this->getArrayValue($this->joryArray, ['flt', 'filter']);
+        $data = $this->getArrayValue($this->joryArray, 'flt');
         if ($data) {
             $jory->setFilter($this->getFilterFromData($data));
         }
@@ -77,13 +84,10 @@ class ArrayParser implements JoryParserInterface
      */
     protected function getFilterFromData($data): FilterInterface
     {
-        if (($field = $this->getArrayValue($data, ['f', 'field'])) !== null) {
-            return new Filter($field, $this->getArrayValue($data, ['o', 'operator']), $this->getArrayValue($data, [
-                'd',
-                'data',
-            ]));
+        if (($field = $this->getArrayValue($data, 'f')) !== null) {
+            return new Filter($field, $this->getArrayValue($data, 'o'), $this->getArrayValue($data,'d'));
         }
-        if (($groupAndData = $this->getArrayValue($data, ['and', 'group_and'])) !== null) {
+        if (($groupAndData = $this->getArrayValue($data, 'and')) !== null) {
             $group = new GroupAndFilter();
             foreach ($groupAndData as $filter) {
                 $group->push($this->getFilterFromData($filter));
@@ -91,7 +95,7 @@ class ArrayParser implements JoryParserInterface
 
             return $group;
         }
-        if (($groupOrData = $this->getArrayValue($data, ['or', 'group_or'])) !== null) {
+        if (($groupOrData = $this->getArrayValue($data, 'or')) !== null) {
             $group = new GroupOrFilter();
             foreach ($groupOrData as $filter) {
                 $group->push($this->getFilterFromData($filter));
@@ -105,17 +109,13 @@ class ArrayParser implements JoryParserInterface
      * Get value from array based on multiple keys.
      *
      * @param array $array
-     * @param array $keys
+     * @param string $key
      *
      * @return mixed|null
      */
-    protected function getArrayValue(array $array, array $keys)
+    protected function getArrayValue(array $array, string $key)
     {
-        foreach ($keys as $key) {
-            if (array_key_exists($key, $array)) {
-                return $array[$key];
-            }
-        }
+        return $this->keyRepository->getArrayValue($array, $key);
     }
 
     /**
@@ -126,7 +126,7 @@ class ArrayParser implements JoryParserInterface
      */
     protected function setRelations(Jory $jory): void
     {
-        $relations = $this->getArrayValue($this->joryArray, ['rlt', 'relations']);
+        $relations = $this->getArrayValue($this->joryArray, 'rlt');
 
         if ($relations) {
             $relations = $this->convertDotNotatedRelations($relations);
@@ -144,7 +144,7 @@ class ArrayParser implements JoryParserInterface
      */
     protected function setSorts(Jory $jory): void
     {
-        $sorts = $this->getArrayValue($this->joryArray, ['srt', 'sorts']);
+        $sorts = $this->getArrayValue($this->joryArray, 'srt');
 
         if ($sorts) {
             foreach ($sorts as $sort) {
@@ -170,7 +170,7 @@ class ArrayParser implements JoryParserInterface
      */
     protected function setOffset(Jory $jory): void
     {
-        $offset = $this->getArrayValue($this->joryArray, ['ofs', 'offset']);
+        $offset = $this->getArrayValue($this->joryArray, 'ofs');
         if ($offset !== null) {
             $jory->setOffset($offset);
         }
@@ -183,7 +183,7 @@ class ArrayParser implements JoryParserInterface
      */
     protected function setLimit(Jory $jory): void
     {
-        $limit = $this->getArrayValue($this->joryArray, ['lmt', 'limit']);
+        $limit = $this->getArrayValue($this->joryArray, 'lmt');
         if ($limit !== null) {
             $jory->setLimit($limit);
         }
@@ -196,7 +196,7 @@ class ArrayParser implements JoryParserInterface
      */
     protected function setFields(Jory $jory): void
     {
-        $fields = $this->getArrayValue($this->joryArray, ['fld', 'fields']);
+        $fields = $this->getArrayValue($this->joryArray, 'fld');
 
         $jory->setFields($fields);
     }

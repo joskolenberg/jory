@@ -2,10 +2,10 @@
 
 namespace JosKolenberg\Jory\Converters;
 
-use JosKolenberg\Jory\Helpers\KeyRespository;
 use JosKolenberg\Jory\Jory;
 use JosKolenberg\Jory\Support\Filter;
 use JosKolenberg\Jory\Support\GroupOrFilter;
+use JosKolenberg\Jory\Helpers\KeyRepository;
 use JosKolenberg\Jory\Support\GroupAndFilter;
 use JosKolenberg\Jory\Contracts\FilterInterface;
 
@@ -27,9 +27,9 @@ class ToArrayConverter
     protected $minified;
 
     /**
-     * @var \JosKolenberg\Jory\Helpers\KeyRespository
+     * @var \JosKolenberg\Jory\Helpers\KeyRepository
      */
-    protected $keys;
+    protected $keyRepository;
 
     /**
      * ToArrayConverter constructor.
@@ -41,7 +41,7 @@ class ToArrayConverter
     {
         $this->jory = $jory;
         $this->minified = $minified;
-        $this->keys = (new KeyRespository())->minified($minified);
+        $this->keyRepository = (new KeyRepository())->minified($minified);
     }
 
     /**
@@ -55,24 +55,24 @@ class ToArrayConverter
 
         $filter = $this->jory->getFilter();
         if ($filter !== null) {
-            $result[$this->keys->get('flt')] = $this->getFilterArray($filter);
+            $result[$this->keyRepository->get('flt')] = $this->getFilterArray($filter);
         }
         $sorts = $this->jory->getSorts();
         if ($sorts) {
-            $result[$this->keys->get('srt')] = $this->getSortsArray($sorts);
+            $result[$this->keyRepository->get('srt')] = $this->getSortsArray($sorts);
         }
         $relations = $this->jory->getRelations();
         if ($relations) {
-            $result[$this->keys->get('rlt')] = $this->getRelationsArray($relations);
+            $result[$this->keyRepository->get('rlt')] = $this->getRelationsArray($relations);
         }
         if ($this->jory->getOffset() !== null) {
-            $result[$this->keys->get('ofs')] = $this->jory->getOffset();
+            $result[$this->keyRepository->get('ofs')] = $this->jory->getOffset();
         }
         if ($this->jory->getLimit() !== null) {
-            $result[$this->keys->get('lmt')] = $this->jory->getLimit();
+            $result[$this->keyRepository->get('lmt')] = $this->jory->getLimit();
         }
         if ($this->jory->getFields() !== null) {
-            $result[$this->keys->get('fld')] = $this->jory->getFields();
+            $result[$this->keyRepository->get('fld')] = $this->jory->getFields();
         }
 
         return $result;
@@ -88,12 +88,12 @@ class ToArrayConverter
     protected function getFilterArray(FilterInterface $filter): array
     {
         if ($filter instanceof Filter) {
-            $result[$this->keys->get('f')] = $filter->getField();
+            $result[$this->keyRepository->get('f')] = $filter->getField();
             if ($filter->getOperator() !== null) {
-                $result[$this->keys->get('o')] = $filter->getOperator();
+                $result[$this->keyRepository->get('o')] = $filter->getOperator();
             }
             if ($filter->getData() !== null) {
-                $result[$this->keys->get('d')] = $filter->getData();
+                $result[$this->keyRepository->get('d')] = $filter->getData();
             }
 
             return $result;
@@ -103,7 +103,7 @@ class ToArrayConverter
             foreach ($filter as $subFilter) {
                 $group[] = $this->getFilterArray($subFilter);
             }
-            $result[$this->keys->get('and')] = $group;
+            $result[$this->keyRepository->get('and')] = $group;
 
             return $result;
         }
@@ -112,7 +112,7 @@ class ToArrayConverter
             foreach ($filter as $subFilter) {
                 $group[] = $this->getFilterArray($subFilter);
             }
-            $result[$this->keys->get('or')] = $group;
+            $result[$this->keyRepository->get('or')] = $group;
 
             return $result;
         }
