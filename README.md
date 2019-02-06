@@ -1,8 +1,8 @@
-[![Build Status](https://travis-ci.org/joskolenberg/jory.svg?branch=master)](https://travis-ci.org/joskolenberg/jory.svg?branch=master)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/joskolenberg/jory/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/joskolenberg/jory/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/joskolenberg/jory/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/joskolenberg/jory/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/joskolenberg/jory/badges/build.png?b=master)](https://scrutinizer-ci.com/g/joskolenberg/jory/build-status/master)
 [![Total Downloads](https://poser.pugx.org/joskolenberg/jory/downloads)](https://packagist.org/packages/joskolenberg/jory)
 [![Latest Stable Version](https://poser.pugx.org/joskolenberg/jory/v/stable)](https://packagist.org/packages/joskolenberg/jory)
-[![StyleCI](https://github.styleci.io/repos/147561955/shield?branch=master)](https://github.styleci.io/repos/147561955)
-[![Code Coverage](https://codecov.io/gh/joskolenberg/jory/branch/master/graph/badge.svg)](https://codecov.io/gh/joskolenberg/jory/branch/master/graph/badge.svg)
 [![License](https://poser.pugx.org/joskolenberg/jory/license)](https://packagist.org/packages/joskolenberg/jory)
 
 # Jory
