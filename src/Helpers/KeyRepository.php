@@ -5,9 +5,7 @@ namespace JosKolenberg\Jory\Helpers;
 use JosKolenberg\Jory\Exceptions\JoryException;
 
 /**
- * Class KeyRepository
- *
- * @package JosKolenberg\Jory\Helpers
+ * Class KeyRepository.
  */
 class KeyRepository
 {
@@ -60,13 +58,13 @@ class KeyRepository
      */
     public function getFull(string $key): string
     {
-        if(array_key_exists($key, $this->map)){
+        if (array_key_exists($key, $this->map)) {
             return $this->map[$key];
         }
-        if(in_array($key, $this->map)){
+        if (in_array($key, $this->map)) {
             return $key;
         }
-        throw new JoryException('Key ' . $key . ' is no valid Jory key.');
+        throw new JoryException('Key '.$key.' is no valid Jory key.');
     }
 
     /**
@@ -78,13 +76,13 @@ class KeyRepository
      */
     public function getMinified(string $key): ?string
     {
-        if(array_key_exists($key, $this->map)){
+        if (array_key_exists($key, $this->map)) {
             return $key;
         }
-        if(in_array($key, $this->map)){
+        if (in_array($key, $this->map)) {
             return array_search($key, $this->map);
         }
-        throw new JoryException('Key ' . $key . ' is no valid Jory key.');
+        throw new JoryException('Key '.$key.' is no valid Jory key.');
     }
 
     /**
@@ -97,9 +95,10 @@ class KeyRepository
      */
     public function get(string $key, bool $minified = null): ?string
     {
-        if(is_null($minified)){
+        if (is_null($minified)) {
             $minified = $this->minified;
         }
+
         return $minified ? $this->getMinified($key) : $this->getFull($key);
     }
 

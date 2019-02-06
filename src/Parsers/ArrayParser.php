@@ -6,8 +6,8 @@ use JosKolenberg\Jory\Jory;
 use JosKolenberg\Jory\Support\Sort;
 use JosKolenberg\Jory\Support\Filter;
 use JosKolenberg\Jory\Support\Relation;
-use JosKolenberg\Jory\Support\GroupOrFilter;
 use JosKolenberg\Jory\Helpers\KeyRepository;
+use JosKolenberg\Jory\Support\GroupOrFilter;
 use JosKolenberg\Jory\Support\GroupAndFilter;
 use JosKolenberg\Jory\Exceptions\JoryException;
 use JosKolenberg\Jory\Contracts\FilterInterface;
@@ -85,7 +85,7 @@ class ArrayParser implements JoryParserInterface
     protected function getFilterFromData($data): FilterInterface
     {
         if (($field = $this->getArrayValue($data, 'f')) !== null) {
-            return new Filter($field, $this->getArrayValue($data, 'o'), $this->getArrayValue($data,'d'));
+            return new Filter($field, $this->getArrayValue($data, 'o'), $this->getArrayValue($data, 'd'));
         }
         if (($groupAndData = $this->getArrayValue($data, 'and')) !== null) {
             $group = new GroupAndFilter();
