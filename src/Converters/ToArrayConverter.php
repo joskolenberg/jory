@@ -58,11 +58,11 @@ class ToArrayConverter
             $result[$this->keyRepository->get('flt')] = $this->getFilterArray($filter);
         }
         $sorts = $this->jory->getSorts();
-        if ($sorts) {
+        if (!empty($sorts)) {
             $result[$this->keyRepository->get('srt')] = $this->getSortsArray($sorts);
         }
         $relations = $this->jory->getRelations();
-        if ($relations) {
+        if (!empty($relations)) {
             $result[$this->keyRepository->get('rlt')] = $this->getRelationsArray($relations);
         }
         if ($this->jory->getOffset() !== null) {
@@ -87,17 +87,6 @@ class ToArrayConverter
      */
     protected function getFilterArray(FilterInterface $filter): array
     {
-        if ($filter instanceof Filter) {
-            $result[$this->keyRepository->get('f')] = $filter->getField();
-            if ($filter->getOperator() !== null) {
-                $result[$this->keyRepository->get('o')] = $filter->getOperator();
-            }
-            if ($filter->getData() !== null) {
-                $result[$this->keyRepository->get('d')] = $filter->getData();
-            }
-
-            return $result;
-        }
         if ($filter instanceof GroupAndFilter) {
             $group = [];
             foreach ($filter as $subFilter) {
@@ -116,6 +105,17 @@ class ToArrayConverter
 
             return $result;
         }
+
+        // No group filter; must be an instance of a regular Filter
+        $result[$this->keyRepository->get('f')] = $filter->getField();
+        if ($filter->getOperator() !== null) {
+            $result[$this->keyRepository->get('o')] = $filter->getOperator();
+        }
+        if ($filter->getData() !== null) {
+            $result[$this->keyRepository->get('d')] = $filter->getData();
+        }
+
+        return $result;
     }
 
     /**
@@ -146,7 +146,7 @@ class ToArrayConverter
     {
         $sortsArray = [];
         foreach ($sorts as $sort) {
-            $sortsArray[] = ($sort->getOrder() === 'desc' ? '-' : '').$sort->getField();
+            $sortsArray[] = ($sort->getOrder() === 'desc' ? '-' : '') . $sort->getField();
         }
 
         return $sortsArray;

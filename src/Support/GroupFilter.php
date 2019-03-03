@@ -2,7 +2,6 @@
 
 namespace JosKolenberg\Jory\Support;
 
-use Illuminate\Support\Collection;
 use JosKolenberg\Jory\Contracts\FilterInterface;
 
 /**

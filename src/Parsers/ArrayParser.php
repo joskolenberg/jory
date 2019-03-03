@@ -84,9 +84,6 @@ class ArrayParser implements JoryParserInterface
      */
     protected function getFilterFromData($data): FilterInterface
     {
-        if (($field = $this->getArrayValue($data, 'f')) !== null) {
-            return new Filter($field, $this->getArrayValue($data, 'o'), $this->getArrayValue($data, 'd'));
-        }
         if (($groupAndData = $this->getArrayValue($data, 'and')) !== null) {
             $group = new GroupAndFilter();
             foreach ($groupAndData as $filter) {
@@ -103,6 +100,10 @@ class ArrayParser implements JoryParserInterface
 
             return $group;
         }
+
+        // No group filter; must be a regular Filter
+        $field = $this->getArrayValue($data, 'f');
+        return new Filter($field, $this->getArrayValue($data, 'o'), $this->getArrayValue($data, 'd'));
     }
 
     /**
@@ -226,7 +227,7 @@ class ArrayParser implements JoryParserInterface
         }
 
         foreach ($dottedRelations as $name => $subRelations) {
-            if (! array_key_exists($name, $relations)) {
+            if (!array_key_exists($name, $relations)) {
                 // This relation doesn't already exists, create it
                 $relations[$name] = ['rlt' => []];
             }

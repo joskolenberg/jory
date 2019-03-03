@@ -79,10 +79,13 @@ class KeyRepository
         if (array_key_exists($key, $this->map)) {
             return $key;
         }
-        if (in_array($key, $this->map)) {
-            return array_search($key, $this->map);
+
+        $key = array_search($key, $this->map);
+        if ($key === false) {
+            throw new JoryException('Key '.$key.' is no valid Jory key.');
         }
-        throw new JoryException('Key '.$key.' is no valid Jory key.');
+
+        return $key;
     }
 
     /**

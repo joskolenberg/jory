@@ -36,7 +36,7 @@ class ToJsonConverter
     /**
      * Get the Json string based on given Jory object.
      *
-     * @return array
+     * @return string
      */
     public function get(): string
     {
