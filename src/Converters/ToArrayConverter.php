@@ -83,18 +83,27 @@ class ToArrayConverter
      *
      * @param FilterInterface $filter
      *
-     * @return mixed
+     * @return array
      */
     protected function getFilterArray(FilterInterface $filter): array
     {
+        $result = [];
+
+        if ($filter instanceof Filter) {
+            $result[$this->keyRepository->get('f')] = $filter->getField();
+            if ($filter->getOperator() !== null) {
+                $result[$this->keyRepository->get('o')] = $filter->getOperator();
+            }
+            if ($filter->getData() !== null) {
+                $result[$this->keyRepository->get('d')] = $filter->getData();
+            }
+        }
         if ($filter instanceof GroupAndFilter) {
             $group = [];
             foreach ($filter as $subFilter) {
                 $group[] = $this->getFilterArray($subFilter);
             }
             $result[$this->keyRepository->get('and')] = $group;
-
-            return $result;
         }
         if ($filter instanceof GroupOrFilter) {
             $group = [];
@@ -102,17 +111,6 @@ class ToArrayConverter
                 $group[] = $this->getFilterArray($subFilter);
             }
             $result[$this->keyRepository->get('or')] = $group;
-
-            return $result;
-        }
-
-        // No group filter; must be an instance of a regular Filter
-        $result[$this->keyRepository->get('f')] = $filter->getField();
-        if ($filter->getOperator() !== null) {
-            $result[$this->keyRepository->get('o')] = $filter->getOperator();
-        }
-        if ($filter->getData() !== null) {
-            $result[$this->keyRepository->get('d')] = $filter->getData();
         }
 
         return $result;

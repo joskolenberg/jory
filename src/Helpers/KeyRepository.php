@@ -80,12 +80,12 @@ class KeyRepository
             return $key;
         }
 
-        $key = array_search($key, $this->map);
-        if ($key === false) {
+        $foundKey = array_search($key, $this->map);
+        if ($foundKey === false) {
             throw new JoryException('Key '.$key.' is no valid Jory key.');
         }
 
-        return $key;
+        return $foundKey;
     }
 
     /**
@@ -121,12 +121,12 @@ class KeyRepository
     }
 
     /**
-     * Get the value in an array on an given key.
+     * Get the value in an array on a given key.
      * Checks both on full and minified key.
      *
      * @param array $array
      * @param string $key
-     * @return mixed
+     * @return mixed|null
      * @throws \JosKolenberg\Jory\Exceptions\JoryException
      */
     public function getArrayValue(array $array, string $key)
