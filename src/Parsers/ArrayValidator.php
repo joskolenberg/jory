@@ -303,8 +303,13 @@ class ArrayValidator
             return;
         }
 
+        // It's a string, that's ok because it will be converted to an single-item-array by the parser later.
+        if (is_string($fields)) {
+            return;
+        }
+
         if (! is_array($fields)) {
-            throw new JoryException('The fields parameter must be an array. (Location: '.$this->address.'fields)');
+            throw new JoryException('The fields parameter must be an array or string. (Location: '.$this->address.'fields)');
         }
 
         foreach ($fields as $key => $field) {

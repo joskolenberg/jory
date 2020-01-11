@@ -721,10 +721,10 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_a_fields_array_with_invalid_content()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The fields parameter must be an array. (Location: fields)');
+        $this->expectExceptionMessage('The fields parameter must be an array or string. (Location: fields)');
 
         (new ArrayValidator([
-            'fields' => 'this_is_not_an_array',
+            'fields' => 123132,
         ]))->validate();
     }
 
@@ -764,5 +764,29 @@ class ArrayValidatorTest extends TestCase
                 ],
             ],
         ]))->validate();
+    }
+
+    /** @test */
+    public function it_allows_the_field_to_be_a_string_when_a_single_field_is_requested()
+    {
+        (new ArrayValidator([
+            'fld' => 'first_name',
+        ]))->validate();
+
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    public function it_allows_the_field_to_be_a_string_when_a_single_field_is_requested_in_a_relation()
+    {
+        (new ArrayValidator([
+            'relations' => [
+                'user' => [
+                    'fields' => 'first_name'
+                ]
+            ]
+        ]))->validate();
+
+        $this->assertTrue(true);
     }
 }

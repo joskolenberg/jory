@@ -199,6 +199,10 @@ class ArrayParser implements JoryParserInterface
     {
         $fields = $this->getArrayValue($this->joryArray, 'fld');
 
+        if(is_string($fields)){
+            $fields = [$fields];
+        }
+
         $jory->setFields($fields);
     }
 

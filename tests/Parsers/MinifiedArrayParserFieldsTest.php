@@ -65,10 +65,10 @@ class MinifiedArrayParserFieldsTest extends TestCase
     public function it_throws_an_exception_when_invalid_data_is_passed()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The fields parameter must be an array. (Location: fields)');
+        $this->expectExceptionMessage('The fields parameter must be an array or string. (Location: fields)');
 
         (new ArrayParser([
-            'fld' => 'this_is_not_an_array',
+            'fld' => 12312,
         ]))->getJory();
     }
 
