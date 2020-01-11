@@ -272,4 +272,34 @@ class ArrayParserFilterTest extends TestCase
             ],
         ]))->getJory();
     }
+
+    /** @test */
+    public function it_converts_a_string_to_a_single_item_array_so_a_string_can_be_passed_when_there_should_only_be_filtered_on_a_single_boolean_filter()
+    {
+        $parser = new ArrayParser([
+            'filter' => 'is_active'
+        ]);
+        $jory = $parser->getJory();
+        $this->assertInstanceOf(Filter::class, $jory->getFilter());
+        $this->assertEquals('is_active', $jory->getFilter()->getField());
+        $this->assertNull($jory->getFilter()->getOperator());
+        $this->assertNull($jory->getFilter()->getData());
+    }
+
+    /** @test */
+    public function it_converts_a_string_to_a_single_item_array_so_a_string_can_be_passed_when_there_should_only_be_filtered_on_a_single_boolean_filter_in_a_relation()
+    {
+        $parser = new ArrayParser([
+            'relations' => [
+                'user' => [
+                    'filter' => 'is_active'
+                ]
+            ]
+        ]);
+        $jory = $parser->getJory();
+        $this->assertInstanceOf(Filter::class, $jory->getRelations()[0]->getJory()->getFilter());
+        $this->assertEquals('is_active', $jory->getRelations()[0]->getJory()->getFilter()->getField());
+        $this->assertNull($jory->getRelations()[0]->getJory()->getFilter()->getOperator());
+        $this->assertNull($jory->getRelations()[0]->getJory()->getFilter()->getData());
+    }
 }

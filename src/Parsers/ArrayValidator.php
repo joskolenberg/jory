@@ -58,6 +58,11 @@ class ArrayValidator
     {
         $rootFilter = $this->getArrayValue($this->joryArray, ['flt', 'filter']);
 
+        // It's a string, that's ok because it will be converted to a field-only-filter by the parser later.
+        if (is_string($rootFilter)) {
+            return;
+        }
+
         // It is not required to add a filter, the absence of a filter just means: don't apply a filter.
         // An empty array also counts as no filter.
         // And if no filter is present, there can be no errors; so return.

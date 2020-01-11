@@ -84,6 +84,11 @@ class ArrayParser implements JoryParserInterface
      */
     protected function getFilterFromData($data): FilterInterface
     {
+        // If input is a string we convert it to a simple filter with only a field defined.
+        if(is_string($data)){
+            return new Filter($data);
+        }
+
         if (($groupAndData = $this->getArrayValue($data, 'and')) !== null) {
             $group = new GroupAndFilter();
             foreach ($groupAndData as $filter) {
