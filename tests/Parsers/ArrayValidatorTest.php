@@ -789,4 +789,28 @@ class ArrayValidatorTest extends TestCase
 
         $this->assertTrue(true);
     }
+
+    /** @test */
+    public function it_allows_the_sorts_to_be_a_string_when_there_will_be_sorted_on_a_single_field()
+    {
+        (new ArrayValidator([
+            'srt' => 'first_name',
+        ]))->validate();
+
+        $this->assertTrue(true);
+    }
+
+    /** @test */
+    public function it_allows_the_sorts_to_be_a_string_when_there_will_be_sorted_on_a_single_field_in_a_relation()
+    {
+        (new ArrayValidator([
+            'relations' => [
+                'users' => [
+                    'srt' => 'first_name'
+                ]
+            ]
+        ]))->validate();
+
+        $this->assertTrue(true);
+    }
 }

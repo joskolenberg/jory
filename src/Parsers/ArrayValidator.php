@@ -237,8 +237,13 @@ class ArrayValidator
             return;
         }
 
+        // It's a string, that's ok because it will be converted to an single-item-array by the parser later.
+        if (is_string($sorts)) {
+            return;
+        }
+
         if (! is_array($sorts)) {
-            throw new JoryException('The sorts parameter should be an array. (Location: '.$this->address.'sorts)');
+            throw new JoryException('The sorts parameter should be an array or string. (Location: '.$this->address.'sorts)');
         }
 
         foreach ($sorts as $sort) {

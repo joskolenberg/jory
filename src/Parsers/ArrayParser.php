@@ -147,6 +147,10 @@ class ArrayParser implements JoryParserInterface
     {
         $sorts = $this->getArrayValue($this->joryArray, 'srt');
 
+        if(is_string($sorts)){
+            $sorts = [$sorts];
+        }
+
         if ($sorts) {
             foreach ($sorts as $sort) {
                 $order = 'asc';

@@ -92,7 +92,7 @@ class MinifiedArrayParserRelationTest extends TestCase
     public function it_can_give_an_error_message_on_a_dot_notated_relation()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The sorts parameter should be an array. (Location: user.roles.relatedUser.sorts)');
+        $this->expectExceptionMessage('The sorts parameter should be an array or string. (Location: user.roles.relatedUser.sorts)');
 
         $parser = new ArrayParser([
             'rlt' => [
@@ -102,7 +102,7 @@ class MinifiedArrayParserRelationTest extends TestCase
                     'fld' => ['last_name'],
                 ],
                 'user.roles.relatedUser' => [
-                    'srt' => 'wrong',
+                    'srt' => 123,
                 ],
                 'cars' => [],
             ],
