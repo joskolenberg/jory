@@ -3,6 +3,7 @@
 namespace JosKolenberg\Jory\Parsers;
 
 use JosKolenberg\Jory\Exceptions\JoryException;
+use JosKolenberg\Jory\Helpers\KeyRepository;
 
 /**
  * Class to validate an array with jory data.
@@ -41,6 +42,7 @@ class ArrayValidator
      */
     public function validate(): void
     {
+        $this->validateRootObject();
         $this->validateRootFilter();
         $this->validateRelations();
         $this->validateSorts();
@@ -72,6 +74,23 @@ class ArrayValidator
 
         // There is a filter, loop through all filters
         $this->validateFilter($rootFilter, $this->address.'filter');
+    }
+
+    /**
+     * Validate if the root of the Jory Query contains any unknown keys.
+     *
+     * @throws JoryException
+     */
+    protected function validateRootObject(): void
+    {
+        $this->validateUnknownKeys($this->joryArray, [
+            'fld',
+            'srt',
+            'flt',
+            'rlt',
+            'ofs',
+            'lmt',
+        ], $this->address . 'root');
     }
 
     /**
@@ -121,6 +140,14 @@ class ArrayValidator
      */
     protected function validateFilter(array $filter, $address): void
     {
+        $this->validateUnknownKeys($filter, [
+            'f',
+            'o',
+            'd',
+            'and',
+            'or',
+        ], $address);
+
         $foundKeys = [];
         foreach (['f', 'field', 'and', 'group_and', 'or', 'group_or'] as $key) {
             if (array_key_exists($key, $filter)) {
@@ -325,6 +352,23 @@ class ArrayValidator
         foreach ($fields as $key => $field) {
             if (! is_string($field)) {
                 throw new JoryException('The fields parameter can only contain strings. (Location: '.$this->address.'fields.'.$key.')');
+            }
+        }
+    }
+
+    protected function validateUnknownKeys(array $input, array $allowedMinifiedKeys, string $address)
+    {
+        $keyRepository = new KeyRepository();
+
+        $allowedKeys = [];
+        foreach ($allowedMinifiedKeys as $key){
+            $allowedKeys[] = $key;
+            $allowedKeys[] = $keyRepository->getFull($key);
+        }
+
+        foreach ($input as $key => $item){
+            if(!in_array($key, $allowedKeys)){
+                throw new JoryException('Unknown key "' . $key . '" in Jory Query. (Location: '.$address.')');
             }
         }
     }

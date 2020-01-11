@@ -215,49 +215,13 @@ class ArrayParserFilterTest extends TestCase
     }
 
     /** @test */
-    public function it_will_only_parse_the_allowed_data()
-    {
-        $parser = new ArrayParser([
-            'filter' => [
-                'group_or' => [
-                    [
-                        'field' => 'first_name',
-                        'data' => 'John',
-                        'not_valid' => 'Testing',
-                    ],
-                    [
-                        'field' => 'last_name',
-                        'data' => 'Lennon',
-                    ],
-                ],
-                'also_not_valid' => 'not parsed',
-            ],
-        ]);
-        $jory = $parser->getJory();
-        $this->assertEquals([
-            'filter' => [
-                'group_or' => [
-                    [
-                        'field' => 'first_name',
-                        'data' => 'John',
-                    ],
-                    [
-                        'field' => 'last_name',
-                        'data' => 'Lennon',
-                    ],
-                ],
-            ],
-        ], $jory->toArray(false));
-    }
-
-    /** @test */
     public function it_throws_an_exception_when_the_validator_fails()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A filter should contain one of the these fields: "f", "field", "and", "group_and", "or" or "group_or". (Location: filter)');
+        $this->expectExceptionMessage('Unknown key "not_valid" in Jory Query. (Location: filter(or).0)');
         (new ArrayParser([
             'filter' => [
-                'group_ord' => [
+                'group_or' => [
                     [
                         'field' => 'first_name',
                         'data' => 'John',
@@ -268,7 +232,6 @@ class ArrayParserFilterTest extends TestCase
                         'data' => 'Lennon',
                     ],
                 ],
-                'also_not_valid' => 'not parsed',
             ],
         ]))->getJory();
     }

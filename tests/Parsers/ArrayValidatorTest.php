@@ -72,20 +72,6 @@ class ArrayValidatorTest extends TestCase
     }
 
     /** @test */
-    public function it_will_throw_an_exception_when_no_valid_key_is_provided()
-    {
-        $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A filter should contain one of the these fields: "f", "field", "and", "group_and", "or" or "group_or". (Location: filter)');
-
-        (new ArrayValidator([
-            'filter' => [
-                'no' => 'valid',
-                'key' => 'here',
-            ],
-        ]))->validate();
-    }
-
-    /** @test */
     public function it_will_throw_an_exception_when_an_o_and_operater_parameter_are_provided()
     {
         $this->expectException(JoryException::class);
@@ -467,7 +453,7 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_the_jory_data_in_the_relation()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A filter should contain one of the these fields: "f", "field", "and", "group_and", "or" or "group_or". (Location: user.filter)');
+        $this->expectExceptionMessage('Unknown key "wrong" in Jory Query. (Location: user.filter)');
 
         (new ArrayValidator([
             'rlt' => [
@@ -484,7 +470,7 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_the_jory_data_in_the_relation_2()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A filter should contain one of the these fields: "f", "field", "and", "group_and", "or" or "group_or". (Location: user.filter(and).1(or).0)');
+        $this->expectExceptionMessage('Unknown key "wrong" in Jory Query. (Location: user.filter(and).1(or).0)');
 
         (new ArrayValidator([
             'rlt' => [
@@ -836,5 +822,90 @@ class ArrayValidatorTest extends TestCase
         ]))->validate();
 
         $this->assertTrue(true);
+    }
+
+    /** @test */
+    public function it_throws_an_exception_when_unknown_keys_are_defined_in_the_root()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('Unknown key "relatioons" in Jory Query. (Location: root)');
+
+        (new ArrayValidator([
+            'relatioons' => [
+                'users' => [],
+            ],
+        ]))->validate();
+    }
+
+    /** @test */
+    public function it_throws_an_exception_when_unknown_keys_are_defined_in_the_root_of_a_relation()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('Unknown key "fiields" in Jory Query. (Location: users.root)');
+
+        (new ArrayValidator([
+            'relations' => [
+                'users' => [
+                    'fiields' => 'first_name'
+                ],
+            ],
+        ]))->validate();
+    }
+
+    /** @test */
+    public function it_throws_an_exception_when_unknown_keys_are_defined_in_a_filter()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('Unknown key "fieeld" in Jory Query. (Location: filter)');
+
+        (new ArrayValidator([
+            'filter' => [
+                'fieeld' => 'name',
+                'operator' => 'like',
+                'data' => '%james%',
+            ],
+        ]))->validate();
+    }
+
+    /** @test */
+    public function it_throws_an_exception_when_unknown_keys_are_defined_in_a_nested_filter()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('Unknown key "fieeld" in Jory Query. (Location: filter(and).0)');
+
+        (new ArrayValidator([
+            'filter' => [
+                'and' => [
+                    [
+                        'fieeld' => 'name',
+                        'operator' => 'like',
+                        'data' => '%james%',
+                    ]
+                ]
+            ],
+        ]))->validate();
+    }
+
+    /** @test */
+    public function it_throws_an_exception_when_unknown_keys_are_defined_in_a_nested_filter_in_a_relation()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('Unknown key "fieeld" in Jory Query. (Location: users.filter(and).0)');
+
+        (new ArrayValidator([
+            'relations' => [
+                'users' => [
+                    'filter' => [
+                        'and' => [
+                            [
+                                'fieeld' => 'name',
+                                'operator' => 'like',
+                                'data' => '%james%',
+                            ]
+                        ]
+                    ],
+                ],
+            ],
+        ]))->validate();
     }
 }
