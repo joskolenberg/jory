@@ -356,6 +356,14 @@ class ArrayValidator
         }
     }
 
+    /**
+     * Check if the input array contains any other keys than the allowed keys.
+     *
+     * @param array $input
+     * @param array $allowedMinifiedKeys
+     * @param string $address
+     * @throws JoryException
+     */
     protected function validateUnknownKeys(array $input, array $allowedMinifiedKeys, string $address)
     {
         $keyRepository = new KeyRepository();
