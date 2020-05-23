@@ -336,7 +336,7 @@ class ArrayValidator
         $fields = $this->getArrayValue($this->joryArray, ['fld', 'fields']);
 
         // No fields set, that's ok. return.
-        if ($fields === null) {
+        if (!$fields) {
             return;
         }
 

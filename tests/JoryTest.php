@@ -231,21 +231,11 @@ class JoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_set_the_fields_to_null()
-    {
-        $jory = new Jory();
-        $jory->setFields(['testing', '123']);
-        $jory->setFields(null);
-
-        $this->assertNull($jory->getFields());
-    }
-
-    /** @test */
-    public function when_no_fields_are_added_the_field_parameter_is_null()
+    public function when_no_fields_are_added_the_field_parameter_is_an_empty_array()
     {
         $jory = new Jory();
 
-        $this->assertNull($jory->getFields());
+        $this->assertEquals([], $jory->getFields());
     }
 
     /** @test */

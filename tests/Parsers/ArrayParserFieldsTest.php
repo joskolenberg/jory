@@ -13,7 +13,7 @@ class ArrayParserFieldsTest extends TestCase
     {
         $parser = new ArrayParser([]);
         $jory = $parser->getJory();
-        $this->assertNull($jory->getFields());
+        $this->assertEquals([], $jory->getFields());
     }
 
     /** @test */
@@ -23,7 +23,7 @@ class ArrayParserFieldsTest extends TestCase
             'fields' => null,
         ]);
         $jory = $parser->getJory();
-        $this->assertNull($jory->getFields());
+        $this->assertEquals([], $jory->getFields());
     }
 
     /** @test */

@@ -37,7 +37,6 @@ class ArrayParser implements JoryParserInterface
      */
     public function __construct(array $joryArray)
     {
-        $this->joryArray = $joryArray;
         $this->keyRepository = new KeyRepository();
     }
 
@@ -207,6 +206,10 @@ class ArrayParser implements JoryParserInterface
     protected function setFields(Jory $jory): void
     {
         $fields = $this->getArrayValue($this->joryArray, 'fld');
+
+        if(!$fields){
+            return;
+        }
 
         if(is_string($fields)){
             $fields = [$fields];

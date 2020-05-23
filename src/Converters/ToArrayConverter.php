@@ -71,7 +71,7 @@ class ToArrayConverter
         if ($this->jory->getLimit() !== null) {
             $result[$this->keyRepository->get('lmt')] = $this->jory->getLimit();
         }
-        if ($this->jory->getFields() !== null) {
+        if (!empty($this->jory->getFields())) {
             $result[$this->keyRepository->get('fld')] = $this->jory->getFields();
         }
 

@@ -13,7 +13,7 @@ class MinifiedArrayParserFieldsTest extends TestCase
     {
         $parser = new ArrayParser([]);
         $jory = $parser->getJory();
-        $this->assertNull($jory->getFields());
+        $this->assertEquals([], $jory->getFields());
     }
 
     /** @test */
@@ -23,7 +23,7 @@ class MinifiedArrayParserFieldsTest extends TestCase
             'fld' => null,
         ]);
         $jory = $parser->getJory();
-        $this->assertNull($jory->getFields());
+        $this->assertEquals([], $jory->getFields());
     }
 
     /** @test */

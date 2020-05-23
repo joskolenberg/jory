@@ -41,9 +41,9 @@ class Jory
     protected $limit = null;
 
     /**
-     * @var null|array
+     * @var array
      */
-    protected $fields = null;
+    protected $fields = [];
 
     /**
      * Set the filter.
@@ -164,9 +164,9 @@ class Jory
     /**
      * Set the fields.
      *
-     * @param array|null $fields
+     * @param array $fields
      */
-    public function setFields(?array $fields): void
+    public function setFields(array $fields): void
     {
         $this->fields = $fields;
     }
