@@ -37,6 +37,7 @@ class ArrayParser implements JoryParserInterface
      */
     public function __construct(array $joryArray)
     {
+        $this->joryArray = $joryArray;
         $this->keyRepository = new KeyRepository();
     }
 
