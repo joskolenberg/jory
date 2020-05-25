@@ -1,6 +1,4 @@
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/joskolenberg/jory/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/joskolenberg/jory/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/joskolenberg/jory/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/joskolenberg/jory/?branch=master)
-[![Build Status](https://scrutinizer-ci.com/g/joskolenberg/jory/badges/build.png?b=master)](https://scrutinizer-ci.com/g/joskolenberg/jory/build-status/master)
+![Run Tests](https://github.com/joskolenberg/jory/workflows/Run%20Tests/badge.svg)
 [![Total Downloads](https://poser.pugx.org/joskolenberg/jory/downloads)](https://packagist.org/packages/joskolenberg/jory)
 [![Latest Stable Version](https://poser.pugx.org/joskolenberg/jory/v/stable)](https://packagist.org/packages/joskolenberg/jory)
 [![License](https://poser.pugx.org/joskolenberg/jory/license)](https://packagist.org/packages/joskolenberg/jory)
