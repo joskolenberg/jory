@@ -11,9 +11,8 @@ jobs:
       fail-fast: true
       matrix:
         php: [7.4, 7.3, 7.2, 7.1]
-        dependency-version: [prefer-lowest, prefer-stable]
 
-    name: P${{ matrix.php }} - ${{ matrix.dependency-version }}
+    name: PHP${{ matrix.php }}
 
     steps:
       - name: Setup PHP
@@ -22,5 +21,7 @@ jobs:
           php-version: ${{ matrix.php }}
           coverage: none
       - uses: actions/checkout@v2
+      - name: Install Composer Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-suggest --no-progress --prefer-dist
       - name: Execute tests
         run: phpunit
