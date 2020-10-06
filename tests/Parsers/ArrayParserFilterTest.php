@@ -265,7 +265,7 @@ class ArrayParserFilterTest extends TestCase
     }
 
     /** @test */
-    public function it_converts_a_string_to_a_single_item_array_so_a_string_can_be_passed_when_there_should_only_be_filtered_on_a_single_boolean_filter()
+    public function it_converts_a_string_to_a_single_item_array_so_a_string_can_be_passed_when_there_should_only_be_filtered_on_a_single_filter()
     {
         $parser = new ArrayParser([
             'flt' => 'is_active'
@@ -278,7 +278,7 @@ class ArrayParserFilterTest extends TestCase
     }
 
     /** @test */
-    public function it_converts_a_string_to_a_single_item_array_so_a_string_can_be_passed_when_there_should_only_be_filtered_on_a_single_boolean_filter_in_a_relation()
+    public function it_converts_a_string_to_a_single_item_array_so_a_string_can_be_passed_when_there_should_only_be_filtered_on_a_single_filter_in_a_relation()
     {
         $parser = new ArrayParser([
             'rlt' => [

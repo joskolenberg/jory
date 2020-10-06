@@ -43,6 +43,8 @@ class ArrayParser implements JoryParserInterface
     {
         (new ArrayValidator($this->joryArray))->validate();
 
+        $this->convertStringedValues();
+
         $jory = new Jory();
         $this->setFilters($jory);
         $this->setRelations($jory);
@@ -76,11 +78,6 @@ class ArrayParser implements JoryParserInterface
      */
     protected function getFilterFromData($data): FilterInterface
     {
-        // If input is a string we convert it to a simple filter with only a field defined.
-        if (is_string($data)) {
-            return new Filter($data);
-        }
-
         if (($groupAndData = $this->getArrayValue($data, 'and')) !== null) {
             $group = new GroupAndFilter();
             foreach ($groupAndData as $filter) {
@@ -148,10 +145,6 @@ class ArrayParser implements JoryParserInterface
     {
         $sorts = $this->getArrayValue($this->joryArray, 'srt');
 
-        if (is_string($sorts)) {
-            $sorts = [$sorts];
-        }
-
         if ($sorts) {
             foreach ($sorts as $sort) {
                 $order = 'asc';
@@ -204,10 +197,6 @@ class ArrayParser implements JoryParserInterface
             return;
         }
 
-        if (is_string($fields)) {
-            $fields = [$fields];
-        }
-
         $jory->setFields($fields);
     }
 
@@ -247,5 +236,29 @@ class ArrayParser implements JoryParserInterface
         }
 
         return $relations;
+    }
+
+    protected function convertStringedValues()
+    {
+        /**
+         * Convert string values for fields or sorts into a single item array.
+         */
+        foreach ([
+                     'fld',
+                     'srt',
+                 ] as $type) {
+            $data = $this->getArrayValue($this->joryArray, $type);
+            if (is_string($data)) {
+                $this->joryArray[$type] = [$data];
+            }
+        }
+
+        /**
+         * Convert a string value for a filter to a simple filter with only a field parameter.
+         */
+        $filter = $this->getArrayValue($this->joryArray, 'flt');
+        if (is_string($filter)) {
+            $this->joryArray['flt'] = ['f' => $filter];
+        }
     }
 }
