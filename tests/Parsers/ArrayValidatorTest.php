@@ -18,18 +18,18 @@ class ArrayValidatorTest extends TestCase
     public function it_will_throw_an_exception_when_multiple_keys_are_provided()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A filter cannot contain more than one of the these fields: "f", "field", "and", "group_and", "or" or "group_or". (Location: filter)');
+        $this->expectExceptionMessage('A filter cannot contain more than one of the fields "f" (field), "and" (AND group) or "or" (OR group). (Location: flt)');
         (new ArrayValidator([
-            'filter' => [
+            'flt' => [
                 'f' => 'John',
                 'and' => [],
             ],
         ]))->validate();
 
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A filter cannot contain more than one of the these fields: "f", "field", "and", "group_and", "or" or "group_or". (Location: filter(and).1)');
+        $this->expectExceptionMessage('A filter cannot contain more than one of the fields "f" (field), "and" (AND group) or "or" (OR group). (Location: flt(and).1)');
         (new ArrayValidator([
-            'filter' => [
+            'flt' => [
                 'and' => [
                     [
                         'f' => 'first_name',
@@ -45,9 +45,9 @@ class ArrayValidatorTest extends TestCase
         ]))->validate();
 
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A filter cannot contain more than one of the these fields: "f", "field", "and", "group_and", "or" or "group_or". (Location: filter(and).2(or).0');
+        $this->expectExceptionMessage('A filter cannot contain more than one of the fields "f" (field), "and" (AND group) or "or" (OR group). (Location: filter(and).2(or).0');
         (new ArrayValidator([
-            'filter' => [
+            'flt' => [
                 'and' => [
                     [
                         'f' => 'first_name',
@@ -72,118 +72,12 @@ class ArrayValidatorTest extends TestCase
     }
 
     /** @test */
-    public function it_will_throw_an_exception_when_an_o_and_operater_parameter_are_provided()
-    {
-        $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A filter cannot contain both an "o" and "operator" parameter, remove one. (Location: filter(and).2(or).1(and).4)');
-        (new ArrayValidator([
-            'filter' => [
-                'and' => [
-                    [
-                        'f' => 'first_name',
-                        'd' => 'John',
-                    ],
-                    [
-                        'f' => 'last_name',
-                        'd' => 'Lennon',
-                    ],
-                    [
-                        'or' => [
-                            [
-                                'f' => 'band',
-                                'd' => 'Beatles',
-                            ],
-                            [
-                                'and' => [
-                                    [
-                                        'field' => 'sub',
-                                    ],
-                                    [
-                                        'field' => 'sub1',
-                                    ],
-                                    [
-                                        'field' => 'sub2',
-                                    ],
-                                    [
-                                        'field' => 'sub3',
-                                    ],
-                                    [
-                                        'field' => 'sub4',
-                                        'o' => '=',
-                                        'operator' => 'like',
-                                    ],
-                                    [
-                                        'field' => 'sub5',
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ]))->validate();
-    }
-
-    /** @test */
-    public function it_will_throw_an_exception_when_a_d_and_data_parameter_are_provided()
-    {
-        $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A filter cannot contain both an "d" and "data" parameter, remove one. (Location: filter(and).2(or).1(and).0)');
-        (new ArrayValidator([
-            'filter' => [
-                'and' => [
-                    [
-                        'f' => 'first_name',
-                        'd' => 'John',
-                    ],
-                    [
-                        'f' => 'last_name',
-                        'd' => 'Lennon',
-                    ],
-                    [
-                        'or' => [
-                            [
-                                'f' => 'band',
-                                'd' => 'Beatles',
-                            ],
-                            [
-                                'and' => [
-                                    [
-                                        'field' => 'sub',
-                                        'd' => 'testing',
-                                        'data' => 'testing',
-                                    ],
-                                    [
-                                        'field' => 'sub1',
-                                    ],
-                                    [
-                                        'field' => 'sub2',
-                                    ],
-                                    [
-                                        'field' => 'sub3',
-                                    ],
-                                    [
-                                        'field' => 'sub4',
-                                    ],
-                                    [
-                                        'field' => 'sub5',
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-        ]))->validate();
-    }
-
-    /** @test */
     public function it_will_throw_an_exception_when_the_field_parameter_is_no_string()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The "f" parameter should have a string value. (Location: filter(and).1)');
+        $this->expectExceptionMessage('The "f" (field) parameter should be a string value. (Location: flt(and).1.f)');
         (new ArrayValidator([
-            'filter' => [
+            'flt' => [
                 'and' => [
                     [
                         'f' => 'first_name',
@@ -202,22 +96,22 @@ class ArrayValidatorTest extends TestCase
                             [
                                 'and' => [
                                     [
-                                        'field' => 'sub',
+                                        'f' => 'sub',
                                     ],
                                     [
-                                        'field' => 'sub1',
+                                        'f' => 'sub1',
                                     ],
                                     [
-                                        'field' => 'sub2',
+                                        'f' => 'sub2',
                                     ],
                                     [
-                                        'field' => 'sub3',
+                                        'f' => 'sub3',
                                     ],
                                     [
-                                        'field' => 'sub4',
+                                        'f' => 'sub4',
                                     ],
                                     [
-                                        'field' => 'sub5',
+                                        'f' => 'sub5',
                                     ],
                                 ],
                             ],
@@ -232,9 +126,9 @@ class ArrayValidatorTest extends TestCase
     public function it_will_throw_an_exception_when_the_operator_parameter_is_provided_but_is_no_string()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The "operator" (or "o") parameter should have a string value or be omitted. (Location: filter(and).3)');
+        $this->expectExceptionMessage('The "o" (operator) parameter should be a string value or should be omitted. (Location: flt(and).3.o)');
         (new ArrayValidator([
-            'filter' => [
+            'flt' => [
                 'and' => [
                     [
                         'f' => 'first_name',
@@ -253,22 +147,22 @@ class ArrayValidatorTest extends TestCase
                             [
                                 'and' => [
                                     [
-                                        'field' => 'sub',
+                                        'f' => 'sub',
                                     ],
                                     [
-                                        'field' => 'sub1',
+                                        'f' => 'sub1',
                                     ],
                                     [
-                                        'field' => 'sub2',
+                                        'f' => 'sub2',
                                     ],
                                     [
-                                        'field' => 'sub3',
+                                        'f' => 'sub3',
                                     ],
                                     [
-                                        'field' => 'sub4',
+                                        'f' => 'sub4',
                                     ],
                                     [
-                                        'field' => 'sub5',
+                                        'f' => 'sub5',
                                     ],
                                 ],
                             ],
@@ -287,9 +181,9 @@ class ArrayValidatorTest extends TestCase
     public function it_will_throw_an_exception_when_the_an_andFilter_is_no_array()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The "and" parameter should hold an array with filters. (Location: filter(and).2(or).1');
+        $this->expectExceptionMessage('The "and" (AND group) parameter should be an array with filters. (Location: flt(and).2(or).1');
         (new ArrayValidator([
-            'filter' => [
+            'flt' => [
                 'and' => [
                     [
                         'f' => 'first_name',
@@ -322,9 +216,9 @@ class ArrayValidatorTest extends TestCase
     public function it_will_throw_an_exception_when_the_an_orFilter_is_no_array()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The "or" parameter should hold an array with filters. (Location: filter(and).2');
+        $this->expectExceptionMessage('The "or" (OR group) parameter should be an array with filters. (Location: flt(and).2');
         (new ArrayValidator([
-            'filter' => [
+            'flt' => [
                 'and' => [
                     [
                         'f' => 'first_name',
@@ -349,7 +243,7 @@ class ArrayValidatorTest extends TestCase
     public function it_will_not_throw_an_exception_when_valid_data_is_provided()
     {
         (new ArrayValidator([
-            'filter' => [
+            'flt' => [
                 'and' => [
                     [
                         'f' => 'first_name',
@@ -368,22 +262,22 @@ class ArrayValidatorTest extends TestCase
                             [
                                 'and' => [
                                     [
-                                        'field' => 'sub',
+                                        'f' => 'sub',
                                     ],
                                     [
-                                        'field' => 'sub1',
+                                        'f' => 'sub1',
                                     ],
                                     [
-                                        'field' => 'sub2',
+                                        'f' => 'sub2',
                                     ],
                                     [
-                                        'field' => 'sub3',
+                                        'f' => 'sub3',
                                     ],
                                     [
-                                        'field' => 'sub4',
+                                        'f' => 'sub4',
                                     ],
                                     [
-                                        'field' => 'sub5',
+                                        'f' => 'sub5',
                                     ],
                                 ],
                             ],
@@ -408,7 +302,7 @@ class ArrayValidatorTest extends TestCase
     public function it_does_not_throw_an_exception_when_an_empty_relations_array_is_provided()
     {
         (new ArrayValidator([
-            'relations' => [],
+            'rlt' => [],
         ]))->validate();
 
         $this->assertTrue(true);
@@ -418,10 +312,10 @@ class ArrayValidatorTest extends TestCase
     public function it_throws_an_exception_when_relations_key_is_not_an_array()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The relation parameter should be an array.');
+        $this->expectExceptionMessage('The "rlt" (relations) parameter should be an array.');
 
         (new ArrayValidator([
-            'relations' => 'wrong',
+            'rlt' => 'wrong',
         ]))->validate();
     }
 
@@ -429,7 +323,7 @@ class ArrayValidatorTest extends TestCase
     public function it_throws_an_exception_when_rlt_key_is_not_an_array()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The relation parameter should be an array.');
+        $this->expectExceptionMessage('The "rlt" (relations) parameter should be an array.');
 
         (new ArrayValidator([
             'rlt' => 'wrong',
@@ -440,7 +334,7 @@ class ArrayValidatorTest extends TestCase
     public function it_throws_an_exception_when_a_relations_name_is_empty()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A relations name should not be empty. (Location: relations)');
+        $this->expectExceptionMessage('A relation\'s name should not be empty. (Location: rlt)');
 
         (new ArrayValidator([
             'rlt' => [
@@ -453,12 +347,12 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_the_jory_data_in_the_relation()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('Unknown key "wrong" in Jory Query. (Location: user.filter)');
+        $this->expectExceptionMessage('Unknown key "wrong" in Jory Query. (Location: user.flt)');
 
         (new ArrayValidator([
             'rlt' => [
                 'user' => [
-                    'filter' => [
+                    'flt' => [
                         'wrong' => 'parameter',
                     ],
                 ],
@@ -470,12 +364,12 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_the_jory_data_in_the_relation_2()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('Unknown key "wrong" in Jory Query. (Location: user.filter(and).1(or).0)');
+        $this->expectExceptionMessage('Unknown key "wrong" in Jory Query. (Location: user.flt(and).1(or).0)');
 
         (new ArrayValidator([
             'rlt' => [
                 'user' => [
-                    'filter' => [
+                    'flt' => [
                         'and' => [
                             [
                                 'f' => 'test',
@@ -514,7 +408,7 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_if_jor_has_a_valid_sort_2()
     {
         (new ArrayValidator([
-            'sorts' => [
+            'srt' => [
                 'user' => 'asc',
             ],
         ]))->validate();
@@ -525,7 +419,7 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_if_jor_has_a_valid_sort_3()
     {
         (new ArrayValidator([
-            'sorts' => [
+            'srt' => [
                 'user' => 'desc',
             ],
         ]))->validate();
@@ -533,12 +427,12 @@ class ArrayValidatorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_validate_if_a_sort_has_a_invalid_order()
+    public function it_can_validate_if_a_sort_has_an_invalid_field_1()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A sort item must be a string. (Location: sorts)');
+        $this->expectExceptionMessage('A sort item must be a string. (Location: srt.user)');
         (new ArrayValidator([
-            'sorts' => [
+            'srt' => [
                 'user' => [
                     'totally' => 'wrong',
                 ],
@@ -547,12 +441,13 @@ class ArrayValidatorTest extends TestCase
     }
 
     /** @test */
-    public function it_can_validate_if_a_sort_has_a_invalid_field()
+    public function it_can_validate_if_a_sort_has_an_invalid_field_2()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A sort item must be a string. (Location: sorts)');
+        $this->expectExceptionMessage('A sort item must be a string. (Location: srt.1)');
         (new ArrayValidator([
-            'sorts' => [
+            'srt' => [
+                'valid',
                 [
                     'totally' => 'wrong',
                 ],
@@ -564,7 +459,7 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_a_sort_in_a_relation()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('A sort item must be a string. (Location: user.sorts)');
+        $this->expectExceptionMessage('A sort item must be a string. (Location: user.srt.0)');
 
         (new ArrayValidator([
             'rlt' => [
@@ -583,7 +478,7 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_the_offset_value_1()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The offset parameter should be an integer value. (Location: offset)');
+        $this->expectExceptionMessage('The "ofs" (offset) parameter should be an integer value. (Location: ofs)');
         (new ArrayValidator([
             'ofs' => 'not_a_number',
         ]))->validate();
@@ -593,9 +488,9 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_the_offset_value_2()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The offset parameter should be an integer value. (Location: offset)');
+        $this->expectExceptionMessage('The "ofs" (offset) parameter should be an integer value. (Location: ofs)');
         (new ArrayValidator([
-            'offset' => '123',
+            'ofs' => '123',
         ]))->validate();
     }
 
@@ -612,7 +507,7 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_the_offset_value_4()
     {
         (new ArrayValidator([
-            'offset' => null,
+            'ofs' => null,
         ]))->validate();
         $this->assertTrue(true);
     }
@@ -621,7 +516,7 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_the_limit_value_1()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The limit parameter should be an integer value. (Location: limit)');
+        $this->expectExceptionMessage('The "lmt" (limit) parameter should be an integer value. (Location: lmt)');
         (new ArrayValidator([
             'lmt' => 'not_a_number',
         ]))->validate();
@@ -631,9 +526,9 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_the_limit_value_2()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The limit parameter should be an integer value. (Location: limit)');
+        $this->expectExceptionMessage('The "lmt" (limit) parameter should be an integer value. (Location: lmt)');
         (new ArrayValidator([
-            'limit' => '123',
+            'lmt' => '123',
         ]))->validate();
     }
 
@@ -650,7 +545,7 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_the_limit_value_4()
     {
         (new ArrayValidator([
-            'limit' => null,
+            'lmt' => null,
         ]))->validate();
         $this->assertTrue(true);
     }
@@ -666,7 +561,7 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_a_nulled_fields_array()
     {
         (new ArrayValidator([
-            'fields' => null,
+            'fld' => null,
         ]))->validate();
         $this->assertTrue(true);
     }
@@ -675,7 +570,7 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_a_fields_array_with_an_empty_array()
     {
         (new ArrayValidator([
-            'fields' => [],
+            'fld' => [],
         ]))->validate();
         $this->assertTrue(true);
     }
@@ -684,7 +579,7 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_a_fields_array_with_a_single_field()
     {
         (new ArrayValidator([
-            'fields' => [
+            'fld' => [
                 'first_name',
             ],
         ]))->validate();
@@ -695,7 +590,7 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_a_fields_array_with_multiple_fields()
     {
         (new ArrayValidator([
-            'fields' => [
+            'fld' => [
                 'first_name',
                 'last_name',
             ],
@@ -707,10 +602,10 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_a_fields_array_with_invalid_content()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The fields parameter must be an array or string. (Location: fields)');
+        $this->expectExceptionMessage('The "fld" (fields) parameter must be an array or string. (Location: fld)');
 
         (new ArrayValidator([
-            'fields' => 123132,
+            'fld' => 123132,
         ]))->validate();
     }
 
@@ -718,10 +613,10 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_a_fields_array_with_invalid_keys()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The fields parameter can only contain strings. (Location: fields.1)');
+        $this->expectExceptionMessage('The "fld" (fields) parameter can only contain strings. (Location: fld.1)');
 
         (new ArrayValidator([
-            'fields' => [
+            'fld' => [
                 'valid',
                 [
                     'not',
@@ -735,12 +630,12 @@ class ArrayValidatorTest extends TestCase
     public function it_can_validate_a_fields_array_in_a_relation()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The fields parameter can only contain strings. (Location: users.fields.1)');
+        $this->expectExceptionMessage('The "fld" (fields) parameter can only contain strings. (Location: users.fld.1)');
 
         (new ArrayValidator([
             'rlt' => [
                 'users' => [
-                    'fields' => [
+                    'fld' => [
                         'valid',
                         [
                             'not',
@@ -766,9 +661,9 @@ class ArrayValidatorTest extends TestCase
     public function it_allows_the_field_to_be_a_string_when_a_single_field_is_requested_in_a_relation()
     {
         (new ArrayValidator([
-            'relations' => [
+            'rlt' => [
                 'user' => [
-                    'fields' => 'first_name'
+                    'fld' => 'first_name'
                 ]
             ]
         ]))->validate();
@@ -780,7 +675,7 @@ class ArrayValidatorTest extends TestCase
     public function it_allows_the_sorts_to_be_a_string_when_there_will_be_sorted_on_a_single_field()
     {
         (new ArrayValidator([
-            'sorts' => 'first_name',
+            'srt' => 'first_name',
         ]))->validate();
 
         $this->assertTrue(true);
@@ -790,9 +685,9 @@ class ArrayValidatorTest extends TestCase
     public function it_allows_the_sorts_to_be_a_string_when_there_will_be_sorted_on_a_single_field_in_a_relation()
     {
         (new ArrayValidator([
-            'relations' => [
+            'rlt' => [
                 'users' => [
-                    'sorts' => 'first_name'
+                    'srt' => 'first_name'
                 ]
             ]
         ]))->validate();
@@ -804,7 +699,7 @@ class ArrayValidatorTest extends TestCase
     public function it_allows_the_filter_to_be_a_string_when_there_will_be_filter_on_a_single_boolean_filter()
     {
         (new ArrayValidator([
-            'filter' => 'first_name',
+            'flt' => 'first_name',
         ]))->validate();
 
         $this->assertTrue(true);
@@ -814,9 +709,9 @@ class ArrayValidatorTest extends TestCase
     public function it_allows_the_filter_to_be_a_string_when_there_will_be_filter_on_a_single_boolean_filter_in_a_relation()
     {
         (new ArrayValidator([
-            'relations' => [
+            'rlt' => [
                 'users' => [
-                    'filter' => 'first_name'
+                    'flt' => 'first_name'
                 ]
             ]
         ]))->validate();
@@ -828,10 +723,10 @@ class ArrayValidatorTest extends TestCase
     public function it_throws_an_exception_when_unknown_keys_are_defined_in_the_root()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('Unknown key "relatioons" in Jory Query. (Location: root)');
+        $this->expectExceptionMessage('Unknown key "rlts" in Jory Query. (Location: root)');
 
         (new ArrayValidator([
-            'relatioons' => [
+            'rlts' => [
                 'users' => [],
             ],
         ]))->validate();
@@ -841,12 +736,12 @@ class ArrayValidatorTest extends TestCase
     public function it_throws_an_exception_when_unknown_keys_are_defined_in_the_root_of_a_relation()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('Unknown key "fiields" in Jory Query. (Location: users.root)');
+        $this->expectExceptionMessage('Unknown key "flds" in Jory Query. (Location: users.root)');
 
         (new ArrayValidator([
-            'relations' => [
+            'rlt' => [
                 'users' => [
-                    'fiields' => 'first_name'
+                    'flds' => 'first_name'
                 ],
             ],
         ]))->validate();
@@ -856,13 +751,13 @@ class ArrayValidatorTest extends TestCase
     public function it_throws_an_exception_when_unknown_keys_are_defined_in_a_filter()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('Unknown key "fieeld" in Jory Query. (Location: filter)');
+        $this->expectExceptionMessage('Unknown key "v" in Jory Query. (Location: flt)');
 
         (new ArrayValidator([
-            'filter' => [
-                'fieeld' => 'name',
-                'operator' => 'like',
-                'data' => '%james%',
+            'flt' => [
+                'v' => 'name',
+                'o' => 'like',
+                'd' => '%james%',
             ],
         ]))->validate();
     }
@@ -871,15 +766,15 @@ class ArrayValidatorTest extends TestCase
     public function it_throws_an_exception_when_unknown_keys_are_defined_in_a_nested_filter()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('Unknown key "fieeld" in Jory Query. (Location: filter(and).0)');
+        $this->expectExceptionMessage('Unknown key "v" in Jory Query. (Location: flt(and).0)');
 
         (new ArrayValidator([
-            'filter' => [
+            'flt' => [
                 'and' => [
                     [
-                        'fieeld' => 'name',
-                        'operator' => 'like',
-                        'data' => '%james%',
+                        'v' => 'name',
+                        'o' => 'like',
+                        'd' => '%james%',
                     ]
                 ]
             ],
@@ -890,17 +785,17 @@ class ArrayValidatorTest extends TestCase
     public function it_throws_an_exception_when_unknown_keys_are_defined_in_a_nested_filter_in_a_relation()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('Unknown key "fieeld" in Jory Query. (Location: users.filter(and).0)');
+        $this->expectExceptionMessage('Unknown key "v" in Jory Query. (Location: users.flt(and).0)');
 
         (new ArrayValidator([
-            'relations' => [
+            'rlt' => [
                 'users' => [
-                    'filter' => [
+                    'flt' => [
                         'and' => [
                             [
-                                'fieeld' => 'name',
-                                'operator' => 'like',
-                                'data' => '%james%',
+                                'v' => 'name',
+                                'o' => 'like',
+                                'd' => '%james%',
                             ]
                         ]
                     ],

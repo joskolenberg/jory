@@ -12,7 +12,7 @@ class ArrayParserSortTest extends TestCase
     public function it_can_parse_an_empty_sorts_array_which_results_in_the_sorts_array_being_empty_in_jory()
     {
         $parser = new ArrayParser([
-            'sorts' => [],
+            'srt' => [],
         ]);
         $jory = $parser->getJory();
         $this->assertEmpty($jory->getSorts());
@@ -22,7 +22,7 @@ class ArrayParserSortTest extends TestCase
     public function it_can_parse_an_asc_sort()
     {
         $parser = new ArrayParser([
-            'sorts' => [
+            'srt' => [
                 'name',
             ],
         ]);
@@ -35,7 +35,7 @@ class ArrayParserSortTest extends TestCase
     public function it_can_parse_an_desc_sort()
     {
         $parser = new ArrayParser([
-            'sorts' => [
+            'srt' => [
                 '-name',
             ],
         ]);
@@ -45,13 +45,28 @@ class ArrayParserSortTest extends TestCase
     }
 
     /** @test */
+    public function it_throws_an_exception_when_an_invalid_sort_is_passed()
+    {
+        $this->expectException(JoryException::class);
+        $this->expectExceptionMessage('A sort item must be a string. (Location: srt.0)');
+
+        (new ArrayParser([
+            'srt' => [
+                [
+                    'name' => 'wrong',
+                ],
+            ],
+        ]))->getJory();
+    }
+
+    /** @test */
     public function it_throws_an_exception_when_a_non_array_is_passed_as_sort()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The sorts parameter should be an array or string. (Location: sorts)');
+        $this->expectExceptionMessage('The "srt" (sorts) parameter should be an array or string. (Location: srt)');
 
         (new ArrayParser([
-            'sorts' => 123324,
+            'srt' => 123324,
         ]))->getJory();
     }
 
@@ -59,7 +74,7 @@ class ArrayParserSortTest extends TestCase
     public function it_converts_a_string_to_a_single_item_array_so_a_string_can_be_passed_when_the_should_only_be_sorted_on_a_single_field()
     {
         $parser = new ArrayParser([
-            'sorts' => '-first_name'
+            'srt' => '-first_name'
         ]);
         $jory = $parser->getJory();
         $this->assertEquals('first_name', $jory->getSorts()[0]->getField());
@@ -70,9 +85,9 @@ class ArrayParserSortTest extends TestCase
     public function it_converts_a_string_to_a_single_item_array_so_a_string_can_be_passed_when_the_should_only_be_sorted_on_a_single_field_in_a_relation()
     {
         $parser = new ArrayParser([
-            'relations' => [
+            'rlt' => [
                 'user' => [
-                    'sorts' => 'first_name'
+                    'srt' => 'first_name'
                 ]
             ]
         ]);

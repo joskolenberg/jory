@@ -58,28 +58,6 @@ class Filter implements FilterInterface
     }
 
     /**
-     * Magic method for accessing attributes.
-     *
-     * @param $attribute
-     *
-     * @return mixed|null|string
-     */
-    public function __get($attribute)
-    {
-        switch ($attribute) {
-            case 'f':
-            case 'field':
-                return $this->getField();
-            case 'o':
-            case 'operator':
-                return $this->getOperator();
-            case 'd':
-            case 'data':
-                return $this->getData();
-        }
-    }
-
-    /**
      * Tell if this filter contains a filter on the given field.
      *
      * @param string $field

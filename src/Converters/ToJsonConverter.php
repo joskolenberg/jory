@@ -17,20 +17,13 @@ class ToJsonConverter
     private $jory;
 
     /**
-     * @var bool
-     */
-    private $minified;
-
-    /**
      * ToJsonConverter constructor.
      *
      * @param Jory $jory
-     * @param bool $minified
      */
-    public function __construct(Jory $jory, bool $minified = true)
+    public function __construct(Jory $jory)
     {
         $this->jory = $jory;
-        $this->minified = $minified;
     }
 
     /**
@@ -40,7 +33,7 @@ class ToJsonConverter
      */
     public function get(): string
     {
-        $array = (new ToArrayConverter($this->jory, $this->minified))->get();
+        $array = (new ToArrayConverter($this->jory))->get();
 
         // if array is empty convert into empty object
         // To prevent json being an array [] instead of an object {}
@@ -64,9 +57,6 @@ class ToJsonConverter
         $activeKey = '';
         if (array_key_exists('rlt', $array)) {
             $activeKey = 'rlt';
-        }
-        if (array_key_exists('relations', $array)) {
-            $activeKey = 'relations';
         }
 
         if (! $activeKey) {

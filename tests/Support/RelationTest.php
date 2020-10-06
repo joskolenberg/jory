@@ -18,43 +18,11 @@ class RelationTest extends TestCase
     }
 
     /** @test */
-    public function it_can_give_the_relation_name_as_an_attribute()
-    {
-        $relation = new Relation('user');
-
-        $this->assertEquals('user', $relation->name);
-    }
-
-    /** @test */
-    public function it_can_give_the_relation_name_as_a_minified_attribute()
-    {
-        $relation = new Relation('user');
-
-        $this->assertEquals('user', $relation->n);
-    }
-
-    /** @test */
     public function it_can_give_the_jory_by_getter_function()
     {
         $relation = new Relation('user', new Jory());
 
         $this->assertInstanceOf(Jory::class, $relation->getJory());
-    }
-
-    /** @test */
-    public function it_can_give_the_jory_as_an_attribute()
-    {
-        $relation = new Relation('user', new Jory());
-
-        $this->assertInstanceOf(Jory::class, $relation->jory);
-    }
-
-    /** @test */
-    public function it_can_give_the_jory_as_a_minified_attribute()
-    {
-        $relation = new Relation('user', new Jory());
-
-        $this->assertInstanceOf(Jory::class, $relation->j);
     }
 
     /** @test */

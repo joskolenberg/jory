@@ -12,7 +12,7 @@ class ArrayParserOffsetLimitTest extends TestCase
     public function it_can_set_an_offset_value()
     {
         $parser = new ArrayParser([
-            'offset' => 12,
+            'ofs' => 12,
         ]);
         $jory = $parser->getJory();
         $this->assertEquals(12, $jory->getOffset());
@@ -22,7 +22,7 @@ class ArrayParserOffsetLimitTest extends TestCase
     public function it_can_set_an_offset_value_to_zero()
     {
         $parser = new ArrayParser([
-            'offset' => 0,
+            'ofs' => 0,
         ]);
         $jory = $parser->getJory();
         $this->assertSame(0, $jory->getOffset());
@@ -32,9 +32,9 @@ class ArrayParserOffsetLimitTest extends TestCase
     public function it_can_set_an_offset_value_in_a_relation()
     {
         $parser = new ArrayParser([
-            'relations' => [
+            'rlt' => [
                 'users' => [
-                    'offset' => 123,
+                    'ofs' => 123,
                 ],
             ],
         ]);
@@ -46,7 +46,7 @@ class ArrayParserOffsetLimitTest extends TestCase
     public function it_can_set_a_null_offset_value()
     {
         $parser = new ArrayParser([
-            'offset' => null,
+            'ofs' => null,
         ]);
         $jory = $parser->getJory();
         $this->assertNull($jory->getOffset());
@@ -64,10 +64,10 @@ class ArrayParserOffsetLimitTest extends TestCase
     public function it_throws_an_exception_when_no_valid_offset_value_is_given()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The offset parameter should be an integer value. (Location: offset)');
+        $this->expectExceptionMessage('The "ofs" (offset) parameter should be an integer value. (Location: ofs)');
 
         (new ArrayParser([
-            'offset' => 'string',
+            'ofs' => 'string',
         ]))->getJory();
     }
 
@@ -75,12 +75,12 @@ class ArrayParserOffsetLimitTest extends TestCase
     public function it_throws_an_exception_when_no_valid_offset_value_is_given_in_a_relation()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The offset parameter should be an integer value. (Location: users.offset)');
+        $this->expectExceptionMessage('The "ofs" (offset) parameter should be an integer value. (Location: users.ofs)');
 
         (new ArrayParser([
-            'relations' => [
+            'rlt' => [
                 'users' => [
-                    'offset' => 'not_a_number',
+                    'ofs' => 'not_a_number',
                 ],
             ],
         ]))->getJory();
@@ -90,7 +90,7 @@ class ArrayParserOffsetLimitTest extends TestCase
     public function it_can_set_an_limit_value()
     {
         $parser = new ArrayParser([
-            'limit' => 12,
+            'lmt' => 12,
         ]);
         $jory = $parser->getJory();
         $this->assertEquals(12, $jory->getLimit());
@@ -100,7 +100,7 @@ class ArrayParserOffsetLimitTest extends TestCase
     public function it_can_set_an_limit_value_to_zero()
     {
         $parser = new ArrayParser([
-            'limit' => 0,
+            'lmt' => 0,
         ]);
         $jory = $parser->getJory();
         $this->assertSame(0, $jory->getLimit());
@@ -110,9 +110,9 @@ class ArrayParserOffsetLimitTest extends TestCase
     public function it_can_set_an_limit_value_in_a_relation()
     {
         $parser = new ArrayParser([
-            'relations' => [
+            'rlt' => [
                 'users' => [
-                    'limit' => 123,
+                    'lmt' => 123,
                 ],
             ],
         ]);
@@ -124,7 +124,7 @@ class ArrayParserOffsetLimitTest extends TestCase
     public function it_can_set_a_null_limit_value()
     {
         $parser = new ArrayParser([
-            'limit' => null,
+            'lmt' => null,
         ]);
         $jory = $parser->getJory();
         $this->assertNull($jory->getLimit());
@@ -142,10 +142,10 @@ class ArrayParserOffsetLimitTest extends TestCase
     public function it_throws_an_exception_when_no_valid_limit_value_is_given()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The limit parameter should be an integer value. (Location: limit)');
+        $this->expectExceptionMessage('The "lmt" (limit) parameter should be an integer value. (Location: lmt)');
 
         (new ArrayParser([
-            'limit' => 'string',
+            'lmt' => 'string',
         ]))->getJory();
     }
 
@@ -153,12 +153,12 @@ class ArrayParserOffsetLimitTest extends TestCase
     public function it_throws_an_exception_when_no_valid_limit_value_is_given_in_a_relation()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The limit parameter should be an integer value. (Location: users.limit)');
+        $this->expectExceptionMessage('The "lmt" (limit) parameter should be an integer value. (Location: users.lmt)');
 
         (new ArrayParser([
-            'relations' => [
+            'rlt' => [
                 'users' => [
-                    'limit' => 'not_a_number',
+                    'lmt' => 'not_a_number',
                 ],
             ],
         ]))->getJory();

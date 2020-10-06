@@ -3,7 +3,6 @@
 namespace JosKolenberg\Jory\Parsers;
 
 use JosKolenberg\Jory\Exceptions\JoryException;
-use JosKolenberg\Jory\Helpers\KeyRepository;
 
 /**
  * Class to validate an array with jory data.
@@ -58,7 +57,7 @@ class ArrayValidator
      */
     protected function validateRootFilter(): void
     {
-        $rootFilter = $this->getArrayValue($this->joryArray, ['flt', 'filter']);
+        $rootFilter = $this->getArrayValue($this->joryArray, 'flt');
 
         // It's a string, that's ok because it will be converted to a field-only-filter by the parser later.
         if (is_string($rootFilter)) {
@@ -73,7 +72,7 @@ class ArrayValidator
         }
 
         // There is a filter, loop through all filters
-        $this->validateFilter($rootFilter, $this->address.'filter');
+        $this->validateFilter($rootFilter, $this->address.'flt');
     }
 
     /**
@@ -97,36 +96,17 @@ class ArrayValidator
      * Get value from array based on multiple keys.
      *
      * @param array $array
-     * @param array $keys
+     * @param string $key
      *
      * @return mixed|null
      */
-    protected function getArrayValue(array $array, array $keys)
+    protected function getArrayValue(array $array, string $key)
     {
-        foreach ($keys as $key) {
-            if (array_key_exists($key, $array)) {
-                return $array[$key];
-            }
-        }
-    }
-
-    /**
-     * Tell if one of the given keys exists in array.
-     *
-     * @param array $array
-     * @param array $keys
-     *
-     * @return bool
-     */
-    protected function hasArrayKey(array $array, array $keys): bool
-    {
-        foreach ($keys as $key) {
-            if (array_key_exists($key, $array)) {
-                return true;
-            }
+        if (!array_key_exists($key, $array)) {
+            return null;
         }
 
-        return false;
+        return $array[$key];
     }
 
     /**
@@ -149,65 +129,55 @@ class ArrayValidator
         ], $address);
 
         $foundKeys = [];
-        foreach (['f', 'field', 'and', 'group_and', 'or', 'group_or'] as $key) {
+        foreach (['f', 'and', 'or'] as $key) {
             if (array_key_exists($key, $filter)) {
                 $foundKeys[] = $key;
             }
         }
 
         if (count($foundKeys) === 0) {
-            throw new JoryException('A filter should contain one of the these fields: "f", "field", "and", "group_and", "or" or "group_or". (Location: '.$address.')');
+            throw new JoryException('A filter should contain one of the fields "f" (field), "and" (AND group) or "or" (OR group). (Location: '.$address.')');
         }
         if (count($foundKeys) > 1) {
-            throw new JoryException('A filter cannot contain more than one of the these fields: "f", "field", "and", "group_and", "or" or "group_or". (Location: '.$address.')');
+            throw new JoryException('A filter cannot contain more than one of the fields "f" (field), "and" (AND group) or "or" (OR group). (Location: '.$address.')');
         }
         $foundKey = $foundKeys[0];
 
-        if ($foundKey === 'f' || $foundKey === 'field') {
+        if ($foundKey === 'f') {
             // This is an actual filter, this means:
 
-            // It is not allowed to have both an normal and minimized key, this could result in confusion
-            if (array_key_exists('o', $filter) && array_key_exists('operator', $filter)) {
-                throw new JoryException('A filter cannot contain both an "o" and "operator" parameter, remove one. (Location: '.$address.')');
+            // A field is required
+            if (! is_string($filter['f'])) {
+                throw new JoryException('The "f" (field) parameter should be a string value. (Location: '.$address.'.f)');
             }
-            if (array_key_exists('d', $filter) && array_key_exists('data', $filter)) {
-                throw new JoryException('A filter cannot contain both an "d" and "data" parameter, remove one. (Location: '.$address.')');
+            // An operator is optional
+            if (array_key_exists('o', $filter) && ! is_string($this->getArrayValue($filter, 'o'))) {
+                throw new JoryException('The "o" (operator) parameter should be a string value or should be omitted. (Location: '.$address.'.o)');
             }
-            // A string value in "field" (or "f") is required
-            if (! is_string($filter[$foundKey])) {
-                throw new JoryException('The "'.$foundKey.'" parameter should have a string value. (Location: '.$address.')');
-            }
-            // A string value in "operator" (or "o") is optional
-            if ($this->hasArrayKey($filter, ['o', 'operator']) && ! is_string($this->getArrayValue($filter, [
-                    'o',
-                    'operator',
-                ]))) {
-                throw new JoryException('The "operator" (or "o") parameter should have a string value or be omitted. (Location: '.$address.')');
-            }
-            // A mixed value in "data" is optional
+            // A mixed value in the "data" parameter is optional
             // No checks needed here
 
-            // If extra fields are present; they will be omitted by the parser
+            // If extra fields are present; they will be cleared by the parser
         }
-        if ($foundKey === 'and' || $foundKey === 'group_and') {
-            // This is a group_and filter, this means:
+        if ($foundKey === 'and') {
+            // This is an AND group filter, this means:
 
             // This filter should contain an array with valid subfilters
-            $subFilters = $filter[$foundKey];
+            $subFilters = $filter['and'];
             if (! is_array($subFilters)) {
-                throw new JoryException('The "'.$foundKey.'" parameter should hold an array with filters. (Location: '.$address.')');
+                throw new JoryException('The "and" (AND group) parameter should be an array with filters. (Location: '.$address.')');
             }
             foreach ($subFilters as $key => $subFilter) {
                 $this->validateFilter($subFilter, $address.'(and).'.$key);
             }
         }
-        if ($foundKey === 'or' || $foundKey === 'group_or') {
-            // This is a group_or filter, this means:
+        if ($foundKey === 'or') {
+            // This is an OR group filter, this means:
 
             // This filter should contain an array with valid subfilters
-            $subFilters = $filter[$foundKey];
+            $subFilters = $filter['or'];
             if (! is_array($subFilters)) {
-                throw new JoryException('The "'.$foundKey.'" parameter should hold an array with filters. (Location: '.$address.')');
+                throw new JoryException('The "or" (OR group) parameter should be an array with filters. (Location: '.$address.')');
             }
             foreach ($subFilters as $key => $subFilter) {
                 $this->validateFilter($subFilter, $address.'(or).'.$key);
@@ -223,7 +193,7 @@ class ArrayValidator
      */
     protected function validateRelations(): void
     {
-        $relations = $this->getArrayValue($this->joryArray, ['rlt', 'relations']);
+        $relations = $this->getArrayValue($this->joryArray, 'rlt');
 
         // No relations set, that's ok. return.
         if (! $relations) {
@@ -231,7 +201,7 @@ class ArrayValidator
         }
 
         if (! is_array($relations)) {
-            throw new JoryException('The relation parameter should be an array. (Location: '.$this->address.'relations)');
+            throw new JoryException('The "rlt" (relations) parameter should be an array. (Location: '.$this->address.'relations)');
         }
 
         foreach ($relations as $name => $jory) {
@@ -248,8 +218,9 @@ class ArrayValidator
     protected function validateRelation($name, $jory): void
     {
         if (empty($name)) {
-            throw new JoryException('A relations name should not be empty. (Location: '.$this->address.'relations)');
+            throw new JoryException('A relation\'s name should not be empty. (Location: '.$this->address.'rlt)');
         }
+
         // The data in $jory is another jory array, validate recursive with new validator.
         (new self($jory, $this->address.$name))->validate();
     }
@@ -262,7 +233,7 @@ class ArrayValidator
      */
     protected function validateSorts(): void
     {
-        $sorts = $this->getArrayValue($this->joryArray, ['srt', 'sorts']);
+        $sorts = $this->getArrayValue($this->joryArray, 'srt');
 
         // No sorts set, that's ok. return.
         if (! $sorts) {
@@ -275,12 +246,12 @@ class ArrayValidator
         }
 
         if (! is_array($sorts)) {
-            throw new JoryException('The sorts parameter should be an array or string. (Location: '.$this->address.'sorts)');
+            throw new JoryException('The "srt" (sorts) parameter should be an array or string. (Location: '.$this->address.'srt)');
         }
 
-        foreach ($sorts as $sort) {
+        foreach ($sorts as $key => $sort) {
             if (! is_string($sort)) {
-                throw new JoryException('A sort item must be a string. (Location: '.$this->address.'sorts)');
+                throw new JoryException('A sort item must be a string. (Location: '.$this->address.'srt.' . $key . ')');
             }
         }
     }
@@ -293,7 +264,7 @@ class ArrayValidator
      */
     protected function validateOffset(): void
     {
-        $offset = $this->getArrayValue($this->joryArray, ['ofs', 'offset']);
+        $offset = $this->getArrayValue($this->joryArray, 'ofs');
 
         // No offset set, that's ok. return.
         if ($offset === null) {
@@ -301,7 +272,7 @@ class ArrayValidator
         }
 
         if (! is_int($offset)) {
-            throw new JoryException('The offset parameter should be an integer value. (Location: '.$this->address.'offset)');
+            throw new JoryException('The "ofs" (offset) parameter should be an integer value. (Location: '.$this->address.'ofs)');
         }
     }
 
@@ -313,7 +284,7 @@ class ArrayValidator
      */
     protected function validateLimit(): void
     {
-        $limit = $this->getArrayValue($this->joryArray, ['lmt', 'limit']);
+        $limit = $this->getArrayValue($this->joryArray, 'lmt');
 
         // No limit set, that's ok. return.
         if ($limit === null) {
@@ -321,7 +292,7 @@ class ArrayValidator
         }
 
         if (! is_int($limit)) {
-            throw new JoryException('The limit parameter should be an integer value. (Location: '.$this->address.'limit)');
+            throw new JoryException('The "lmt" (limit) parameter should be an integer value. (Location: '.$this->address.'lmt)');
         }
     }
 
@@ -333,7 +304,7 @@ class ArrayValidator
      */
     protected function validateFields(): void
     {
-        $fields = $this->getArrayValue($this->joryArray, ['fld', 'fields']);
+        $fields = $this->getArrayValue($this->joryArray, 'fld');
 
         // No fields set, that's ok. return.
         if (!$fields) {
@@ -346,12 +317,12 @@ class ArrayValidator
         }
 
         if (! is_array($fields)) {
-            throw new JoryException('The fields parameter must be an array or string. (Location: '.$this->address.'fields)');
+            throw new JoryException('The "fld" (fields) parameter must be an array or string. (Location: '.$this->address.'fld)');
         }
 
         foreach ($fields as $key => $field) {
             if (! is_string($field)) {
-                throw new JoryException('The fields parameter can only contain strings. (Location: '.$this->address.'fields.'.$key.')');
+                throw new JoryException('The "fld" (fields) parameter can only contain strings. (Location: '.$this->address.'fld.'.$key.')');
             }
         }
     }
@@ -360,20 +331,12 @@ class ArrayValidator
      * Check if the input array contains any other keys than the allowed keys.
      *
      * @param array $input
-     * @param array $allowedMinifiedKeys
+     * @param array $allowedKeys
      * @param string $address
      * @throws JoryException
      */
-    protected function validateUnknownKeys(array $input, array $allowedMinifiedKeys, string $address)
+    protected function validateUnknownKeys(array $input, array $allowedKeys, string $address)
     {
-        $keyRepository = new KeyRepository();
-
-        $allowedKeys = [];
-        foreach ($allowedMinifiedKeys as $key){
-            $allowedKeys[] = $key;
-            $allowedKeys[] = $keyRepository->getFull($key);
-        }
-
         foreach ($input as $key => $item){
             if(!in_array($key, $allowedKeys)){
                 throw new JoryException('Unknown key "' . $key . '" in Jory Query. (Location: '.$address.')');

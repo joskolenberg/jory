@@ -58,23 +58,4 @@ class Relation
     {
         return $this->jory;
     }
-
-    /**
-     * Magic method for accessing attributes.
-     *
-     * @param $attribute
-     *
-     * @return Jory|null|string
-     */
-    public function __get($attribute)
-    {
-        switch ($attribute) {
-            case 'n':
-            case 'name':
-                return $this->getName();
-            case 'j':
-            case 'jory':
-                return $this->getJory();
-        }
-    }
 }

@@ -16,36 +16,36 @@ use JosKolenberg\Jory\Converters\ToArrayConverter;
 class ToArrayConverterTest extends TestCase
 {
     /** @test */
-    public function it_can_convert_a_jory_object_to_a_minified_array()
+    public function it_can_convert_a_jory_object_to_an_array()
     {
         $parser = new ArrayParser([
-            'filter' => [
-                'group_and' => [
+            'flt' => [
+                'and' => [
                     [
-                        'field' => 'first_name',
-                        'data' => 'Eric',
+                        'f' => 'first_name',
+                        'd' => 'Eric',
                     ],
                     [
-                        'field' => 'last_name',
-                        'data' => 'Clapton',
+                        'f' => 'last_name',
+                        'd' => 'Clapton',
                     ],
                     [
-                        'group_or' => [
+                        'or' => [
                             [
-                                'field' => 'band',
-                                'operator' => 'in',
-                                'data' => ['beatles', 'stones'],
+                                'f' => 'band',
+                                'o' => 'in',
+                                'd' => ['beatles', 'stones'],
                             ],
                             [
-                                'group_and' => [
+                                'and' => [
                                     [
-                                        'field' => 'project',
-                                        'operator' => 'like',
-                                        'data' => 'Cream',
+                                        'f' => 'project',
+                                        'o' => 'like',
+                                        'd' => 'Cream',
                                     ],
                                     [
-                                        'field' => 'drummer',
-                                        'data' => 'Ginger Baker',
+                                        'f' => 'drummer',
+                                        'd' => 'Ginger Baker',
                                     ],
                                 ],
                             ],
@@ -53,35 +53,35 @@ class ToArrayConverterTest extends TestCase
                     ],
                 ],
             ],
-            'sorts' => [
+            'srt' => [
                 '-year',
             ],
-            'relations' => [
+            'rlt' => [
                 'users' => [
-                    'filter' => [
-                        'field' => 'active',
-                        'operator' => '=',
-                        'data' => true,
+                    'flt' => [
+                        'f' => 'active',
+                        'o' => '=',
+                        'd' => true,
                     ],
-                    'fields' => [
+                    'fld' => [
                         'first_name',
                         'last_name',
                     ],
-                    'sorts' => [
+                    'srt' => [
                         'name',
                         '-id',
                     ],
-                    'offset' => 100,
-                    'limit' => 50,
+                    'ofs' => 100,
+                    'lmt' => 50,
                 ],
             ],
-            'offset' => 20,
-            'limit' => 5,
+            'ofs' => 20,
+            'lmt' => 5,
         ]);
 
         $jory = $parser->getJory();
 
-        $converter = new ToArrayConverter($jory, true);
+        $converter = new ToArrayConverter($jory);
 
         $this->assertEquals([
             'flt' => [
@@ -142,136 +142,6 @@ class ToArrayConverterTest extends TestCase
             ],
             'ofs' => 20,
             'lmt' => 5,
-        ], $converter->get());
-    }
-
-    /** @test */
-    public function it_can_convert_a_jory_object_to_an_array()
-    {
-        $parser = new ArrayParser([
-            'filter' => [
-                'group_and' => [
-                    [
-                        'field' => 'first_name',
-                        'data' => 'Eric',
-                    ],
-                    [
-                        'field' => 'last_name',
-                        'data' => 'Clapton',
-                    ],
-                    [
-                        'group_or' => [
-                            [
-                                'field' => 'band',
-                                'operator' => 'in',
-                                'data' => ['beatles', 'stones'],
-                            ],
-                            [
-                                'group_and' => [
-                                    [
-                                        'field' => 'project',
-                                        'operator' => 'like',
-                                        'data' => 'Cream',
-                                    ],
-                                    [
-                                        'field' => 'drummer',
-                                        'data' => 'Ginger Baker',
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            'sorts' => [
-                '-year',
-            ],
-            'offset' => 20,
-            'limit' => 5,
-            'relations' => [
-                'users' => [
-                    'offset' => 100,
-                    'limit' => 50,
-                    'filter' => [
-                        'field' => 'active',
-                        'operator' => '=',
-                        'data' => true,
-                    ],
-                    'sorts' => [
-                        'name',
-                        '-id',
-                    ],
-                    'fields' => [
-                        'first_name',
-                        'last_name',
-                    ],
-                ],
-            ],
-        ]);
-
-        $jory = $parser->getJory();
-
-        $converter = new ToArrayConverter($jory, false);
-
-        $this->assertEquals([
-            'filter' => [
-                'group_and' => [
-                    [
-                        'field' => 'first_name',
-                        'data' => 'Eric',
-                    ],
-                    [
-                        'field' => 'last_name',
-                        'data' => 'Clapton',
-                    ],
-                    [
-                        'group_or' => [
-                            [
-                                'field' => 'band',
-                                'operator' => 'in',
-                                'data' => ['beatles', 'stones'],
-                            ],
-                            [
-                                'group_and' => [
-                                    [
-                                        'field' => 'project',
-                                        'operator' => 'like',
-                                        'data' => 'Cream',
-                                    ],
-                                    [
-                                        'field' => 'drummer',
-                                        'data' => 'Ginger Baker',
-                                    ],
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-            ],
-            'sorts' => [
-                '-year',
-            ],
-            'relations' => [
-                'users' => [
-                    'filter' => [
-                        'field' => 'active',
-                        'operator' => '=',
-                        'data' => true,
-                    ],
-                    'sorts' => [
-                        'name',
-                        '-id',
-                    ],
-                    'offset' => 100,
-                    'limit' => 50,
-                    'fields' => [
-                        'first_name',
-                        'last_name',
-                    ],
-                ],
-            ],
-            'offset' => 20,
-            'limit' => 5,
         ], $converter->get());
     }
 }

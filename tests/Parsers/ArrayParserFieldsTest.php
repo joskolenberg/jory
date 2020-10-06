@@ -20,7 +20,7 @@ class ArrayParserFieldsTest extends TestCase
     public function it_can_parse_a_nulled_fields_parameter()
     {
         $parser = new ArrayParser([
-            'fields' => null,
+            'fld' => null,
         ]);
         $jory = $parser->getJory();
         $this->assertEquals([], $jory->getFields());
@@ -30,7 +30,7 @@ class ArrayParserFieldsTest extends TestCase
     public function it_can_parse_a_fields_array_with_an_empty_array()
     {
         $parser = new ArrayParser([
-            'fields' => [],
+            'fld' => [],
         ]);
         $jory = $parser->getJory();
         $this->assertEquals([], $jory->getFields());
@@ -40,7 +40,7 @@ class ArrayParserFieldsTest extends TestCase
     public function it_can_parse_a_fields_array_with_a_single_field()
     {
         $parser = new ArrayParser([
-            'fields' => [
+            'fld' => [
                 'first_name',
             ],
         ]);
@@ -52,7 +52,7 @@ class ArrayParserFieldsTest extends TestCase
     public function it_can_parse_a_fields_array_with_multiple_fields()
     {
         $parser = new ArrayParser([
-            'fields' => [
+            'fld' => [
                 'first_name',
                 'last_name',
             ],
@@ -65,10 +65,10 @@ class ArrayParserFieldsTest extends TestCase
     public function it_throws_an_exception_when_invalid_data_is_passed()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The fields parameter must be an array or string. (Location: fields)');
+        $this->expectExceptionMessage('The "fld" (fields) parameter must be an array or string. (Location: fld)');
 
         (new ArrayParser([
-            'fields' => 123,
+            'fld' => 12312,
         ]))->getJory();
     }
 
@@ -76,12 +76,12 @@ class ArrayParserFieldsTest extends TestCase
     public function it_throws_an_exception_when_invalid_data_is_passed_on_a_relation()
     {
         $this->expectException(JoryException::class);
-        $this->expectExceptionMessage('The fields parameter can only contain strings. (Location: users.fields.1)');
+        $this->expectExceptionMessage('The "fld" (fields) parameter can only contain strings. (Location: users.fld.1)');
 
         (new ArrayParser([
             'rlt' => [
                 'users' => [
-                    'fields' => [
+                    'fld' => [
                         'valid',
                         [
                             'not',
@@ -97,7 +97,7 @@ class ArrayParserFieldsTest extends TestCase
     public function it_converts_a_string_to_a_single_item_array_so_a_string_can_be_passed_when_only_one_field_is_requested()
     {
         $parser = new ArrayParser([
-            'fields' => 'first_name'
+            'fld' => 'first_name'
         ]);
         $jory = $parser->getJory();
         $this->assertEquals(['first_name'], $jory->getFields());
@@ -107,9 +107,9 @@ class ArrayParserFieldsTest extends TestCase
     public function it_converts_a_string_to_a_single_item_array_so_a_string_can_be_passed_when_only_one_field_is_requested_in_a_relation()
     {
         $parser = new ArrayParser([
-            'relations' => [
+            'rlt' => [
                 'user' => [
-                    'fields' => 'first_name'
+                    'fld' => 'first_name'
                 ]
             ]
         ]);

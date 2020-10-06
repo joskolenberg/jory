@@ -174,25 +174,21 @@ class Jory
     /**
      * Get array export for the Jory object.
      *
-     * @param bool $minified
-     *
      * @return array
      */
-    public function toArray($minified = true): array
+    public function toArray(): array
     {
-        return (new ToArrayConverter($this, $minified))->get();
+        return (new ToArrayConverter($this))->get();
     }
 
     /**
      * Get Json export for the jory object.
      *
-     * @param bool $minified
-     *
      * @return string
      */
-    public function toJson($minified = true): string
+    public function toJson(): string
     {
-        return (new ToJsonConverter($this, $minified))->get();
+        return (new ToJsonConverter($this))->get();
     }
 
     /**

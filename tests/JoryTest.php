@@ -66,7 +66,7 @@ class JoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_convert_itself_to_a_minified_array()
+    public function it_can_convert_itself_to_an_array()
     {
         $jory = new Jory();
         $jory->setFilter(new Filter('name', '=', 'John'));
@@ -74,33 +74,11 @@ class JoryTest extends TestCase
     }
 
     /** @test */
-    public function it_can_convert_itself_to_an_array()
-    {
-        $jory = new Jory();
-        $jory->setFilter(new Filter('name', '=', 'John'));
-        $this->assertEquals([
-            'filter' => [
-                'field' => 'name',
-                'operator' => '=',
-                'data' => 'John',
-            ],
-        ], $jory->toArray(false));
-    }
-
-    /** @test */
-    public function it_can_convert_itself_to_minified_json()
-    {
-        $jory = new Jory();
-        $jory->setFilter(new Filter('name', '=', 'John'));
-        $this->assertEquals('{"flt":{"f":"name","o":"=","d":"John"}}', $jory->toJson());
-    }
-
-    /** @test */
     public function it_can_convert_itself_to_json()
     {
         $jory = new Jory();
         $jory->setFilter(new Filter('name', '=', 'John'));
-        $this->assertEquals('{"filter":{"field":"name","operator":"=","data":"John"}}', $jory->toJson(false));
+        $this->assertEquals('{"flt":{"f":"name","o":"=","d":"John"}}', $jory->toJson());
     }
 
     /** @test */
@@ -295,33 +273,33 @@ class JoryTest extends TestCase
     public function it_can_tell_if_it_contains_a_filter_1()
     {
         $parser = new ArrayParser([
-            'filter' => [
-                'group_and' => [
+            'flt' => [
+                'and' => [
                     [
-                        'field' => 'first_name',
-                        'data' => 'Eric',
+                        'f' => 'first_name',
+                        'd' => 'Eric',
                     ],
                     [
-                        'field' => 'last_name',
-                        'data' => 'Clapton',
+                        'f' => 'last_name',
+                        'd' => 'Clapton',
                     ],
                     [
-                        'group_or' => [
+                        'or' => [
                             [
-                                'field' => 'band',
-                                'operator' => 'in',
-                                'data' => ['beatles', 'stones'],
+                                'f' => 'band',
+                                'o' => 'in',
+                                'd' => ['beatles', 'stones'],
                             ],
                             [
-                                'group_and' => [
+                                'and' => [
                                     [
-                                        'field' => 'project',
-                                        'operator' => 'like',
-                                        'data' => 'Cream',
+                                        'f' => 'project',
+                                        'o' => 'like',
+                                        'd' => 'Cream',
                                     ],
                                     [
-                                        'field' => 'drummer',
-                                        'data' => 'Ginger Baker',
+                                        'f' => 'drummer',
+                                        'd' => 'Ginger Baker',
                                     ],
                                 ],
                             ],
@@ -340,33 +318,33 @@ class JoryTest extends TestCase
     public function it_can_tell_if_it_contains_a_filter_2()
     {
         $parser = new ArrayParser([
-            'filter' => [
-                'group_and' => [
+            'flt' => [
+                'and' => [
                     [
-                        'field' => 'first_name',
-                        'data' => 'Eric',
+                        'f' => 'first_name',
+                        'd' => 'Eric',
                     ],
                     [
-                        'field' => 'last_name',
-                        'data' => 'Clapton',
+                        'f' => 'last_name',
+                        'd' => 'Clapton',
                     ],
                     [
-                        'group_or' => [
+                        'or' => [
                             [
-                                'field' => 'band',
-                                'operator' => 'in',
-                                'data' => ['beatles', 'stones'],
+                                'f' => 'band',
+                                'o' => 'in',
+                                'd' => ['beatles', 'stones'],
                             ],
                             [
-                                'group_and' => [
+                                'and' => [
                                     [
-                                        'field' => 'project',
-                                        'operator' => 'like',
-                                        'data' => 'Cream',
+                                        'f' => 'project',
+                                        'o' => 'like',
+                                        'd' => 'Cream',
                                     ],
                                     [
-                                        'field' => 'drummer',
-                                        'data' => 'Ginger Baker',
+                                        'f' => 'drummer',
+                                        'd' => 'Ginger Baker',
                                     ],
                                 ],
                             ],
@@ -395,9 +373,9 @@ class JoryTest extends TestCase
     public function it_can_tell_if_it_contains_a_filter_4()
     {
         $parser = new ArrayParser([
-            'filter' => [
-                'field' => 'first_name',
-                'data' => 'Eric',
+            'flt' => [
+                'f' => 'first_name',
+                'd' => 'Eric',
             ],
         ]);
 
@@ -411,15 +389,15 @@ class JoryTest extends TestCase
     public function it_can_tell_if_it_contains_a_filter_5()
     {
         $parser = new ArrayParser([
-            'filter' => [
-                'group_and' => [
+            'flt' => [
+                'and' => [
                     [
-                        'field' => 'first_name',
-                        'data' => 'Eric',
+                        'f' => 'first_name',
+                        'd' => 'Eric',
                     ],
                     [
-                        'field' => 'last_name',
-                        'data' => 'Clapton',
+                        'f' => 'last_name',
+                        'd' => 'Clapton',
                     ],
                 ],
             ],

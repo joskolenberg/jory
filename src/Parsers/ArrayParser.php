@@ -2,16 +2,14 @@
 
 namespace JosKolenberg\Jory\Parsers;
 
-use JosKolenberg\Jory\Jory;
-use JosKolenberg\Jory\Support\Sort;
-use JosKolenberg\Jory\Support\Filter;
-use JosKolenberg\Jory\Support\Relation;
-use JosKolenberg\Jory\Helpers\KeyRepository;
-use JosKolenberg\Jory\Support\GroupOrFilter;
-use JosKolenberg\Jory\Support\GroupAndFilter;
-use JosKolenberg\Jory\Exceptions\JoryException;
 use JosKolenberg\Jory\Contracts\FilterInterface;
 use JosKolenberg\Jory\Contracts\JoryParserInterface;
+use JosKolenberg\Jory\Jory;
+use JosKolenberg\Jory\Support\Filter;
+use JosKolenberg\Jory\Support\GroupAndFilter;
+use JosKolenberg\Jory\Support\GroupOrFilter;
+use JosKolenberg\Jory\Support\Relation;
+use JosKolenberg\Jory\Support\Sort;
 
 /**
  * Class to parse an array with associative jory data to an Jory object.
@@ -26,11 +24,6 @@ class ArrayParser implements JoryParserInterface
     protected $joryArray;
 
     /**
-     * @var \JosKolenberg\Jory\Helpers\KeyRepository
-     */
-    protected $keyRepository;
-
-    /**
      * ArrayParser constructor.
      *
      * @param array $joryArray
@@ -38,7 +31,6 @@ class ArrayParser implements JoryParserInterface
     public function __construct(array $joryArray)
     {
         $this->joryArray = $joryArray;
-        $this->keyRepository = new KeyRepository();
     }
 
     /**
@@ -85,7 +77,7 @@ class ArrayParser implements JoryParserInterface
     protected function getFilterFromData($data): FilterInterface
     {
         // If input is a string we convert it to a simple filter with only a field defined.
-        if(is_string($data)){
+        if (is_string($data)) {
             return new Filter($data);
         }
 
@@ -121,7 +113,11 @@ class ArrayParser implements JoryParserInterface
      */
     protected function getArrayValue(array $array, string $key)
     {
-        return $this->keyRepository->getArrayValue($array, $key);
+        if (!array_key_exists($key, $array)) {
+            return;
+        }
+
+        return $array[$key];
     }
 
     /**
@@ -152,7 +148,7 @@ class ArrayParser implements JoryParserInterface
     {
         $sorts = $this->getArrayValue($this->joryArray, 'srt');
 
-        if(is_string($sorts)){
+        if (is_string($sorts)) {
             $sorts = [$sorts];
         }
 
@@ -163,12 +159,8 @@ class ArrayParser implements JoryParserInterface
                     $order = 'desc';
                     $sort = substr($sort, 1);
                 }
-                try {
-                    $jory->addSort(new Sort($sort, $order));
-                } catch (JoryException $e) {
-                    // This exception cannot be thrown here because we checked the data.
-                    // Use empty try/catch to prevent IDE suggesting we should use a @throws tag.
-                }
+
+                $jory->addSort(new Sort($sort, $order));
             }
         }
     }
@@ -208,11 +200,11 @@ class ArrayParser implements JoryParserInterface
     {
         $fields = $this->getArrayValue($this->joryArray, 'fld');
 
-        if(!$fields){
+        if (!$fields) {
             return;
         }
 
-        if(is_string($fields)){
+        if (is_string($fields)) {
             $fields = [$fields];
         }
 
@@ -250,11 +242,7 @@ class ArrayParser implements JoryParserInterface
             }
 
             foreach ($subRelations as $subName => $joryData) {
-                if (array_key_exists('rlt', $relations[$name])) {
-                    $relations[$name]['rlt'][$subName] = $joryData;
-                } else {
-                    $relations[$name]['relations'][$subName] = $joryData;
-                }
+                $relations[$name]['rlt'][$subName] = $joryData;
             }
         }
 

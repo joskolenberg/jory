@@ -55,23 +55,4 @@ class Sort
     {
         return $this->order;
     }
-
-    /**
-     * Magic method for accessing attributes.
-     *
-     * @param $attribute
-     *
-     * @return null|string
-     */
-    public function __get($attribute)
-    {
-        switch ($attribute) {
-            case 'f':
-            case 'field':
-                return $this->getField();
-            case 'o':
-            case 'order':
-                return $this->getOrder();
-        }
-    }
 }
