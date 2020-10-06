@@ -44,6 +44,7 @@ class ArrayParser implements JoryParserInterface
         (new ArrayValidator($this->joryArray))->validate();
 
         $this->convertStringedValues();
+        $this->convertDotNotatedFields();
 
         $jory = new Jory();
         $this->setFilters($jory);
@@ -108,10 +109,10 @@ class ArrayParser implements JoryParserInterface
      *
      * @return mixed|null
      */
-    protected function getArrayValue(array $array, string $key)
+    protected function getArrayValue(array $array, string $key, $default = null)
     {
         if (!array_key_exists($key, $array)) {
-            return;
+            return $default;
         }
 
         return $array[$key];
@@ -236,6 +237,84 @@ class ArrayParser implements JoryParserInterface
         }
 
         return $relations;
+    }
+
+    protected function convertDotNotatedFields()
+    {
+        $fields = $this->getArrayValue($this->joryArray, 'fld');
+
+        if (!$fields) {
+            return;
+        }
+
+        $extractedRelations = [];
+        $filteredFields = [];
+        foreach ($fields as $field) {
+            if (strstr($field, '.') === false) {
+                /**
+                 * There's no dot, just keep it in the current fields.
+                 */
+                $filteredFields[] = $field;
+                continue;
+            }
+
+            /**
+             * There's a dot, should be applied to a relation. Store in temporary array with relations,
+             * when there are mulitple dots (nested relations) we glue them back
+             * together to be handled recursively by the relation's parser.
+             */
+            $exploded = explode('.', $field);
+
+            $relation = $exploded[0];
+            unset($exploded[0]);
+
+            $extractedRelations[$relation][] = implode('.', $exploded);
+        }
+
+        /**
+         * If there are no relations found there's no need to continue
+         * since the filtered fields will be the same as the original.
+         */
+        if(count($extractedRelations) === 0){
+            return;
+        }
+
+        /**
+         * Unset the original fields and store the filtered fields if there are any left.
+         */
+        unset($this->joryArray['fld']);
+        if (count($filteredFields) > 0) {
+            $this->joryArray['fld'] = $filteredFields;
+        }
+
+        /**
+         * Add the extracted relations to the existing relations in the query.
+         */
+        $originalRelations = $this->getArrayValue($this->joryArray, 'rlt', []);
+        foreach ($extractedRelations as $name => $fields) {
+            if (!array_key_exists($name, $originalRelations) || !array_key_exists('fld', $originalRelations[$name])) {
+                /**
+                 * Relation doesn't exist jet, just add it it.
+                 */
+                $originalRelations[$name]['fld'] = $fields;
+                continue;
+            }
+
+            /**
+             * The relation already exists, merge the fields with the already defined ones.
+             * The fields on the the relation could be a string since convertStringedValues()
+             * is not applied to the relations jet, so check that as well.
+             */
+            $existingFields = $originalRelations[$name]['fld'];
+
+            if(is_string($existingFields)){
+                $existingFields = [$existingFields];
+            }
+
+            $originalRelations[$name]['fld'] = array_merge($existingFields, $fields);
+        }
+
+        $this->joryArray['rlt'] = $originalRelations;
     }
 
     protected function convertStringedValues()

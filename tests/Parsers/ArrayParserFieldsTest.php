@@ -2,6 +2,7 @@
 
 namespace JosKolenberg\Jory\Tests\Parsers;
 
+use JosKolenberg\Jory\Converters\ToArrayConverter;
 use PHPUnit\Framework\TestCase;
 use JosKolenberg\Jory\Parsers\ArrayParser;
 use JosKolenberg\Jory\Exceptions\JoryException;
@@ -115,5 +116,58 @@ class ArrayParserFieldsTest extends TestCase
         ]);
         $jory = $parser->getJory();
         $this->assertEquals(['first_name'], $jory->getRelations()[0]->getJory()->getFields());
+    }
+
+    /** @test */
+    public function it_converts_fields_in_dot_notation_into_relations()
+    {
+        $parser = new ArrayParser([
+            'fld' => [
+                'name',
+                'user.name',
+                'user.email',
+                'song.album.title',
+                'user.team.name'
+            ],
+            'rlt' => [
+                'song' => [
+                    'fld' => 'title',
+                    'rlt' => [
+                        'album' => [
+                            'fld' => ['release_date']
+                        ]
+                    ],
+                    'srt' => '-title'
+                ],
+            ]
+        ]);
+        $jory = $parser->getJory();
+
+        $this->assertEquals([
+            'fld' => [
+                'name',
+            ],
+            'rlt' => [
+                'user' => [
+                    'fld' => ['name', 'email'],
+                    'rlt' => [
+                        'team' => [
+                            'fld' => ['name']
+                        ],
+                    ]
+                ],
+                'song' => [
+                    'fld' => [
+                        'title'
+                    ],
+                    'rlt' => [
+                        'album' => [
+                            'fld' => ['release_date', 'title']
+                        ],
+                    ],
+                    'srt' => ['-title']
+                ],
+            ]
+        ], (new ToArrayConverter($jory))->get());
     }
 }
